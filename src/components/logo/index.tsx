@@ -1,13 +1,14 @@
-import { Link } from 'react-router-dom';
 import { To } from 'history';
+import { Link } from 'react-router-dom';
 
 // material-ui
-import { ButtonBase } from '@mui/material';
+import { ButtonBase, CardMedia } from '@mui/material';
 import { SxProps } from '@mui/system';
 
 // project import
-import Logo from './LogoMain';
-import LogoIcon from './LogoIcon';
+// import LogoIcon from './LogoIcon';
+import bayanatLogo from 'assets/images/bayanat.png';
+
 import { APP_DEFAULT_PATH } from 'config';
 
 // ==============================|| MAIN LOGO ||============================== //
@@ -21,7 +22,14 @@ interface Props {
 
 const LogoSection = ({ reverse, isIcon, sx, to }: Props) => (
   <ButtonBase disableRipple component={Link} to={!to ? APP_DEFAULT_PATH : to} sx={sx}>
-    {isIcon ? <LogoIcon /> : <Logo reverse={reverse} />}
+    {
+      isIcon ? (
+        <CardMedia component={'img'} src={bayanatLogo} sx={{ width: '200px', height: '50px' }} />
+      ) : (
+        <CardMedia component={'img'} src={bayanatLogo} sx={{ width: '200px', height: '50px' }} />
+      )
+      //  <Logo reverse={reverse} />
+    }
   </ButtonBase>
 );
 
