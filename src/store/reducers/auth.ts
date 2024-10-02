@@ -8,7 +8,9 @@ import { AuthProps, AuthActionProps } from 'types/auth';
 export const initialState: AuthProps = {
   isLoggedIn: false,
   isInitialized: false,
-  user: null
+  user: null,
+  permissions: [],
+  permissionBasedMenuTree: []
 };
 
 // ==============================|| AUTH REDUCER ||============================== //
@@ -23,12 +25,14 @@ const auth = (state = initialState, action: AuthActionProps) => {
       };
     }
     case LOGIN: {
-      const { user } = action.payload!;
+      const { user, permissions, permissionBasedMenuTree } = action.payload!;
       return {
         ...state,
         isLoggedIn: true,
         isInitialized: true,
-        user
+        user,
+        permissions,
+        permissionBasedMenuTree
       };
     }
     case LOGOUT: {
@@ -36,7 +40,9 @@ const auth = (state = initialState, action: AuthActionProps) => {
         ...state,
         isInitialized: true,
         isLoggedIn: false,
-        user: null
+        user: null,
+        permissions: [],
+        permissionBasedMenuTree: []
       };
     }
     default: {

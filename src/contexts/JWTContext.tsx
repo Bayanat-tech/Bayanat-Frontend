@@ -21,7 +21,9 @@ const chance = new Chance();
 const initialState: AuthProps = {
   isLoggedIn: false,
   isInitialized: false,
-  user: null
+  user: null,
+  permissions: [],
+  permissionBasedMenuTree: []
 };
 
 const verifyToken: (st: string) => boolean = (serviceToken) => {
@@ -70,16 +72,16 @@ export const JWTProvider = ({ children }: { children: React.ReactElement }) => {
             meData.success
             // && permissionsResponse
           ) {
-            const user = {
-              ...meData.data
-            } as any;
+            const { user, permissions, permissionBasedMenuTree } = meData.data;
 
             // const permissions = permissionsResponse.data;
             dispatch({
               type: LOGIN,
               payload: {
                 isLoggedIn: true,
-                user: user
+                user,
+                permissions,
+                permissionBasedMenuTree
                 // permissions: permissions
               }
             });
@@ -102,23 +104,21 @@ export const JWTProvider = ({ children }: { children: React.ReactElement }) => {
 
   const login = async (email: string, password: string) => {
     const response = await axios.post('/api/auth/login', { email, password });
-    const { token, user } = response.data.data;
+    const { token } = response.data.data;
 
     setSession(token);
     // const permissionsResponse = await AuthServicesInstance.getPermissions();
 
     const meData = await AuthServicesInstance.getMe();
-
-    if (
-      meData.success
-      // && permissionsResponse
-    ) {
+    const { user, permissions, permissionBasedMenuTree } = meData.data;
+    if (meData.success) {
       dispatch({
         type: LOGIN,
         payload: {
           isLoggedIn: true,
-          user: user
-          // permissions: permissions
+          user: user,
+          permissions,
+          permissionBasedMenuTree
         }
       });
     }
