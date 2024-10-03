@@ -22,7 +22,8 @@ const initialState: AuthProps = {
   isLoggedIn: false,
   isInitialized: false,
   user: null,
-  permissions: [],
+  user_permission: [],
+  permissions: {},
   permissionBasedMenuTree: []
 };
 
@@ -60,7 +61,6 @@ export const JWTProvider = ({ children }: { children: React.ReactElement }) => {
     const init = async () => {
       try {
         const serviceToken = window.localStorage.getItem('serviceToken');
-        console.log('token', serviceToken);
 
         if (serviceToken && verifyToken(serviceToken)) {
           setSession(serviceToken);
@@ -68,11 +68,8 @@ export const JWTProvider = ({ children }: { children: React.ReactElement }) => {
 
           const meData = await AuthServicesInstance.getMe();
 
-          if (
-            meData.success
-            // && permissionsResponse
-          ) {
-            const { user, permissions, permissionBasedMenuTree } = meData.data;
+          if (meData?.success) {
+            const { user, permissions, user_permission, permissionBasedMenuTree } = meData?.data;
 
             // const permissions = permissionsResponse.data;
             dispatch({
@@ -81,8 +78,8 @@ export const JWTProvider = ({ children }: { children: React.ReactElement }) => {
                 isLoggedIn: true,
                 user,
                 permissions,
+                user_permission,
                 permissionBasedMenuTree
-                // permissions: permissions
               }
             });
           }
@@ -110,14 +107,15 @@ export const JWTProvider = ({ children }: { children: React.ReactElement }) => {
     // const permissionsResponse = await AuthServicesInstance.getPermissions();
 
     const meData = await AuthServicesInstance.getMe();
-    const { user, permissions, permissionBasedMenuTree } = meData.data;
-    if (meData.success) {
+    if (meData?.success) {
+      const { user, permissions, user_permission, permissionBasedMenuTree } = meData?.data;
       dispatch({
         type: LOGIN,
         payload: {
           isLoggedIn: true,
           user: user,
           permissions,
+          user_permission,
           permissionBasedMenuTree
         }
       });

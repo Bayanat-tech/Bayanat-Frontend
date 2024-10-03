@@ -108,7 +108,7 @@ const NavGroup = ({ item, lastItem, remItems, lastItemId, setSelectedItems, sele
       if (ele.children?.length) {
         checkOpenForParent(ele.children, currentItem.id!);
       }
-      if (ele.url === pathname) {
+      if (ele.url_path === pathname) {
         dispatch(activeID(id));
       }
     });
@@ -119,7 +119,7 @@ const NavGroup = ({ item, lastItem, remItems, lastItemId, setSelectedItems, sele
       if (itemCheck.children?.length) {
         checkOpenForParent(itemCheck.children, currentItem.id!);
       }
-      if (itemCheck.url === pathname) {
+      if (itemCheck.url_path === pathname) {
         dispatch(activeID(currentItem.id!));
       }
     });

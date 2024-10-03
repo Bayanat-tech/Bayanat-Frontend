@@ -9,13 +9,14 @@ export const initialState: AuthProps = {
   isLoggedIn: false,
   isInitialized: false,
   user: null,
-  permissions: [],
+  permissions: {},
+  user_permission: [],
   permissionBasedMenuTree: []
 };
 
 // ==============================|| AUTH REDUCER ||============================== //
 
-const auth = (state = initialState, action: AuthActionProps) => {
+const auth = (state: AuthProps = initialState, action: AuthActionProps): AuthProps => {
   switch (action.type) {
     case REGISTER: {
       const { user } = action.payload!;
@@ -25,15 +26,16 @@ const auth = (state = initialState, action: AuthActionProps) => {
       };
     }
     case LOGIN: {
-      const { user, permissions, permissionBasedMenuTree } = action.payload!;
+      const { user, permissions, user_permission, permissionBasedMenuTree } = action.payload!;
       return {
         ...state,
         isLoggedIn: true,
         isInitialized: true,
         user,
         permissions,
+        user_permission,
         permissionBasedMenuTree
-      };
+      } as AuthProps;
     }
     case LOGOUT: {
       return {
@@ -41,7 +43,8 @@ const auth = (state = initialState, action: AuthActionProps) => {
         isInitialized: true,
         isLoggedIn: false,
         user: null,
-        permissions: [],
+        permissions: {},
+        user_permission: [],
         permissionBasedMenuTree: []
       };
     }

@@ -93,7 +93,7 @@ const NavCollapse = ({ menu, level, parentId, setSelectedItems, selectedItems, s
       setOpen(!open);
       setSelected(!selected ? menu.id : null);
       setSelectedItems(!selected ? menu.id : '');
-      if (menu.url) Navigation(`${menu.url}`);
+      if (menu.url_path) Navigation(`${menu.url_path}`);
     } else {
       setAnchorEl(event?.currentTarget);
     }
@@ -101,7 +101,7 @@ const NavCollapse = ({ menu, level, parentId, setSelectedItems, selectedItems, s
 
   const handlerIconLink = () => {
     if (!drawerOpen) {
-      if (menu.url) Navigation(`${menu.url}`);
+      if (menu.url_path) Navigation(`${menu.url_path}`);
       setSelected(menu.id);
     }
   };
@@ -118,7 +118,7 @@ const NavCollapse = ({ menu, level, parentId, setSelectedItems, selectedItems, s
   const handleClose = () => {
     setOpen(false);
     if (!miniMenuOpened) {
-      if (!menu.url) {
+      if (!menu.url_path) {
         setSelected(null);
       }
     }
@@ -146,7 +146,7 @@ const NavCollapse = ({ menu, level, parentId, setSelectedItems, selectedItems, s
   const { pathname } = useLocation();
 
   useEffect(() => {
-    if (pathname === menu.url) {
+    if (pathname === menu.url_path) {
       setSelected(menu.id);
     }
     // eslint-disable-next-line
@@ -154,7 +154,7 @@ const NavCollapse = ({ menu, level, parentId, setSelectedItems, selectedItems, s
 
   const checkOpenForParent = (child: NavItemType[], id: string) => {
     child.forEach((item: NavItemType) => {
-      if (item.url === pathname) {
+      if (item.url_path === pathname) {
         setOpen(true);
         setSelected(id);
       }
@@ -174,12 +174,12 @@ const NavCollapse = ({ menu, level, parentId, setSelectedItems, selectedItems, s
           checkOpenForParent(item.children, menu.id!);
         }
         if (pathname && pathname.includes('product-details')) {
-          if (item.url && item.url.includes('product-details')) {
+          if (item.url_path && item.url_path.includes('product-details')) {
             setSelected(menu.id);
             setOpen(true);
           }
         }
-        if (item.url === pathname) {
+        if (item.url_path === pathname) {
           setSelected(menu.id);
           setOpen(true);
         }
@@ -190,7 +190,7 @@ const NavCollapse = ({ menu, level, parentId, setSelectedItems, selectedItems, s
   }, [pathname, menu.children]);
 
   useEffect(() => {
-    if (menu.url === pathname) {
+    if (menu.url_path === pathname) {
       dispatch(activeItem({ openItem: [menu.id] }));
       setSelected(menu.id);
       setAnchorEl(null);

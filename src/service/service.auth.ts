@@ -1,5 +1,6 @@
 import { dispatch } from 'store';
 import { openSnackbar } from 'store/reducers/snackbar';
+import { TRequestWMe } from 'types/auth';
 import { IResponse, TResponseWithPermissions } from 'types/types.services';
 import axiosServices from 'utils/axios';
 
@@ -8,7 +9,7 @@ class AuthService {
     try {
       const response = await axiosServices.get('/api/auth/me');
 
-      return response.data;
+      return response.data as TRequestWMe;
     } catch (error: unknown) {
       const knownError = error as { message: string };
       dispatch(
