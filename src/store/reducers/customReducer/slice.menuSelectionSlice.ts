@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 type MenuSelectionState = {
+  mastersList: { label: string; value: string }[];
   app: string;
   level1: string;
   level2: string;
@@ -8,6 +9,7 @@ type MenuSelectionState = {
 };
 
 const initialState: MenuSelectionState = {
+  mastersList: [],
   app: '',
   level1: '',
   level2: '',
@@ -18,6 +20,9 @@ const menuSelectionSlice = createSlice({
   initialState,
   name: 'menu_selection',
   reducers: {
+    setMastersList(state, action) {
+      state.app = action.payload;
+    },
     setSelectedApp(state, action) {
       state.app = action.payload;
     },
@@ -34,4 +39,5 @@ const menuSelectionSlice = createSlice({
 });
 
 export default menuSelectionSlice.reducer;
-export const { setSelectedApp, setSelectedLevel1Item, setSelectedLevel2Item, setSelectedLevel3Item } = menuSelectionSlice.actions;
+export const { setMastersList, setSelectedApp, setSelectedLevel1Item, setSelectedLevel2Item, setSelectedLevel3Item } =
+  menuSelectionSlice.actions;

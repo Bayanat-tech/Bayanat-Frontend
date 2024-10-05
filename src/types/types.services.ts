@@ -9,3 +9,9 @@ export type TResponseWithPermissions = {
   success: boolean;
   error?: any;
 };
+export type IApiResponse<T> = {
+  data: {
+    success: boolean;
+    data: T;
+  };
+};

@@ -105,8 +105,8 @@ const NavGroup = ({ item, lastItem, remItems, lastItemId, setSelectedItems, sele
 
   const checkOpenForParent = (child: NavItemType[], id: string) => {
     child.forEach((ele: NavItemType) => {
-      if (ele.children?.length) {
-        checkOpenForParent(ele.children, currentItem.id!);
+      if (ele?.children?.length) {
+        checkOpenForParent(ele?.children, currentItem.id!);
       }
       if (ele.url_path === pathname) {
         dispatch(activeID(id));
@@ -152,7 +152,7 @@ const NavGroup = ({ item, lastItem, remItems, lastItemId, setSelectedItems, sele
     />
   ) : null;
 
-  const navCollapse = item.children?.map((menuItem, index) => {
+  const navCollapse = item?.children?.map((menuItem, index) => {
     switch (menuItem.type) {
       case 'collapse':
         return (
@@ -214,7 +214,7 @@ const NavGroup = ({ item, lastItem, remItems, lastItemId, setSelectedItems, sele
   ));
 
   // menu list collapse & items
-  const items = currentItem.children?.map((menu) => {
+  const items = currentItem?.children?.map((menu) => {
     switch (menu.type) {
       case 'collapse':
         return (

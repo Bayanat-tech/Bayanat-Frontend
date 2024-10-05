@@ -17,7 +17,7 @@ const AuthGuard = ({ children }: GuardProps) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const pathName = location.pathname.split('/');
+  const pathName = location.pathname.split('/').filter(Boolean);
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -32,7 +32,7 @@ const AuthGuard = ({ children }: GuardProps) => {
   }, [isLoggedIn, navigate, location]);
 
   if (user_permission.length) {
-    if (Object.keys(permissions).length) {
+    if (Object.keys(permissions).length > 0) {
       if (location.pathname.substring(1) === 'apps' || !isUserAuthorized(pathName, user_permission, permissions)) {
         return children;
       } else {

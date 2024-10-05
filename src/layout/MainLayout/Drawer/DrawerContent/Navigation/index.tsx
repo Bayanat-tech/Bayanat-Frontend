@@ -1,27 +1,34 @@
-import { useLayoutEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 // material-ui
-import { useTheme } from '@mui/material/styles';
 import { Box, Typography, useMediaQuery } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 
 // project import
 import NavGroup from './NavGroup';
-import menuItem from 'menu-items';
 
-import { useSelector } from 'store';
-import useConfig from 'hooks/useConfig';
 import { HORIZONTAL_MAX_ITEM } from 'config';
+import useConfig from 'hooks/useConfig';
+import { dispatch, useSelector } from 'store';
 
 // types
-import { NavItemType } from 'types/menu';
+import useAuth from 'hooks/useAuth';
+import { FormattedMessage } from 'react-intl';
+import { useLocation } from 'react-router';
+import { setSelectedApp } from 'store/reducers/customReducer/slice.menuSelectionSlice';
 import { MenuOrientation } from 'types/config';
+import { NavItemType } from 'types/menu';
+import { getPathNameList } from 'utils/functions';
 
 // ==============================|| DRAWER CONTENT - NAVIGATION ||============================== //
 
 const Navigation = () => {
   const theme = useTheme();
+  const location = useLocation();
 
   const downLG = useMediaQuery(theme.breakpoints.down('lg'));
+  const { app } = useSelector((state) => state.menuSelectionSlice);
+  const { permissionBasedMenuTree } = useAuth();
 
   const { menuOrientation } = useConfig();
   const { drawerOpen } = useSelector((state) => state.menu);
@@ -29,10 +36,40 @@ const Navigation = () => {
   const [selectedLevel, setSelectedLevel] = useState<number>(0);
   const [menuItems, setMenuItems] = useState<{ items: NavItemType[] }>({ items: [] });
 
-  useLayoutEffect(() => {
-    setMenuItems(menuItem);
+  useEffect(() => {
+    const pathNameList = getPathNameList(location.pathname);
+    dispatch(setSelectedApp(pathNameList[0]));
     // eslint-disable-next-line
-  }, [menuItem]);
+  }, []);
+  useEffect(() => {
+    handlerMenuItem();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [app]);
+
+  const handlerMenuItem = () => {
+    if (!!app && !!permissionBasedMenuTree) {
+      const selectAppIndex = permissionBasedMenuTree.findIndex((eachApp) => eachApp.url_path === app);
+
+      setMenuItems(() => {
+        return {
+          items: [
+            {
+              id: 'other',
+              title: <FormattedMessage id="Modules" />,
+              type: 'group',
+              children: [...(permissionBasedMenuTree[selectAppIndex]?.children ?? [])]
+            }
+            // ...menuItem.items
+          ]
+        };
+      });
+    }
+  };
+
+  // useLayoutEffect(() => {
+  //   setMenuItems(menuItem);
+  //   // eslint-disable-next-line
+  // }, [menuItem]);
 
   const isHorizontal = menuOrientation === MenuOrientation.HORIZONTAL && !downLG;
 

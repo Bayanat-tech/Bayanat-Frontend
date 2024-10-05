@@ -2,6 +2,7 @@ import { lazy } from 'react';
 
 // project import
 import Loadable from 'components/Loadable';
+import MasterSelectionAutoComplete from 'components/MasterSelectionAutoComplete';
 import CommonLayout from 'layout/CommonLayout';
 import MainLayout from 'layout/MainLayout';
 import AppSelectionPage from 'pages/AppSelection/AppSelectionPage';
@@ -34,14 +35,32 @@ const MainRoutes = {
           path: 'apps',
           element: <AppSelectionPage />
         },
-        { path: 'wms', element: <WareHouseManagmentSystemPage /> },
-        { path: 'wms/:level1', element: <WareHouseManagmentSystemPage /> },
-        { path: 'wms/:level1/:level2', element: <WareHouseManagmentSystemPage /> },
-        { path: 'wms/:level1/:level2/:level3', element: <WareHouseManagmentSystemPage /> },
-        { path: 'finance', element: <WareHouseManagmentSystemPage /> },
-        { path: 'finance/:level1', element: <WareHouseManagmentSystemPage /> },
-        { path: 'finance/:level1/:level2', element: <WareHouseManagmentSystemPage /> },
-        { path: 'finance/:level1/:level2/:level3', element: <WareHouseManagmentSystemPage /> }
+        {
+          path: 'wms',
+          children: [
+            {
+              path: 'master',
+              children: [
+                {
+                  path: 'gm',
+                  children: [
+                    { path: '', element: <MasterSelectionAutoComplete /> },
+                    { path: ':master', element: <MasterSelectionAutoComplete /> }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          path: 'finance',
+          element: <MasterSelectionAutoComplete />,
+          children: [
+            { path: 'accounts/ac_tree', element: <MasterSelectionAutoComplete /> },
+            { path: ':level1', element: <MasterSelectionAutoComplete /> },
+            { path: ':level1/:level2/:level3', element: <MasterSelectionAutoComplete /> }
+          ]
+        }
       ]
     },
     {
@@ -68,7 +87,7 @@ const MainRoutes = {
     },
     {
       path: '*',
-      element: <MaintenanceError />
+      element: <WareHouseManagmentSystemPage />
     }
   ]
 };
