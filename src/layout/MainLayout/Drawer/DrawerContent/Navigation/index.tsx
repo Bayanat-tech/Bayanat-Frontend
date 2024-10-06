@@ -48,7 +48,7 @@ const Navigation = () => {
 
   const handlerMenuItem = () => {
     if (!!app && !!permissionBasedMenuTree) {
-      const selectAppIndex = permissionBasedMenuTree.findIndex((eachApp) => eachApp.url_path === app);
+      const selectAppIndex = permissionBasedMenuTree.findIndex((eachApp) => eachApp?.url_path === app);
 
       setMenuItems(() => {
         return {

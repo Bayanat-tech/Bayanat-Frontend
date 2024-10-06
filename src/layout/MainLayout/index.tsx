@@ -41,7 +41,6 @@ const MainLayout = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [matchDownXL]);
-  console.log(pathName.substring(1));
 
   return (
     <Box sx={{ display: 'flex', width: '100%' }}>

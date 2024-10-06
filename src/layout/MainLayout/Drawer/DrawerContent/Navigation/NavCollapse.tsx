@@ -33,6 +33,8 @@ import { BorderOutlined, DownOutlined, UpOutlined, RightOutlined } from '@ant-de
 // types
 import { NavItemType } from 'types/menu';
 import { MenuOrientation, ThemeMode } from 'types/config';
+import IconComponent from 'components/IconComponent';
+import { iconMapping } from 'utils/constants';
 
 type VirtualElement = {
   getBoundingClientRect: () => ClientRect | DOMRect;
@@ -225,8 +227,11 @@ const NavCollapse = ({ menu, level, parentId, setSelectedItems, selectedItems, s
   });
   const isSelected = selected === menu.id;
   const borderIcon = level === 1 ? <BorderOutlined style={{ fontSize: '1rem' }} /> : false;
-  const Icon = menu.icon!;
-  const menuIcon = menu.icon ? <Icon style={{ fontSize: drawerOpen ? '1rem' : '1.25rem' }} /> : borderIcon;
+  const menuIcon = menu.icon ? (
+    <IconComponent icon={menu.icon as keyof typeof iconMapping} style={{ fontSize: drawerOpen ? '1.25rem' : '1rem' }} />
+  ) : (
+    borderIcon
+  );
   const textColor = theme.palette.mode === ThemeMode.DARK ? 'grey.400' : 'text.primary';
   const iconSelectedColor = theme.palette.mode === ThemeMode.DARK && drawerOpen ? theme.palette.text.primary : theme.palette.primary.main;
   const popperId = miniMenuOpened ? `collapse-pop-${menu.id}` : undefined;

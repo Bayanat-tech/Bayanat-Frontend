@@ -22,7 +22,9 @@ export interface AuthProps {
   isInitialized?: boolean;
   user?: UserProfile | null;
   token?: string | null;
-  permissions: { [key: string]: { serial_number: number; level: number } };
+  permissions: {
+    [key: string]: { serial_number: number; app_code: string; children: { [key: string]: { serial_number: number; app_code: string } } };
+  };
   user_permission: number[];
   permissionBasedMenuTree: NavItemType[];
 }
@@ -47,7 +49,9 @@ export type JWTContextType = {
   isLoggedIn: boolean;
   isInitialized?: boolean;
   user?: UserProfile | null | undefined;
-  permissions: { [key: string]: { serial_number: number; level: number } };
+  permissions: {
+    [key: string]: { serial_number: number; app_code: string; children: { [key: string]: { serial_number: number; app_code: string } } };
+  };
   user_permission: number[];
   permissionBasedMenuTree: NavItemType[];
 

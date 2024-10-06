@@ -4,7 +4,6 @@ import useAuth from 'hooks/useAuth';
 
 const AppSelectionPage = () => {
   const { permissionBasedMenuTree } = useAuth();
-  console.log(permissionBasedMenuTree, 'permissionBasedMenuTree');
 
   return (
     <div className="flex flex-col space-y-2">

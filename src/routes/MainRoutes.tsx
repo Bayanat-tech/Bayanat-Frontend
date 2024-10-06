@@ -39,14 +39,22 @@ const MainRoutes = {
           path: 'wms',
           children: [
             {
-              path: 'master',
+              path: 'masters',
               children: [
                 {
                   path: 'gm',
                   children: [
-                    { path: '', element: <MasterSelectionAutoComplete /> },
-                    { path: ':master', element: <MasterSelectionAutoComplete /> }
+                    { path: 'city', element: <MasterSelectionAutoComplete /> },
+                    { path: 'country', element: <MasterSelectionAutoComplete /> },
+                    { path: '*', element: <MaintenanceError /> }
                   ]
+                },
+                {
+                  path: 'inbound'
+                },
+                {
+                  path: '*',
+                  element: <MaintenanceComingSoon />
                 }
               ]
             }
@@ -60,6 +68,10 @@ const MainRoutes = {
             { path: ':level1', element: <MasterSelectionAutoComplete /> },
             { path: ':level1/:level2/:level3', element: <MasterSelectionAutoComplete /> }
           ]
+        },
+        {
+          path: '*',
+          element: <MaintenanceComingSoon />
         }
       ]
     },

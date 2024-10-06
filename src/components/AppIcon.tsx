@@ -2,9 +2,11 @@ import { useNavigate } from 'react-router';
 import { dispatch } from 'store';
 import { setSelectedApp } from 'store/reducers/customReducer/slice.menuSelectionSlice';
 import { NavItemType } from 'types/menu';
+import IconComponent from './IconComponent';
+import { SunOutlined } from '@ant-design/icons';
+import { iconMapping } from 'utils/constants';
 
 const AppIcon = ({ item }: { item: NavItemType }) => {
-  const IconComponent = item.icon;
   const navigate = useNavigate();
 
   return (
@@ -15,15 +17,12 @@ const AppIcon = ({ item }: { item: NavItemType }) => {
         navigate(`${item.url_path}`);
       }}
     >
-      {IconComponent ? (
-        <IconComponent
-          style={{
-            fontSize: 20,
-            stroke: '1.5'
-          }}
-        />
+      {item.icon ? (
+        <IconComponent icon={item.icon as keyof typeof iconMapping} style={{ fontSize: 20 }} />
       ) : (
-        <></>
+        <>
+          <SunOutlined />
+        </>
       )}
       <span>{item.title}</span>
     </div>
