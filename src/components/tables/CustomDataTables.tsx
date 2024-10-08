@@ -14,8 +14,6 @@ import {
   TableRow,
   Typography
 } from '@mui/material';
-// import { tableCellClasses } from '@mui/material/TableCell';
-// import { styled } from '@mui/material/styles';
 import { flexRender, getCoreRowModel, getPaginationRowModel, useReactTable } from '@tanstack/react-table';
 import TablePaginationActions from 'components/third-party/ReactTablePagination';
 import { useEffect, useState } from 'react';
@@ -24,13 +22,21 @@ import { IReactTable } from './interfaces/tableInterface';
 export const rowsPerPageOptions: number[] = [20, 50, 100];
 
 const CustomDataTable = (props: IReactTable) => {
-  const { columns, data, onPaginationChange = () => {}, hasPagination = true } = props;
+  const { columns, data, onPaginationChange = () => {}, hasPagination = true, rowSelection, setRowSelection, row_id } = props;
   const [page, setPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState<number>(rowsPerPageOptions[0]);
 
   // Avoid a layout jump when reaching the last page with empty rows.
   // const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
   const tableInstance = useReactTable({
+    onRowSelectionChange: setRowSelection,
+    state: {
+      rowSelection
+    },
+    enableSorting: true,
+    getRowId: (row) => row[row_id as string],
+
+    enableRowSelection: true,
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),

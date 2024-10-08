@@ -1,12 +1,11 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 // material-ui
-import { styled, useTheme } from '@mui/material/styles';
 import {
   Box,
-  Collapse,
   ClickAwayListener,
+  Collapse,
   List,
   ListItemButton,
   ListItemIcon,
@@ -16,25 +15,24 @@ import {
   Typography,
   useMediaQuery
 } from '@mui/material';
+import { styled, useTheme } from '@mui/material/styles';
 
 // project import
-import NavItem from './NavItem';
 import Dot from 'components/@extended/Dot';
-import SimpleBar from 'components/third-party/SimpleBar';
 import Transitions from 'components/@extended/Transitions';
+import SimpleBar from 'components/third-party/SimpleBar';
+import NavItem from './NavItem';
 
 import useConfig from 'hooks/useConfig';
 import { dispatch, useSelector } from 'store';
 import { activeItem } from 'store/reducers/menu';
 
 // assets
-import { BorderOutlined, DownOutlined, UpOutlined, RightOutlined } from '@ant-design/icons';
+import { BorderOutlined, DownOutlined, RightOutlined, UpOutlined } from '@ant-design/icons';
 
 // types
-import { NavItemType } from 'types/menu';
 import { MenuOrientation, ThemeMode } from 'types/config';
-import IconComponent from 'components/IconComponent';
-import { iconMapping } from 'utils/constants';
+import { NavItemType } from 'types/menu';
 
 type VirtualElement = {
   getBoundingClientRect: () => ClientRect | DOMRect;
@@ -228,7 +226,8 @@ const NavCollapse = ({ menu, level, parentId, setSelectedItems, selectedItems, s
   const isSelected = selected === menu.id;
   const borderIcon = level === 1 ? <BorderOutlined style={{ fontSize: '1rem' }} /> : false;
   const menuIcon = menu.icon ? (
-    <IconComponent icon={menu.icon as keyof typeof iconMapping} style={{ fontSize: drawerOpen ? '1.25rem' : '1rem' }} />
+    // <IconComponent icon={menu.icon as keyof typeof iconMapping} style={{ fontSize: drawerOpen ? '1.25rem' : '1rem' }} />
+    <></>
   ) : (
     borderIcon
   );

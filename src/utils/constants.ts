@@ -48,3 +48,8 @@ export const iconMapping = {
   MenuBookIcon: MenuBookIcon,
   DescriptionIcon: DescriptionIcon
 };
+export const availableStatus = [
+  { value: 1, label: 'Active' },
+  { value: 2, label: 'Inactive' },
+  { value: 0, label: 'Deleted' }
+];

@@ -12,6 +12,7 @@ export type TResponseWithPermissions = {
 export type IApiResponse<T> = {
   data: {
     success: boolean;
-    data: T;
+    data?: T;
+    message?: string;
   };
 };

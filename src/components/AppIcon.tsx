@@ -1,10 +1,8 @@
+import { SunOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router';
 import { dispatch } from 'store';
 import { setSelectedApp } from 'store/reducers/customReducer/slice.menuSelectionSlice';
 import { NavItemType } from 'types/menu';
-import IconComponent from './IconComponent';
-import { SunOutlined } from '@ant-design/icons';
-import { iconMapping } from 'utils/constants';
 
 const AppIcon = ({ item }: { item: NavItemType }) => {
   const navigate = useNavigate();
@@ -18,7 +16,8 @@ const AppIcon = ({ item }: { item: NavItemType }) => {
       }}
     >
       {item.icon ? (
-        <IconComponent icon={item.icon as keyof typeof iconMapping} style={{ fontSize: 20 }} />
+        // <IconComponent icon={item.icon as keyof typeof iconMapping} style={{ fontSize: 20 }} />
+        <></>
       ) : (
         <>
           <SunOutlined />

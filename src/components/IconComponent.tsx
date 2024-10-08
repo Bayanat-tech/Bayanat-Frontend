@@ -12,7 +12,8 @@ const IconComponent = ({ icon, style }: IconComponentProps) => {
 
   if (!SelectedIcon) return null;
 
-  return <SelectedIcon style={style} strokeWidth={1.5} />;
+  return <></>;
+  // return <SelectedIcon style={style} strokeWidth={1.5} />;
 };
 
 export default IconComponent;

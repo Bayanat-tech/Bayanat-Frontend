@@ -1,4 +1,4 @@
-import { ColumnDef } from '@tanstack/react-table';
+import { ColumnDef, OnChangeFn, RowSelectionState } from '@tanstack/react-table';
 
 export interface IReactTable {
   count?: number;
@@ -8,4 +8,7 @@ export interface IReactTable {
   onPaginationChange?: (arg0: number, arg1: number) => void;
   isDataLoading?: boolean;
   hasPagination?: boolean;
+  rowSelection?: RowSelectionState;
+  setRowSelection?: OnChangeFn<RowSelectionState> | undefined;
+  row_id?: string;
 }
