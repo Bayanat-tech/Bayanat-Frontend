@@ -66,9 +66,9 @@ const CustomDataTable = (props: IReactTable) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.toggleFilter]);
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} className="border border-gray-200">
       <Table sx={{ minWidth: 700 }}>
-        <TableHead>
+        <TableHead className="bg-stone-200">
           {tableInstance.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
@@ -129,11 +129,13 @@ const CustomDataTable = (props: IReactTable) => {
                 count={props?.count || data.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
-                SelectProps={{
-                  inputProps: {
-                    'aria-label': 'rows per page'
-                  },
-                  native: true
+                slotProps={{
+                  select: {
+                    inputProps: {
+                      'aria-label': 'rows per page'
+                    },
+                    native: true
+                  }
                 }}
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}

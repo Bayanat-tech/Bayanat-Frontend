@@ -128,7 +128,7 @@ const CountryWmsPage = () => {
       refetchCountryData();
     }
     setCountryFormPopup((prev) => {
-      return { ...prev, action: { ...prev.action, open: !prev.action.open } };
+      return { ...prev, data: { isEditMode: false, existingData: {} }, action: { ...prev.action, open: !prev.action.open } };
     });
   };
 
@@ -173,8 +173,9 @@ const CountryWmsPage = () => {
         onPaginationChange={handleChangePagination}
         isDataLoading={isCountryFetchLoading}
         toggleFilter={toggleFilter}
+        hasPagination={true}
       />
-      {countryFormPopup.action.open === true && (
+      {!!countryFormPopup && countryFormPopup.action.open && (
         <UniversalDialog
           action={{ ...countryFormPopup.action }}
           onClose={toggleCountryPopup}

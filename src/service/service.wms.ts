@@ -3,9 +3,21 @@ import { IApiResponse } from 'types/types.services';
 import axiosServices from 'utils/axios';
 
 class Wms {
-  getMasters = async (app_code: string, master: string, paginationData?: any | null, searchData?: ISearch | null) => {
+  getMasters = async (
+    app_code: string,
+    master: string,
+    paginationData?: { page: number; rowsPerPage: number },
+    searchData?: ISearch | null
+  ) => {
     try {
-      const response: IApiResponse<{ tableData: unknown[]; count: number }> = await axiosServices.get(`api/${app_code}/${master}`);
+      const page = paginationData && paginationData?.page + 1;
+      const limit = paginationData && paginationData?.rowsPerPage;
+      const response: IApiResponse<{ tableData: unknown[]; count: number }> = await axiosServices.get(`api/${app_code}/${master}`, {
+        params: {
+          ...(page && { page }),
+          ...(limit && { limit })
+        }
+      });
       if (response.data.success) {
         return response.data.data;
       }

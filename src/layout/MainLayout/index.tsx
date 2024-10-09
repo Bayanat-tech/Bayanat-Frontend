@@ -65,7 +65,9 @@ const MainLayout = () => {
               }}
             >
               <Breadcrumbs navigation={navigation} title titleBottom card={false} divider={false} />
-              <Outlet />
+              <div className="p-2 h-full bg-white shadow-md border border-gray-200">
+                <Outlet />
+              </div>
               <Footer />
             </Container>
           </Box>
