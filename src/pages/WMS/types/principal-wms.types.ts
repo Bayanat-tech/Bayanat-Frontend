@@ -1,0 +1,113 @@
+export type TPrincipalWms = TBasicPrincipalWms & TAccountPrincipalWms & TContactPrincipalWms & TPickRulesPrincipalWms;
+type TBasicPrincipalWms = {
+  prin_code: string;
+  prin_name: string;
+  prin_addr1?: string;
+  prin_addr2?: string;
+  prin_addr3?: string;
+  prin_addr4?: string;
+  prin_city?: string;
+  country_code?: string;
+  prin_stat?: string;
+  prin_license?: string;
+  prin_lic_no?: string;
+  prin_lic_type?: string;
+  prin_imp_code?: string;
+  user_dt?: Date;
+  user_id?: string;
+  auto_job?: string;
+  dir_shpmnt?: string;
+  prin_group?: string;
+  company_code: string;
+  operator?: string;
+  erp_integration?: string;
+  div_code?: string;
+  sector_code?: string;
+  walkin_prin_code?: string;
+  gen_prin_code?: number;
+  parent_prin_code?: string;
+  dept_code: string;
+};
+
+// Account Information
+type TAccountPrincipalWms = {
+  prin_invdate?: Date;
+  prin_acref?: string;
+  prin_creditno?: number;
+  prin_charge?: string;
+  prin_backdt?: number;
+  prin_muom?: number;
+  prin_pricechk?: string;
+  prin_landedpr?: string;
+  prin_grnno?: number;
+  prin_cominvno?: number;
+  prin_desackno?: number;
+  prin_cycno?: number;
+  prin_adjno?: number;
+  prin_stnno?: number;
+  prin_replno?: number;
+  prin_invno?: number;
+  prin_storage_no?: number;
+  prin_transno?: number;
+  credit_limit?: number;
+  under_value?: string;
+  default_foc?: string;
+  automate_activity?: string;
+  storage_productwise?: string;
+  creditdays?: number;
+  auto_insert_billactivity?: string;
+  creditdays_freight?: number;
+  alternate_accode?: string;
+  fixed_site?: string;
+  fixed_location?: number;
+  stdvol_value?: number;
+  freestor_value?: number;
+  freestor_days?: number;
+  carton_no?: number;
+  pallet_no?: number;
+  sales_mail_address?: string;
+  expiry_cons_days?: number;
+  sap_erp?: string;
+  prin_logo?: string;
+  curr_code?: string;
+};
+
+// Contact Information
+type TContactPrincipalWms = {
+  prin_contact1?: string;
+  prin_email1?: string;
+  prin_telno1?: string;
+  prin_faxno1?: string;
+  prin_contact2?: string;
+  prin_email2?: string;
+  prin_telno2?: string;
+  prin_faxno2?: string;
+  prin_contact3?: string;
+  prin_email3?: string;
+  prin_telno3?: string;
+  prin_faxno3?: string;
+  acc_email?: string;
+  key_acct_manager?: string;
+  edit_user?: string;
+};
+
+// Pick Rules
+type TPickRulesPrincipalWms = {
+  pick_wave?: string;
+  pick_wave_qty_sort?: string;
+  pick_wave_ign_min_exp?: string;
+  pref_site?: string;
+  pref_loc_from?: string;
+  pref_loc_to?: string;
+  pref_aisle_from?: string;
+  pref_aisle_to?: string;
+  pref_col_from?: number;
+  pref_col_to?: number;
+  pref_ht_from?: number;
+  pref_ht_to?: number;
+  auto_dn?: string;
+  load_doc_no?: string;
+  minperiod_exppick?: number;
+  rcpt_exp_limit?: number;
+  perpectual_confirm_allow?: string;
+};

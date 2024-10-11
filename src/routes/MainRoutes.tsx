@@ -8,6 +8,7 @@ import MainLayout from 'layout/MainLayout';
 import AppSelectionPage from 'pages/AppSelection/AppSelectionPage';
 import WareHouseManagmentSystemPage from 'pages/WMS/WareHouseManagmentSystemPage';
 import AuthGuard from 'utils/route-guard/AuthGuard';
+import PrincipalWmsPage from 'pages/WMS/PrincipalWmsPage';
 
 // pages routing
 const MaintenanceError = Loadable(lazy(() => import('pages/maintenance/404')));
@@ -47,6 +48,7 @@ const MainRoutes = {
                   children: [
                     { path: 'city', element: <CountryWmsPage /> },
                     { path: 'country', element: <CountryWmsPage /> },
+                    { path: 'principal', element: <PrincipalWmsPage /> },
                     { path: '*', element: <MaintenanceError /> }
                   ]
                 },
