@@ -56,6 +56,7 @@ const AddCountryWmsForm = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isEditMode]);
+  console.log(formik.touched);
 
   return (
     <Grid container spacing={2} component={'form'} onSubmit={formik.handleSubmit}>

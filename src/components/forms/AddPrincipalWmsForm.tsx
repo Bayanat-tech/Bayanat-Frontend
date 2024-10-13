@@ -3,7 +3,7 @@ import { Box, Button, CardContent, Step, StepButton, Stepper } from '@mui/materi
 import { Formik, FormikContextType, FormikState } from 'formik';
 import { TPrincipalWms } from 'pages/WMS/types/principal-wms.types';
 import { useEffect, useState } from 'react';
-import * as Yup from 'yup';
+import * as yup from 'yup';
 import AccountPrincipalInfoWms from './AccountPrincipalInfoWms';
 import BasicPrincipalInfoWmsForm from './BasicPrincipalInfoWmsForm';
 import AddContactInfoWmsForm from './AddContactInfoWmsForm';
@@ -64,7 +64,7 @@ const AddPrincipalWmsForm = ({ onClose }: { onClose: () => void }) => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const renderStepContent = (formikProps: FormikContextType<any>) => {
+  const renderStepContent = (formikProps: FormikContextType<TPrincipalWms>) => {
     switch (activeStep) {
       case 0:
         return <BasicPrincipalInfoWmsForm />;
@@ -95,14 +95,17 @@ const AddPrincipalWmsForm = ({ onClose }: { onClose: () => void }) => {
         ))}
       </Stepper>
       <Formik
-        initialValues={{}}
-        validationSchema={Yup.object().shape({})}
+        initialValues={{ prin_name: '', prin_dept_code: '', prin_status: 'N' }}
+        validationSchema={yup.object().shape({
+          prin_name: yup.string().required('This field is required'),
+          prin_dept_code: yup.string().required('This field is required')
+        })}
         onSubmit={async (values, { setSubmitting, resetForm, setFieldValue }) =>
           handleNext(values, { setSubmitting, resetForm, setFieldValue })
         }
       >
         {(formikProps: FormikContextType<any>) => (
-          <Box component={'form'} onSubmit={formikProps.handleSubmit}>
+          <Box component={'form'} onSubmit={formikProps.handleSubmit} className="p-1">
             {renderStepContent(formikProps)}
             <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
               <Button color="inherit" disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 1 }}>
