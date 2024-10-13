@@ -15,6 +15,7 @@ const MaintenanceError500 = Loadable(lazy(() => import('pages/maintenance/500'))
 const MaintenanceUnderConstruction = Loadable(lazy(() => import('pages/maintenance/under-construction')));
 const MaintenanceComingSoon = Loadable(lazy(() => import('pages/maintenance/coming-soon')));
 const CountryWmsPage = Loadable(lazy(() => import('pages/WMS/CountryWmsPage')));
+const DepartmentWmsPage = Loadable(lazy(() => import('pages/WMS/DepartmentWmsPage')));
 
 // render - sample page
 // const AppSelectionPage = Loadable(lazy(() => import('pages/AppSelection/AppSelectionPage')));
@@ -47,6 +48,7 @@ const MainRoutes = {
                   children: [
                     { path: 'city', element: <CountryWmsPage /> },
                     { path: 'country', element: <CountryWmsPage /> },
+                    { path: 'department', element: <DepartmentWmsPage /> },
                     { path: '*', element: <MaintenanceError /> }
                   ]
                 },
