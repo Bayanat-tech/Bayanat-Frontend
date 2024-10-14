@@ -21,7 +21,7 @@ const AddDepartmentWmsForm = ({
   const { user } = useAuth();
   //------------------formik-----------------
   const formik = useFormik<TDepartment>({
-    initialValues: { dept_name: '', dept_code: '', company_code: user?.company_code, div_code: '', jobno_seq: '101' },
+    initialValues: { dept_name: '', dept_code: '', company_code: user?.company_code, div_code: '', jobno_seq: '' },
     validationSchema: yup.object().shape({
       dept_code: yup.string().required('This field is required'),
       dept_name: yup.string().required('This field is required')
@@ -59,13 +59,12 @@ const AddDepartmentWmsForm = ({
 
   return (
     <Grid container spacing={2} component={'form'} onSubmit={formik.handleSubmit}>
-      <Grid item xs={12} sm={6}>
+      <Grid item xs={12} sm={3}>
         <InputLabel>Department Code*</InputLabel>
         <TextField
           value={formik.values.dept_code}
           name="dept_code"
           onChange={formik.handleChange}
-          className="w-28"
           error={Boolean(getIn(formik.touched, 'dept_code') && getIn(formik.errors, 'dept_code'))}
         />
         {getIn(formik.touched, 'dept_code') && getIn(formik.errors, 'dept_code') && (
@@ -74,13 +73,13 @@ const AddDepartmentWmsForm = ({
           </FormHelperText>
         )}
       </Grid>
-      <Grid item xs={12} sm={5}>
+      <Grid item xs={12} sm={9}>
         <InputLabel>Department Name*</InputLabel>
         <TextField
           value={formik.values.dept_name}
           name="dept_name"
-          onChange={formik.handleChange}
           fullWidth
+          onChange={formik.handleChange}
           error={Boolean(getIn(formik.touched, 'dept_name') && getIn(formik.errors, 'dept_name'))}
         />
         {getIn(formik.touched, 'dept_name') && getIn(formik.errors, 'dept_name') && (
@@ -100,18 +99,32 @@ const AddDepartmentWmsForm = ({
         />
       </Grid> */}
 
-      <Grid item xs={12}>
+      <Grid item xs={12} sm={3}>
         <InputLabel>Division Code*</InputLabel>
         <TextField
           value={formik.values.div_code}
           name="div_code"
           onChange={formik.handleChange}
-          className="w-28"
           error={Boolean(getIn(formik.touched, 'div_code') && getIn(formik.errors, 'div_code'))}
         />
         {getIn(formik.touched, 'div_code') && getIn(formik.errors, 'div_code') && (
           <FormHelperText error id="helper-text-first_name">
             {getIn(formik.errors, 'div_code')}
+          </FormHelperText>
+        )}
+      </Grid>
+
+      <Grid item xs={12} sm={3}>
+        <InputLabel>Job No Sequence*</InputLabel>
+        <TextField
+          value={formik.values.jobno_seq}
+          name="jobno_seq"
+          onChange={formik.handleChange}
+          error={Boolean(getIn(formik.touched, 'jobno_seq') && getIn(formik.errors, 'jobno_seq'))}
+        />
+        {getIn(formik.touched, 'jobno_seq') && getIn(formik.errors, 'jobno_seq') && (
+          <FormHelperText error id="helper-text-first_name">
+            {getIn(formik.errors, 'jobno_seq')}
           </FormHelperText>
         )}
       </Grid>

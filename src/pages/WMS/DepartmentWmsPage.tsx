@@ -72,11 +72,11 @@ const DepartmentWmsPage = () => {
       //     id: 'country_gcc',
       //     header: () => <span>Country GCC</span>
       //   },
-      {
-        accessorFn: (row) => row.company_code,
-        id: 'company_code',
-        header: () => <span>Company Code</span>
-      },
+      // {
+      //   accessorFn: (row) => row.company_code,
+      //   id: 'company_code',
+      //   header: () => <span>Company Code</span>
+      // },
       {
         accessorFn: (row) => row.div_code,
         id: 'div_code',
