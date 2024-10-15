@@ -4,9 +4,9 @@ import TextField from '@mui/material/TextField';
 import { getIn, useFormik } from 'formik';
 import useAuth from 'hooks/useAuth';
 
-// import { TLocation } from 'pages/WMS/types/location-wms.types';
+import { TLocation } from 'pages/WMS/types/location-wms.types';
 import { useEffect } from 'react';
-// import GmServiceInstance from 'service/wms/services.gm_wms';
+import GmServiceInstance from 'service/wms/services.gm_wms';
 import * as yup from 'yup';
 
 const AddLocationWmsForm = ({
@@ -16,14 +16,12 @@ const AddLocationWmsForm = ({
 }: {
   onClose: (refetchData?: boolean) => void;
   isEditMode: Boolean;
-  existingData: any;
-  // TLocation;
+  existingData: TLocation;
 }) => {
   //-------------------constants-------------------
   const { user } = useAuth();
   //------------------formik-----------------
-  const formik = useFormik<any>({
-    // TLocation
+  const formik = useFormik<TLocation>({
     initialValues: {
       site_code: '',
       location_code: '',
@@ -73,9 +71,9 @@ const AddLocationWmsForm = ({
       setSubmitting(true);
       let response;
       if (isEditMode) {
-        // response = await GmServiceInstance.editLocation(values);
+        response = await GmServiceInstance.editLocation(values);
       } else {
-        // response = await GmServiceInstance.addLocation(values);
+        response = await GmServiceInstance.addLocation(values);
       }
       if (response) {
         onClose(true);
@@ -108,6 +106,7 @@ const AddLocationWmsForm = ({
           value={formik.values.site_code}
           name="site_code"
           onChange={formik.handleChange}
+          className="w-28"
           error={Boolean(getIn(formik.touched, 'site_code') && getIn(formik.errors, 'site_code'))}
         />
         {getIn(formik.touched, 'site_code') && getIn(formik.errors, 'site_code') && (
@@ -123,6 +122,7 @@ const AddLocationWmsForm = ({
           value={formik.values.site_code}
           name="location_code"
           onChange={formik.handleChange}
+          className="w-28"
           error={Boolean(getIn(formik.touched, 'location_code') && getIn(formik.errors, 'location_code'))}
         />
         {getIn(formik.touched, 'location_code') && getIn(formik.errors, 'location_code') && (
