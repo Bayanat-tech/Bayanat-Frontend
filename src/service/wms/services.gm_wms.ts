@@ -1,6 +1,7 @@
 import { TCountry } from 'pages/WMS/types/country-wms.types';
 import { TDepartment } from 'pages/WMS/types/department-wms.types';
 import { TLocation } from 'pages/WMS/types/location-wms.types';
+import { TPickWave } from 'pages/WMS/types/PickWave-wms.types';
 import { dispatch } from 'store';
 import { openSnackbar } from 'store/reducers/snackbar';
 import { IApiResponse } from 'types/types.services';
@@ -108,10 +109,10 @@ class GM {
     }
   };
 
-  //--------------Department--------------
-  addDepartment = async (values: TDepartment) => {
+  //--------------PickWave--------------
+  addPickWave = async (values: TPickWave) => {
     try {
-      const response: IApiResponse<null> = await axiosServices.post('api/wms/gm/department', values);
+      const response: IApiResponse<null> = await axiosServices.post('api/wms/gm/PickWave', values);
       if (response.data.success) {
         dispatch(
           openSnackbar({
@@ -142,9 +143,9 @@ class GM {
       );
     }
   };
-  editDepartment = async (values: TDepartment) => {
+  editPickWave = async (values: TPickWave) => {
     try {
-      const response: IApiResponse<null> = await axiosServices.put('api/wms/gm/department', values);
+      const response: IApiResponse<null> = await axiosServices.put('api/wms/gm/PickWave', values);
       if (response.data.success) {
         dispatch(
           openSnackbar({
@@ -276,9 +277,10 @@ class GM {
       );
     }
   };
-  deleteLocation = async (locationCodes: string[]) => {
+
+  deletePickWave = async (PickWaveCodes: string[]) => {
     try {
-      const response: IApiResponse<null> = await axiosServices.post('api/wms/gm/location/delete', locationCodes);
+      const response: IApiResponse<null> = await axiosServices.post('api/wms/gm/PickWave/delete', PickWaveCodes);
       if (response.data.success) {
         dispatch(
           openSnackbar({
@@ -310,5 +312,6 @@ class GM {
     }
   };
 }
+
 const GmServiceInstance = new GM();
 export default GmServiceInstance;
