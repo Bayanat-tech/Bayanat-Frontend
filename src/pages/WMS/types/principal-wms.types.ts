@@ -36,7 +36,6 @@ export type TBasicPrincipalWms = {
   prin_dept_code?: string;
   auto_job?: string;
   dir_shpmnt?: string;
-  parent_prin_code?: string;
 };
 
 // Account Information
@@ -56,6 +55,7 @@ export type TAccountPrincipalWms = {
   comm_reg_no?: Date;
   comm_exp_date?: Date;
   prin_imp_code?: string;
+  parent_prin_code?: string;
 };
 
 // Contact Information

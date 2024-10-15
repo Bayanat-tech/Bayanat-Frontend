@@ -49,3 +49,6 @@ export const getAccessToken = () => {
   }
   return window.localStorage.getItem('serviceToken');
 };
+export const removeExtension = (fileName: string) => {
+  return fileName.replace(/\.[^.]+$/, '');
+};

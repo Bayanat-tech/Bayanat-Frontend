@@ -1,200 +1,219 @@
-import { Autocomplete, Divider, FormHelperText, Grid, InputLabel, TextField, Typography } from '@mui/material';
-import { FormikContextType, getIn, useFormikContext } from 'formik';
-import { TPrincipalWms } from 'pages/WMS/types/principal-wms.types';
+import { Button, Checkbox, FormControlLabel, Grid, InputLabel, Stack, TextField, Typography } from '@mui/material';
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs, { Dayjs } from 'dayjs';
+import { useFormik } from 'formik';
+import { TSettingsPrincipalWms } from 'pages/WMS/types/principal-wms.types';
 
-const AddSettingsPrincipalWmsForm = () => {
-  const { values, handleChange, errors, touched }: FormikContextType<TPrincipalWms> = useFormikContext();
+const AddSettingsPrincipalWmsForm = ({
+  handleNext,
+  handleBack,
+  settings,
+  setSettings
+}: {
+  handleNext: () => void;
+  handleBack: () => void;
 
+  settings: TSettingsPrincipalWms;
+  setSettings: (value: TSettingsPrincipalWms) => void;
+}) => {
+  //----------------formik-----------------
+  const formik = useFormik<TSettingsPrincipalWms>({
+    initialValues: settings,
+
+    onSubmit: async (values) => {
+      setSettings(values);
+      handleNext();
+    }
+  });
   return (
-    <Grid container spacing={3}>
-      {/*----------------------Sales/Company Information-------------------------- */}
-
-      <Grid spacing={2} item container xs={12} sm={6}>
-        <Grid item xs={12}>
-          <Typography variant="subtitle1" className="text-gray-500">
-            Sales/Company Information
-          </Typography>
-          <Divider orientation="horizontal" className="p-1" />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          {/*----------------------A/C Reference-------------------------- */}
-          <InputLabel>A/C Reference</InputLabel>
-          <TextField
-            onChange={handleChange}
-            id="prin_acref"
-            name="prin_acref"
-            placeholder="A/C Reference"
-            fullWidth
-            value={values.prin_acref}
-          />
-          {getIn(touched, 'prin_acref') && getIn(errors, 'prin_acref') && (
-            <FormHelperText error id="helper-text-first_name">
-              {getIn(errors, 'prin_acref')}
-            </FormHelperText>
-          )}
-        </Grid>
-        {/*----------------------Credit Limit-------------------------- */}
-        <Grid item xs={12} sm={6}>
-          <InputLabel>Credit Limit</InputLabel>
-          <TextField
-            onChange={handleChange}
-            id="credit_limit"
-            name="credit_limit"
-            placeholder="0000"
-            fullWidth
-            value={values.credit_limit}
-          />
-        </Grid>
-        {/*----------------------Credit Period (WMS)-------------------------- */}
-        <Grid item container xs={12} sm={6} spacing={2}>
-          <Grid item xs={12} sm={6}>
-            <InputLabel>Credit Period (WMS)</InputLabel>
-            <TextField
-              onChange={handleChange}
-              id="creditdays"
-              name="creditdays"
-              placeholder="Credit Period (WMS)"
-              fullWidth
-              value={values.creditdays}
+    <Grid container spacing={4} component={'form'} onSubmit={formik.handleSubmit}>
+      <Grid item xs={12} sm={6}>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Typography variant="h4" className="text-black py-2 font-semibold">
+              General Settings
+            </Typography>
+          </Grid>
+          {/*----------------------Allow Undervalue--------------------- */}
+          <Grid item xs={12} sm={4}>
+            <InputLabel>Allow Undervalue</InputLabel>
+            <FormControlLabel
+              control={<Checkbox onChange={(event, checked) => formik.setFieldValue('under_value', checked ? 'Y' : 'N')} />}
+              checked={formik.values.under_value === 'Y'}
+              name="under_value"
+              label={'Yes/No'}
+              value={formik.values.under_value}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <InputLabel>(Frieght)</InputLabel>
+          {/*----------------------Auto Populate Bill Act--------------------- */}
 
-            <TextField
-              onChange={handleChange}
-              id="creditdays_freight"
-              name="creditdays_freight"
-              placeholder="7"
-              fullWidth
-              value={values.creditdays_freight}
+          <Grid item xs={12} sm={4}>
+            <InputLabel>Auto Populate Bill Act</InputLabel>
+            <FormControlLabel
+              control={<Checkbox onChange={(event, checked) => formik.setFieldValue('auto_insert_billactivity', checked ? 'Y' : 'N')} />}
+              checked={formik.values.auto_insert_billactivity === 'Y'}
+              name="auto_insert_billactivity"
+              label={'Yes/No'}
+              value={formik.values.auto_insert_billactivity}
+            />
+          </Grid>
+          {/*----------------------Chatrgable--------------------- */}
+
+          <Grid item xs={12} sm={4}>
+            <InputLabel>Chargeable</InputLabel>
+            <FormControlLabel
+              control={<Checkbox onChange={(event, checked) => formik.setFieldValue('prin_charge', checked ? 'Y' : 'N')} />}
+              checked={formik.values.prin_charge === 'Y'}
+              name="prin_charge"
+              label={'Yes/No'}
+              value={formik.values.prin_charge}
+            />
+          </Grid>
+          {/*----------------------Export price check--------------------- */}
+
+          <Grid item xs={12} sm={4}>
+            <InputLabel>Export Price Check</InputLabel>
+            <FormControlLabel
+              control={<Checkbox onChange={(event, checked) => formik.setFieldValue('prin_pricechk', checked ? 'Y' : 'N')} />}
+              checked={formik.values.prin_pricechk === 'Y'}
+              name="prin_pricechk"
+              label={'Yes/No'}
+              value={formik.values.prin_pricechk}
+            />
+          </Grid>
+          {/*----------------------Compute Landed Cost--------------------- */}
+
+          <Grid item xs={12} sm={4}>
+            <InputLabel>Compute Landed Cost</InputLabel>
+            <FormControlLabel
+              control={<Checkbox onChange={(event, checked) => formik.setFieldValue('prin_landedpr', checked ? 'Y' : 'N')} />}
+              checked={formik.values.prin_landedpr === 'Y'}
+              name="prin_landedpr"
+              label={'Yes/No'}
+              value={formik.values.prin_landedpr}
+            />
+          </Grid>
+          {/*----------------------Auto Jobno Generate--------------------- */}
+
+          <Grid item xs={12} sm={4}>
+            <InputLabel>Auto Jobno Generate</InputLabel>
+            <FormControlLabel
+              control={<Checkbox onChange={(event, checked) => formik.setFieldValue('auto_job', checked ? 'Y' : 'N')} />}
+              checked={formik.values.auto_job === 'Y'}
+              name="auto_job"
+              label={'Yes/No'}
+              value={formik.values.auto_job}
+            />
+          </Grid>
+          {/*----------------------Validate Lot no.--------------------- */}
+
+          <Grid item xs={12} sm={4}>
+            <InputLabel>Validate Lot no.</InputLabel>
+            <FormControlLabel
+              control={<Checkbox onChange={(event, checked) => formik.setFieldValue('validate_lotno', checked ? 'Y' : 'N')} />}
+              checked={formik.values.validate_lotno === 'Y'}
+              name="validate_lotno"
+              label={'Yes/No'}
+              value={formik.values.validate_lotno}
             />
           </Grid>
         </Grid>
+      </Grid>
 
-        {/*----------------------Default Currency-------------------------- */}
+      <Grid item xs={12} sm={6}>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Typography variant="h4" className="text-black py-2 font-semibold">
+              Product and Shipment Settings{' '}
+            </Typography>
+          </Grid>
+          {/*----------------------Product Wise Storage--------------------- */}
 
-        <Grid item xs={12} sm={6}>
-          <InputLabel>Default Currency</InputLabel>
-          <Autocomplete
-            id="assign"
-            value={{} as any}
-            onChange={(event, value) => {
-              // formik.setFieldValue('assign', value?.id);
-            }}
-            options={[]}
-            fullWidth
-            autoHighlight
-            getOptionLabel={(option) => option.name}
-            //   isOptionEqualToValue={(option) => option.id === formik.values.assign}
-            renderOption={(props, option) => (
-              // <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
-              //   <img loading="lazy" width="20" src={avatarImage(`./${option.avatar}`)} alt="" />
-              //   {option.name}
-              // </Box>
-              <></>
-            )}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                placeholder="Choose a assignee"
-                inputProps={{
-                  ...params.inputProps,
-                  autoComplete: 'new-password' // disable autocomplete and autofill
+          <Grid item xs={12} sm={6}>
+            <InputLabel>Product Wise Storage</InputLabel>
+            <FormControlLabel
+              control={<Checkbox onChange={(event, checked) => formik.setFieldValue('storage_productwise', checked ? 'Y' : 'N')} />}
+              checked={formik.values.storage_productwise === 'Y'}
+              name="storage_productwise"
+              label={'Yes/No'}
+              value={formik.values.storage_productwise}
+            />
+          </Grid>
+          {/*----------------------Direct Shipment--------------------- */}
+
+          <Grid item xs={12} sm={6}>
+            <InputLabel>Direct Shipment</InputLabel>
+            <FormControlLabel
+              control={<Checkbox onChange={(event, checked) => formik.setFieldValue('dir_shpmnt', checked ? 'Y' : 'N')} />}
+              checked={formik.values.dir_shpmnt === 'Y'}
+              name="dir_shpmnt"
+              label={'Yes/No'}
+              value={formik.values.dir_shpmnt}
+            />
+          </Grid>
+          {/*----------------------Outbound Validate Exp Date--------------------- */}
+
+          <Grid item xs={12} sm={6}>
+            <InputLabel>Outbound Validate Exp Date</InputLabel>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                className="w-full"
+                value={formik.values.validate_expdate ? dayjs(formik.values.validate_expdate) : null}
+                onChange={(newValue: Dayjs | null) => {
+                  if (newValue?.isValid()) formik.setFieldValue('validate_expdate', newValue.toISOString());
                 }}
               />
-            )}
-          />
-        </Grid>
-      </Grid>
-      {/*----------------------Tax and Registration Information-------------------------- */}
-      <Grid spacing={2} item container xs={12} sm={6}>
-        <Grid item xs={12}>
-          <Typography variant="subtitle1" className="text-gray-500">
-            Tax and Registration Information
-          </Typography>
-          <Divider orientation="horizontal" className="p-1" />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <InputLabel>Tax Registered No.</InputLabel>
-          <TextField onChange={handleChange} id="prin_lic_no" name="prin_lic_no" placeholder="" fullWidth value={values.prin_lic_no} />
-        </Grid>{' '}
-        {/*----------------------Tax Registration Expiry Date-------------------------- */}
-        <Grid item xs={12} sm={6}>
-          <InputLabel>Tax Registration Expiry Date</InputLabel>
-          <TextField
-            onChange={handleChange}
-            id="prin_lic_type"
-            name="prin_lic_type"
-            placeholder="City"
-            fullWidth
-            value={values.prin_lic_type}
-          />
-        </Grid>
-        {/*----------------------Commercial Registered No.-------------------------- */}
-        <Grid item xs={12} sm={6}>
-          <InputLabel>Commercial Registered No.</InputLabel>
-          <TextField onChange={handleChange} id="prin_email3" name="prin_email3" placeholder="City" fullWidth value={values.prin_email3} />
-        </Grid>
-        {/*----------------------Commercial Registration No. Expiry Date-------------------------- */}
-        <Grid item xs={12} sm={6}>
-          <InputLabel>Commercial Registration No. Expiry Date</InputLabel>
-          <TextField onChange={handleChange} id="prin_email3" name="prin_email3" placeholder="City" fullWidth value={values.prin_email3} />
-        </Grid>
-        {/*----------------------In Designated Zone-------------------------- */}
-        <Grid item xs={12} sm={6}>
-          <InputLabel>In Designated Zone</InputLabel>
-          <TextField onChange={handleChange} id="prin_email3" name="prin_email3" placeholder="City" fullWidth value={values.prin_email3} />
-        </Grid>
-        {/*----------------------Import Code-------------------------- */}
-        <Grid item xs={12} sm={6}>
-          <InputLabel>Import Code</InputLabel>
-          <TextField onChange={handleChange} id="prin_email3" name="prin_email3" placeholder="City" fullWidth value={values.prin_email3} />
-        </Grid>
-      </Grid>
-      {/*----------------------Invoice and Transaction History-------------------------- */}
-      <Grid spacing={2} item container xs={12} sm={6}>
-        <Grid item xs={12}>
-          <Typography variant="subtitle1" className="text-gray-500">
-            Invoice and Transaction History
-          </Typography>
-          <Divider orientation="horizontal" className="p-1" />
-        </Grid>
+            </LocalizationProvider>
+          </Grid>
+          {/*----------------------Outbound Minimum Exp Period--------------------- */}
 
-        {/*----------------------Account Reference-------------------------- */}
-        <Grid item xs={12} sm={6}>
-          <InputLabel>Last Invoice Date</InputLabel>
-          <TextField
-            id="prin_acref"
-            name="prin_acref"
-            placeholder="Last Invoice Date
-"
-            value={values.prin_acref}
-            fullWidth
-          />
+          <Grid item xs={12} sm={6}>
+            <InputLabel>Outbound Minimum Exp Period</InputLabel>
+            <TextField
+              onChange={formik.handleChange}
+              id="minperiod_exppick"
+              name="minperiod_exppick"
+              fullWidth
+              value={formik.values.minperiod_exppick}
+            />
+          </Grid>
+          {/*----------------------Inbound Exp Limit (days)--------------------- */}
+
+          <Grid item xs={12} sm={6}>
+            <InputLabel>Inbound Exp Limit (days)</InputLabel>
+            <TextField
+              onChange={formik.handleChange}
+              id="rcpt_exp_limit"
+              name="rcpt_exp_limit"
+              fullWidth
+              value={formik.values.rcpt_exp_limit}
+            />
+          </Grid>
+          {/*----------------------Prepactual confirm Allow--------------------- */}
+
+          <Grid item xs={12} sm={6}>
+            <InputLabel>Prepactual confirm Allow</InputLabel>
+            <TextField
+              onChange={formik.handleChange}
+              id="perpectual_confirm_allow"
+              name="perpectual_confirm_allow"
+              fullWidth
+              value={formik.values.perpectual_confirm_allow}
+            />
+          </Grid>
         </Grid>
       </Grid>
-      {/*----------------------Invoice and Transaction History-------------------------- */}
-      <Grid spacing={2} item container xs={12} sm={6}>
-        <Grid item xs={12}>
-          <Typography variant="subtitle1" className="text-gray-500">
-            Invoice and Transaction History
-          </Typography>
-          <Divider orientation="horizontal" className="p-1" />
-        </Grid>
 
-        {/*----------------------Document Upload-------------------------- */}
-        <Grid item xs={12} sm={6}>
-          <InputLabel>Upload Documents</InputLabel>
-          <TextField
-            id="prin_acref"
-            name="prin_acref"
-            placeholder="Upload Documents
-"
-            value={values.prin_acref}
-            fullWidth
-          />
-        </Grid>
+      <Grid item xs={12}>
+        <Stack direction="row" justifyContent="space-between">
+          <Button onClick={handleBack} sx={{ my: 1, ml: 1 }}>
+            Back
+          </Button>
+          <Button variant="contained" type="submit" sx={{ my: 1, ml: 1 }}>
+            Submit
+          </Button>
+        </Stack>
       </Grid>
     </Grid>
   );
