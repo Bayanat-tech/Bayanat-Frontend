@@ -375,7 +375,6 @@ class GM {
       );
     }
   };
-
   deleteLocation = async (locationCodes: string[]) => {
     try {
       const response: IApiResponse<null> = await axiosServices.post('api/wms/gm/location/delete', locationCodes);
