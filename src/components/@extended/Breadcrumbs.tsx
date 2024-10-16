@@ -96,12 +96,12 @@ const Breadcrumbs = ({
       menu.children.filter((collapse: NavItemType) => {
         if (collapse.type && collapse.type === 'collapse') {
           getCollapse(collapse as { children: NavItemType[]; type?: string });
-          if (collapse.url === customLocation) {
+          if (collapse.url_path === customLocation) {
             setMain(collapse);
             setItem(collapse);
           }
         } else if (collapse.type && collapse.type === 'item') {
-          if (customLocation === collapse.url) {
+          if (customLocation === collapse.url_path) {
             setMain(menu);
             setItem(collapse);
           }

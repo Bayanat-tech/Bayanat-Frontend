@@ -1,9 +1,12 @@
 import { lazy } from 'react';
 
 // project import
-import MainLayout from 'layout/MainLayout';
-import CommonLayout from 'layout/CommonLayout';
 import Loadable from 'components/Loadable';
+import MasterSelectionAutoComplete from 'components/MasterSelectionAutoComplete';
+import CommonLayout from 'layout/CommonLayout';
+import MainLayout from 'layout/MainLayout';
+import AppSelectionPage from 'pages/AppSelection/AppSelectionPage';
+import WareHouseManagmentSystemPage from 'pages/WMS/WareHouseManagmentSystemPage';
 import AuthGuard from 'utils/route-guard/AuthGuard';
 
 // pages routing
@@ -11,9 +14,14 @@ const MaintenanceError = Loadable(lazy(() => import('pages/maintenance/404')));
 const MaintenanceError500 = Loadable(lazy(() => import('pages/maintenance/500')));
 const MaintenanceUnderConstruction = Loadable(lazy(() => import('pages/maintenance/under-construction')));
 const MaintenanceComingSoon = Loadable(lazy(() => import('pages/maintenance/coming-soon')));
+const CountryWmsPage = Loadable(lazy(() => import('pages/WMS/CountryWmsPage')));
+const DepartmentWmsPage = Loadable(lazy(() => import('pages/WMS/DepartmentWmsPage')));
+const LocationWmsPage = Loadable(lazy(() => import('pages/WMS/LocationWmsPage')));
+const PickWaveWmsPage = Loadable(lazy(() => import('pages/WMS/PickWaveWmsPage')));
+const PortWmsPage = Loadable(lazy(() => import('pages/WMS/PortWmsPage')));
 
 // render - sample page
-const SamplePage = Loadable(lazy(() => import('pages/extra-pages/sample-page')));
+// const AppSelectionPage = Loadable(lazy(() => import('pages/AppSelection/AppSelectionPage')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -29,8 +37,50 @@ const MainRoutes = {
       ),
       children: [
         {
-          path: 'sample-page',
-          element: <SamplePage />
+          path: 'apps',
+          element: <AppSelectionPage />
+        },
+        {
+          path: 'wms',
+          children: [
+            {
+              path: 'masters',
+              children: [
+                {
+                  path: 'gm',
+                  children: [
+                    { path: 'city', element: <CountryWmsPage /> },
+                    { path: 'country', element: <CountryWmsPage /> },
+                    { path: 'department', element: <DepartmentWmsPage /> },
+                    { path: 'location', element: <LocationWmsPage /> },
+                    { path: 'pickwave', element: <PickWaveWmsPage /> },
+                    { path: 'port', element: <PortWmsPage /> },
+                    { path: '*', element: <MaintenanceError /> }
+                  ]
+                },
+                {
+                  path: 'inbound'
+                },
+                {
+                  path: '*',
+                  element: <MaintenanceComingSoon />
+                }
+              ]
+            }
+          ]
+        },
+        {
+          path: 'finance',
+          element: <MasterSelectionAutoComplete />,
+          children: [
+            { path: 'accounts/ac_tree', element: <MasterSelectionAutoComplete /> },
+            { path: ':level1', element: <MasterSelectionAutoComplete /> },
+            { path: ':level1/:level2/:level3', element: <MasterSelectionAutoComplete /> }
+          ]
+        },
+        {
+          path: '*',
+          element: <MaintenanceComingSoon />
         }
       ]
     },
@@ -55,6 +105,10 @@ const MainRoutes = {
           element: <MaintenanceComingSoon />
         }
       ]
+    },
+    {
+      path: '*',
+      element: <WareHouseManagmentSystemPage />
     }
   ]
 };

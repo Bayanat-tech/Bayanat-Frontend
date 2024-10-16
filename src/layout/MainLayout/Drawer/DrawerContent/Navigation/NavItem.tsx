@@ -41,9 +41,9 @@ const NavItem = ({ item, level }: Props) => {
     component: ForwardRefExoticComponent<RefAttributes<HTMLAnchorElement>> | string;
     href?: string;
     target?: LinkTarget;
-  } = { component: forwardRef((props, ref) => <Link {...props} to={item.url!} target={itemTarget} ref={ref} />) };
+  } = { component: forwardRef((props, ref) => <Link {...props} to={item.url_path!} target={itemTarget} ref={ref} />) };
   if (item?.external) {
-    listItemProps = { component: 'a', href: item.url, target: itemTarget };
+    listItemProps = { component: 'a', href: item.url_path, target: itemTarget };
   }
 
   const Icon = item.icon!;
@@ -56,18 +56,18 @@ const NavItem = ({ item, level }: Props) => {
   // active menu item on page load
   useEffect(() => {
     if (pathname && pathname.includes('product-details')) {
-      if (item.url && item.url.includes('product-details')) {
+      if (item.url_path && item.url_path.includes('product-details')) {
         dispatch(activeItem({ openItem: [item.id] }));
       }
     }
 
     if (pathname && pathname.includes('kanban')) {
-      if (item.url && item.url.includes('kanban')) {
+      if (item.url_path && item.url_path.includes('kanban')) {
         dispatch(activeItem({ openItem: [item.id] }));
       }
     }
 
-    if (pathname === item.url) {
+    if (pathname === item.url_path) {
       dispatch(activeItem({ openItem: [item.id] }));
     }
     // eslint-disable-next-line

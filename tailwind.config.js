@@ -1,12 +1,10 @@
 /** @type {import('tailwindcss').Config} */
-const defaultTheme = require('tailwindcss/defaultTheme');
-
 module.exports = {
-  content: ['./public/index.html', './src/**/*.{html,js, jsx,ts,tsx}'],
+  content: ['./src/**/*.{html,js,jsx,ts,tsx}'], // check all file extensions being used
   theme: {
     extend: {
       screens: {
-        '3xl': '1700px'
+        '3xl': '1700px' // custom screen size
       }
     }
   },

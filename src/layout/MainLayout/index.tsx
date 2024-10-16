@@ -1,24 +1,26 @@
 import { useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 
 // material-ui
+import { Box, Container, Toolbar, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { useMediaQuery, Box, Container, Toolbar } from '@mui/material';
 
 // project import
-import Drawer from './Drawer';
-import Header from './Header';
-import Footer from './Footer';
-import HorizontalBar from './Drawer/HorizontalBar';
 import Breadcrumbs from 'components/@extended/Breadcrumbs';
+import Drawer from './Drawer';
+import HorizontalBar from './Drawer/HorizontalBar';
+import Footer from './Footer';
+import Header from './Header';
 
-import navigation from 'menu-items';
 import useConfig from 'hooks/useConfig';
+import navigation from 'menu-items';
 import { dispatch } from 'store';
 import { openDrawer } from 'store/reducers/menu';
+import { MenuOrientation } from 'types/config';
+import AppSelectionPage from 'pages/AppSelection/AppSelectionPage';
+// const AppSelectionPage = Loadable(lazy(() => import('pages/AppSelection/AppSelectionPage')));
 
 // types
-import { MenuOrientation } from 'types/config';
 
 // ==============================|| MAIN LAYOUT ||============================== //
 
@@ -26,7 +28,8 @@ const MainLayout = () => {
   const theme = useTheme();
   const matchDownXL = useMediaQuery(theme.breakpoints.down('xl'));
   const downLG = useMediaQuery(theme.breakpoints.down('lg'));
-
+  const location = useLocation();
+  const pathName = location.pathname;
   const { container, miniDrawer, menuOrientation } = useConfig();
 
   const isHorizontal = menuOrientation === MenuOrientation.HORIZONTAL && !downLG;
@@ -41,26 +44,35 @@ const MainLayout = () => {
 
   return (
     <Box sx={{ display: 'flex', width: '100%' }}>
-      <Header />
-      {!isHorizontal ? <Drawer /> : <HorizontalBar />}
-
-      <Box component="main" sx={{ width: 'calc(100% - 260px)', flexGrow: 1, p: { xs: 2, sm: 3 } }}>
-        <Toolbar sx={{ mt: isHorizontal ? 8 : 'inherit' }} />
-        <Container
-          maxWidth={container ? 'xl' : false}
-          sx={{
-            ...(container && { px: { xs: 0, sm: 2 } }),
-            position: 'relative',
-            minHeight: 'calc(100vh - 110px)',
-            display: 'flex',
-            flexDirection: 'column'
-          }}
-        >
-          <Breadcrumbs navigation={navigation} title titleBottom card={false} divider={false} />
-          <Outlet />
-          <Footer />
-        </Container>
-      </Box>
+      {pathName.substring(1) === 'apps' ? (
+        <div className="m-28">
+          <AppSelectionPage />
+        </div>
+      ) : (
+        <>
+          <Header />
+          {!isHorizontal ? <Drawer /> : <HorizontalBar />}
+          <Box component="main" sx={{ width: 'calc(100% - 260px)', flexGrow: 1, p: { xs: 2, sm: 3 } }}>
+            <Toolbar sx={{ mt: isHorizontal ? 8 : 'inherit' }} />
+            <Container
+              maxWidth={container ? 'xl' : false}
+              sx={{
+                ...(container && { px: { xs: 0, sm: 2 } }),
+                position: 'relative',
+                minHeight: 'calc(100vh - 110px)',
+                display: 'flex',
+                flexDirection: 'column'
+              }}
+            >
+              <Breadcrumbs navigation={navigation} title titleBottom card={false} divider={false} />
+              <div className="p-2 h-full bg-white shadow-md border border-gray-200">
+                <Outlet />
+              </div>
+              <Footer />
+            </Container>
+          </Box>
+        </>
+      )}
     </Box>
   );
 };
