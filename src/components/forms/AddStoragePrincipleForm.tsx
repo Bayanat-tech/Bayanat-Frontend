@@ -78,12 +78,13 @@ const AddStoragePrincipleForm = ({
   //----------------formik-----------------
   const formik = useFormik<TStorageDetailsPrincipalWms>({
     initialValues: storage,
-
     onSubmit: async (values) => {
       setStorage(values);
       handleNext();
     }
   });
+  console.log('storage', formik.values);
+
   return (
     <Grid container spacing={6} component={'form'} onSubmit={formik.handleSubmit}>
       <Grid item xs={12} sm={6}>
@@ -185,6 +186,7 @@ const AddStoragePrincipleForm = ({
             </Grid>
             <Grid item xs={12} sm={6}>
               <OutlinedInput
+                type="number"
                 endAdornment={'From'}
                 onChange={formik.handleChange}
                 id="pref_aisle_from"
@@ -195,6 +197,7 @@ const AddStoragePrincipleForm = ({
             </Grid>
             <Grid item xs={12} sm={6}>
               <OutlinedInput
+                type="number"
                 endAdornment={'To'}
                 onChange={formik.handleChange}
                 id="pref_aisle_to"
@@ -212,6 +215,7 @@ const AddStoragePrincipleForm = ({
             </Grid>
             <Grid item xs={12} sm={6}>
               <OutlinedInput
+                type="number"
                 endAdornment={'From'}
                 onChange={formik.handleChange}
                 id="pref_col_from"
@@ -223,12 +227,13 @@ const AddStoragePrincipleForm = ({
 
             <Grid item xs={12} sm={6}>
               <OutlinedInput
+                type="number"
                 endAdornment={'To'}
                 onChange={formik.handleChange}
-                id="pref_col_from"
-                name="pref_col_from"
+                id="pref_col_to"
+                name="pref_col_to"
                 fullWidth
-                value={formik.values.pref_col_from}
+                value={formik.values.pref_col_to}
               />
             </Grid>
           </Grid>
@@ -249,6 +254,7 @@ const AddStoragePrincipleForm = ({
             </Grid>
             <Grid item xs={12} sm={6}>
               <OutlinedInput
+                type="number"
                 endAdornment={'From'}
                 onChange={formik.handleChange}
                 id="pref_ht_from"
@@ -260,6 +266,7 @@ const AddStoragePrincipleForm = ({
 
             <Grid item xs={12} sm={6}>
               <OutlinedInput
+                type="number"
                 endAdornment={'To'}
                 onChange={formik.handleChange}
                 id="pref_ht_to"
@@ -305,7 +312,7 @@ const AddStoragePrincipleForm = ({
                 className="w-full"
                 value={formik.values.service_date ? dayjs(formik.values.service_date) : null}
                 onChange={(newValue: Dayjs | null) => {
-                  if (newValue?.isValid()) formik.setFieldValue('ser.service_date', newValue.toISOString());
+                  if (newValue?.isValid()) formik.setFieldValue('service_date', newValue.toISOString());
                 }}
               />
             </LocalizationProvider>

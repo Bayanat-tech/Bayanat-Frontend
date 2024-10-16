@@ -4,11 +4,11 @@ export type TPrincipalWms = TBasicPrincipalWms &
   TContactPrincipalWms &
   TPickRulesPrincipalWms &
   TStorageDetailsPrincipalWms &
-  TSettingsPrincipalWms;
+  TSettingsPrincipalWms & { company_code: string };
 
 // Basic Information
 export type TBasicPrincipalWms = {
-  prin_code: string;
+  prin_code?: string;
   prin_name: string;
   prin_addr1?: string;
   prin_addr2?: string;
@@ -19,14 +19,10 @@ export type TBasicPrincipalWms = {
   tax_country_code?: string;
   tax_country_sn?: string;
   territory_code: string;
-  salesman_code?: string;
   sector_code?: string;
   prin_email1?: string;
   prin_email2?: string;
   prin_email3?: string;
-  prin_telno1?: string;
-  prin_telno2?: string;
-  prin_telno3?: string;
   prin_faxno1?: string;
   prin_faxno2?: string;
   prin_faxno3?: string;
@@ -34,32 +30,33 @@ export type TBasicPrincipalWms = {
   prin_status?: string;
   acc_email?: string;
   prin_dept_code?: string;
-  auto_job?: string;
-  dir_shpmnt?: string;
 };
 
 // Account Information
 export type TAccountPrincipalWms = {
   prin_acref?: string;
-  trn_no?: string;
+  trn_no?: number;
   trn_exp_date?: Date;
   prin_invdate?: Date;
   curr_code?: string;
-  prin_backdt?: number;
   prin_infze?: string;
   credit_limit?: number;
   creditdays?: number;
   creditdays_freight?: number;
-  prin_lic_no?: string;
+  prin_lic_no?: number;
   prin_lic_type?: string;
   comm_reg_no?: Date;
   comm_exp_date?: Date;
   prin_imp_code?: string;
   parent_prin_code?: string;
+  // prin_backdt?: number;
 };
 
 // Contact Information
 export type TContactPrincipalWms = {
+  prin_cont1?: string;
+  prin_cont2?: string;
+  prin_cont3?: string;
   prin_cont_email1?: string;
   prin_cont_email2?: string;
   prin_cont_email3?: string;
@@ -75,8 +72,8 @@ export type TContactPrincipalWms = {
 // Pick Rules
 export type TPickRulesPrincipalWms = {
   pick_wave?: string;
-  pick_wave_qty_sort?: string;
-  pick_wave_ign_min_exp?: string;
+  pick_wave_qty_sort?: number;
+  pick_wave_ign_min_exp?: number;
 };
 
 // Storage Details
@@ -84,8 +81,8 @@ export type TStorageDetailsPrincipalWms = {
   pref_site?: string;
   pref_loc_from?: string;
   pref_loc_to?: string;
-  pref_aisle_from?: string;
-  pref_aisle_to?: string;
+  pref_aisle_from?: number;
+  pref_aisle_to?: number;
   pref_col_from?: number;
   pref_col_to?: number;
   pref_ht_from?: number;
@@ -107,7 +104,7 @@ export type TSettingsPrincipalWms = {
   validate_lotno?: string;
   storage_productwise?: string;
   dir_shpmnt?: string;
-  validate_expdate?: string;
+  validate_expdate?: Date;
   minperiod_exppick?: number;
   rcpt_exp_limit?: number;
   perpectual_confirm_allow?: string;

@@ -17,20 +17,20 @@ import { TCountry } from 'pages/WMS/types/country-wms.types';
 import { TDepartment } from 'pages/WMS/types/department-wms.types';
 import { TBasicPrincipalWms } from 'pages/WMS/types/principal-wms.types';
 import { TTerritory } from 'pages/WMS/types/territory-wms.types';
+import { useEffect } from 'react';
 import WmsSerivceInstance from 'service/service.wms';
+import GmServiceInstance from 'service/wms/services.gm_wms';
 import { useSelector } from 'store';
 import * as yup from 'yup';
 
 const BasicPrincipalInfoWmsForm = ({
   handleNext,
-  handleBack,
-
+  isEditMode,
   basicInfo,
   setBasicInfo
 }: {
   handleNext: () => void;
-  handleBack: () => void;
-
+  isEditMode: boolean;
   basicInfo: TBasicPrincipalWms;
   setBasicInfo: (value: TBasicPrincipalWms) => void;
 }) => {
@@ -47,8 +47,13 @@ const BasicPrincipalInfoWmsForm = ({
       handleNext();
     }
   });
-  //----------------useQuery-----------------
 
+  //----------------useQuery-----------------
+  const { data: prinCode } = useQuery({
+    queryKey: ['prin_code'],
+    queryFn: async () => await GmServiceInstance.getPrincipalCode(),
+    enabled: isEditMode === false
+  });
   const { data: departmentList } = useQuery({
     queryKey: ['department_data'],
     queryFn: async () => {
@@ -88,6 +93,15 @@ const BasicPrincipalInfoWmsForm = ({
       return { tableData: [], count: 0 }; // Handle undefined case
     }
   });
+  //--------------useEffects----------------
+  useEffect(() => {
+    if (prinCode) {
+      console.log(typeof prinCode.prin_code);
+
+      formik.setFieldValue('prin_code', prinCode.prin_code.toString());
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [prinCode]);
 
   return (
     <Grid container spacing={6} component={'form'} onSubmit={formik.handleSubmit}>
@@ -99,8 +113,24 @@ const BasicPrincipalInfoWmsForm = ({
               Sales/Company Information
             </Typography>
           </Grid>
+          {/*----------------------Prin Code-------------------------- */}
           <Grid item xs={12} sm={6}>
-            {/*----------------------Name-------------------------- */}
+            <InputLabel>Code</InputLabel>
+            <TextField
+              name="prin_code"
+              fullWidth
+              disabled
+              value={formik.values.prin_code}
+              error={getIn(formik.touched, 'prin_code') && getIn(formik.errors, 'prin_code')}
+            />
+            {getIn(formik.touched, 'prin_code') && getIn(formik.errors, 'prin_code') && (
+              <FormHelperText error id="helper-text-first_name">
+                {getIn(formik.errors, 'prin_code')}
+              </FormHelperText>
+            )}
+          </Grid>
+          {/*----------------------Name-------------------------- */}
+          <Grid item xs={12} sm={6}>
             <InputLabel>Name*</InputLabel>
             <TextField
               onChange={formik.handleChange}
@@ -346,7 +376,7 @@ const BasicPrincipalInfoWmsForm = ({
 
               {/*----------------------Department-------------------------- */}
               <Grid item xs={12} sm={6}>
-                <InputLabel>Department</InputLabel>
+                <InputLabel>Department*</InputLabel>
                 <Autocomplete
                   id="prin_dept_code"
                   value={

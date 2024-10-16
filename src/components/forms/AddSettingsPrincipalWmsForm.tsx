@@ -26,6 +26,8 @@ const AddSettingsPrincipalWmsForm = ({
       handleNext();
     }
   });
+  console.log('settings', formik.values);
+
   return (
     <Grid container spacing={4} component={'form'} onSubmit={formik.handleSubmit}>
       <Grid item xs={12} sm={6}>
@@ -171,7 +173,14 @@ const AddSettingsPrincipalWmsForm = ({
           <Grid item xs={12} sm={6}>
             <InputLabel>Outbound Minimum Exp Period</InputLabel>
             <TextField
-              onChange={formik.handleChange}
+              inputProps={{ min: 0 }}
+              onChange={(event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+                const inputValue = event.target.value;
+                if (inputValue.charAt(0) !== '-') {
+                  formik.handleChange(event);
+                }
+              }}
+              type="number"
               id="minperiod_exppick"
               name="minperiod_exppick"
               fullWidth
@@ -183,7 +192,14 @@ const AddSettingsPrincipalWmsForm = ({
           <Grid item xs={12} sm={6}>
             <InputLabel>Inbound Exp Limit (days)</InputLabel>
             <TextField
-              onChange={formik.handleChange}
+              inputProps={{ min: 0 }}
+              onChange={(event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+                const inputValue = event.target.value;
+                if (inputValue.charAt(0) !== '-') {
+                  formik.handleChange(event);
+                }
+              }}
+              type="number"
               id="rcpt_exp_limit"
               name="rcpt_exp_limit"
               fullWidth
@@ -194,11 +210,12 @@ const AddSettingsPrincipalWmsForm = ({
 
           <Grid item xs={12} sm={6}>
             <InputLabel>Prepactual confirm Allow</InputLabel>
-            <TextField
-              onChange={formik.handleChange}
-              id="perpectual_confirm_allow"
+
+            <FormControlLabel
+              control={<Checkbox onChange={(event, checked) => formik.setFieldValue('perpectual_confirm_allow', checked ? 'Y' : 'N')} />}
+              checked={formik.values.perpectual_confirm_allow === 'Y'}
               name="perpectual_confirm_allow"
-              fullWidth
+              label={'Yes/No'}
               value={formik.values.perpectual_confirm_allow}
             />
           </Grid>
@@ -211,7 +228,7 @@ const AddSettingsPrincipalWmsForm = ({
             Back
           </Button>
           <Button variant="contained" type="submit" sx={{ my: 1, ml: 1 }}>
-            Submit
+            Next
           </Button>
         </Stack>
       </Grid>

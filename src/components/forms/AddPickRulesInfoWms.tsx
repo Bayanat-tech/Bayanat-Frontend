@@ -25,6 +25,8 @@ const AddPickRulesInfoWms = ({
       handleNext();
     }
   });
+  console.log('pick', formik.values);
+
   return (
     <Grid container spacing={2} component={'form'} onSubmit={formik.handleSubmit}>
       {/*----------------------Pick Wave-------------------------- */}
@@ -39,7 +41,19 @@ const AddPickRulesInfoWms = ({
       <Grid item container className="px-14" xs={12}>
         <Grid item xs={12} sm={3}>
           <InputLabel>Pick Wave (Minimum Exp)</InputLabel>
-          <TextField onChange={formik.handleChange} id="pick_wave_ign_min_exp" fullWidth value={formik.values.pick_wave_ign_min_exp} />
+          <TextField
+            type="number"
+            inputProps={{ min: 0 }}
+            onChange={(event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+              const inputValue = event.target.value;
+              if (inputValue.charAt(0) !== '-') {
+                formik.handleChange(event);
+              }
+            }}
+            id="pick_wave_ign_min_exp"
+            fullWidth
+            value={formik.values.pick_wave_ign_min_exp}
+          />
         </Grid>
       </Grid>
 
@@ -48,7 +62,14 @@ const AddPickRulesInfoWms = ({
         <Grid item xs={12} sm={3}>
           <InputLabel>Pick Wave (Least Quantity)</InputLabel>
           <TextField
-            onChange={formik.handleChange}
+            type="number"
+            inputProps={{ min: 0 }}
+            onChange={(event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+              const inputValue = event.target.value;
+              if (inputValue.charAt(0) !== '-') {
+                formik.handleChange(event);
+              }
+            }}
             id="pick_wave_qty_sort"
             name="pick_wave_qty_sort"
             fullWidth

@@ -12,12 +12,10 @@ import WmsSerivceInstance from 'service/service.wms';
 import { useSelector } from 'store';
 import { TUniversalDialogProps } from 'types/types.UniversalDialog';
 import { getPathNameList } from 'utils/functions';
-import { TCountry } from './types/country-wms.types';
-
 import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
 import AddPrincipalWmsForm from 'components/forms/AddPrincipalWmsForm';
-import GmServiceInstance from 'service/wms/services.gm_wms';
 import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
+import { TPrincipalWms } from './types/principal-wms.types';
 
 const PrincipalWmsPage = () => {
   //--------------constants----------
@@ -29,17 +27,16 @@ const PrincipalWmsPage = () => {
   const [searchData, setSearchData] = useState<ISearch>();
   const [toggleFilter, setToggleFilter] = useState<boolean | null>(null);
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
-
   const [principalFormPopup, setPrincipalFormPopup] = useState<TUniversalDialogProps>({
     action: {
       open: false,
-      fullScreen: true,
-      maxWidth: 'md'
+      fullScreen: true
     },
-    title: 'Add Country',
-    data: { existingData: {}, isEditMode: false }
+    title: 'Add Principal',
+    data: { prin_code: '', isEditMode: false }
   });
-  const columns = useMemo<ColumnDef<TCountry>[]>(
+
+  const columns = useMemo<ColumnDef<TPrincipalWms>[]>(
     () => [
       {
         id: 'select-col',
@@ -55,34 +52,20 @@ const PrincipalWmsPage = () => {
         )
       },
       {
-        accessorFn: (row) => row.country_code,
-        id: 'country_code',
-        header: () => <span>Country Code</span>
+        accessorFn: (row) => row.prin_code,
+        id: 'prin_code',
+        header: () => <span>Code</span>
       },
       {
-        accessorFn: (row) => row.country_name,
-        id: 'country_name',
-        header: () => <span>Country Name</span>
+        accessorFn: (row) => row.prin_name,
+        id: 'prin_name',
+        header: () => <span>Name</span>
       },
+
       {
-        accessorFn: (row) => row.country_gcc,
-        id: 'country_gcc',
-        header: () => <span>Country GCC</span>
-      },
-      {
-        accessorFn: (row) => row.company_code,
-        id: 'company_code',
-        header: () => <span>Company Code</span>
-      },
-      {
-        accessorFn: (row) => row.short_desc,
-        id: 'short_desc',
-        header: () => <span>Short Description</span>
-      },
-      {
-        accessorFn: (row) => row.nationality,
-        id: 'nationality',
-        header: () => <span>Nationality</span>
+        accessorFn: (row) => row.prin_status,
+        id: 'prin_status',
+        header: () => <span>Status</span>
       },
       {
         id: 'actions',
@@ -100,11 +83,11 @@ const PrincipalWmsPage = () => {
 
   //----------- useQuery--------------
   const {
-    data: countryData,
-    isFetching: isCountryFetchLoading,
-    refetch: refetchCountryData
+    data: principalData,
+    isFetching: isPrincipalFetchLoading,
+    refetch: refetchPrincipalData
   } = useQuery({
-    queryKey: ['country_data', searchData, paginationData],
+    queryKey: ['principal_data', searchData, paginationData],
     queryFn: () => WmsSerivceInstance.getMasters(app, pathNameList[pathNameList.length - 1], paginationData, searchData),
     enabled: user_permission?.includes(permissions?.[app.toUpperCase()]?.children[pathNameList[3]?.toUpperCase()]?.serial_number)
   });
@@ -113,45 +96,46 @@ const PrincipalWmsPage = () => {
     setPaginationData({ page, rowsPerPage });
   };
 
-  const handleEditCountry = (existingData: TCountry) => {
+  const handleEditPrincipal = (existingData: TPrincipalWms) => {
     setPrincipalFormPopup((prev) => {
       return {
         action: { ...prev.action, open: !prev.action.open },
-        title: 'Edit Country',
-        data: { existingData, isEditMode: true }
+        title: 'Edit Principal',
+        data: { prin_code: existingData.prin_code, isEditMode: true }
       };
     });
   };
 
   const togglePrincipalPopup = (refetchData?: boolean) => {
     if (principalFormPopup.action.open === true && refetchData) {
-      refetchCountryData();
+      refetchPrincipalData();
     }
     setPrincipalFormPopup((prev) => {
-      return { ...prev, data: { isEditMode: false, existingData: {} }, action: { ...prev.action, open: !prev.action.open } };
+      return { ...prev, data: { isEditMode: false, prin_code: '' }, action: { ...prev.action, open: !prev.action.open } };
     });
   };
 
-  const handleActions = (actionType: string, rowOriginal: TCountry) => {
-    actionType === 'edit' && handleEditCountry(rowOriginal);
+  const handleActions = (actionType: string, rowOriginal: TPrincipalWms) => {
+    actionType === 'edit' && handleEditPrincipal(rowOriginal);
   };
-  const handleDeleteCountry = async () => {
-    await GmServiceInstance.deleteCountry(Object.keys(rowSelection));
+  const handleDeletePrincipal = async () => {
+    await WmsSerivceInstance.deleteMasters('wms', 'principal', Object.keys(rowSelection));
     setRowSelection({});
-    refetchCountryData();
+    refetchPrincipalData();
   };
   //------------------useEffect----------------
   useEffect(() => {
     setSearchData(null as any);
     setToggleFilter(null as any);
   }, []);
+
   return (
     <div className="flex flex-col space-y-2">
       <div className="flex justify-end space-x-2">
         {
           <Button
             variant="outlined"
-            onClick={handleDeleteCountry}
+            onClick={handleDeletePrincipal}
             color="error"
             hidden={!Object.keys(rowSelection).length}
             startIcon={<DeleteOutlined />}
@@ -160,18 +144,18 @@ const PrincipalWmsPage = () => {
           </Button>
         }
         <Button startIcon={<PlusOutlined />} variant="shadow" onClick={() => togglePrincipalPopup()}>
-          Country
+          Principal
         </Button>
       </div>
       <CustomDataTable
         rowSelection={rowSelection}
         setRowSelection={setRowSelection}
-        row_id="country_code"
-        data={countryData?.tableData || []}
+        row_id="prin_code"
+        data={principalData?.tableData || []}
         columns={columns}
-        count={countryData?.count}
+        count={principalData?.count}
         onPaginationChange={handleChangePagination}
-        isDataLoading={isCountryFetchLoading}
+        isDataLoading={isPrincipalFetchLoading}
         toggleFilter={toggleFilter}
         hasPagination={true}
       />
@@ -184,8 +168,8 @@ const PrincipalWmsPage = () => {
         >
           <AddPrincipalWmsForm
             onClose={togglePrincipalPopup}
-            // isEditMode={principalFormPopup?.data?.isEditMode}
-            // existingData={principalFormPopup.data.existingData}
+            isEditMode={principalFormPopup?.data?.isEditMode}
+            prin_code={principalFormPopup.data.prin_code}
           />
         </UniversalDialog>
       )}

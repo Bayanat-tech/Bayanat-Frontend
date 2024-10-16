@@ -107,6 +107,51 @@ class GM {
     }
   };
   //--------------Principal--------------
+  getPrincipal = async (prin_code: string) => {
+    try {
+      const response: IApiResponse<TPrincipalWms> = await axiosServices.get(`api/wms/gm/principal/${prin_code}`);
+      if (response.data.success && response.data.data) {
+        return response.data.data;
+      }
+    } catch (error: unknown) {
+      const knownError = error as { message: string };
+      dispatch(
+        openSnackbar({
+          open: true,
+          message: knownError.message,
+          variant: 'alert',
+          alert: {
+            color: 'error'
+          },
+          severity: 'error',
+          close: true
+        })
+      );
+    }
+  };
+  getPrincipalCode = async () => {
+    try {
+      const response: IApiResponse<{ prin_code: string }> = await axiosServices.get(`api/wms/gm/principal/code`);
+      if (response.data.success && response.data.data) {
+        return response.data.data;
+      }
+    } catch (error: unknown) {
+      const knownError = error as { message: string };
+      dispatch(
+        openSnackbar({
+          open: true,
+          message: knownError.message,
+          variant: 'alert',
+          alert: {
+            color: 'error'
+          },
+          severity: 'error',
+          close: true
+        })
+      );
+    }
+  };
+
   addPrincipal = async (values: TPrincipalWms) => {
     try {
       const response: IApiResponse<null> = await axiosServices.post('api/wms/gm/principal', values);
@@ -140,9 +185,9 @@ class GM {
       );
     }
   };
-  editPrincipal = async (values: TPrincipalWms) => {
+  editPrincipal = async (values: TPrincipalWms, prin_code: string) => {
     try {
-      const response: IApiResponse<null> = await axiosServices.put('api/wms/gm/principal', values);
+      const response: IApiResponse<null> = await axiosServices.put(`api/wms/gm/principal/${prin_code}`, values);
       if (response.data.success) {
         dispatch(
           openSnackbar({

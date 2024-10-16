@@ -23,11 +23,52 @@ const AddContactInfoWmsForm = ({
       handleNext();
     }
   });
+  console.log('contact', formik.values);
+
   return (
     <Grid container spacing={2} component={'form'} onSubmit={formik.handleSubmit}>
+      {/*----------------------Contact-------------------------- */}
+
       <Grid item container xs={12} spacing={2}>
         <Grid item xs={12}>
-          <Typography variant="h4" className="text-black py-2 font-semibold">
+          <Typography variant="h4" className="text-black  font-semibold">
+            Contacts
+          </Typography>
+        </Grid>
+        {/*----------------------Contact 1-------------------------- */}
+        <Grid item xs={12} sm={6} md={3}>
+          <InputLabel>Contact 1</InputLabel>
+          <TextField onChange={formik.handleChange} id="prin_cont1" name="prin_cont1" fullWidth value={formik.values.prin_cont1} />
+        </Grid>
+        {/*----------------------Contact 2-------------------------- */}
+        <Grid item xs={12} sm={6} md={3}>
+          <InputLabel>Contact 2</InputLabel>
+          <TextField
+            type="email"
+            onChange={formik.handleChange}
+            id="prin_cont_email2"
+            name="prin_cont_email2"
+            fullWidth
+            value={formik.values.prin_cont_email2}
+          />
+        </Grid>
+        {/*----------------------Contact 3-------------------------- */}
+        <Grid item xs={12} sm={6} md={3}>
+          <InputLabel>Contact 3</InputLabel>
+          <TextField
+            type="email"
+            onChange={formik.handleChange}
+            id="prin_cont_email3"
+            name="prin_cont_email3"
+            fullWidth
+            value={formik.values.prin_cont_email3}
+          />
+        </Grid>
+      </Grid>
+      {/*-----------------------Emails------------------- */}
+      <Grid item container xs={12} spacing={2}>
+        <Grid item xs={12}>
+          <Typography variant="h4" className="text-black  font-semibold">
             Emails
           </Typography>
         </Grid>
@@ -37,10 +78,10 @@ const AddContactInfoWmsForm = ({
           <TextField
             type="email"
             onChange={formik.handleChange}
-            id="prin_cont_email1"
-            name="prin_cont_email1"
+            id="prin_cont1"
+            name="prin_cont1"
             fullWidth
-            value={formik.values.prin_cont_email1}
+            value={formik.values.prin_cont1}
           />
         </Grid>
         {/*----------------------Email 2-------------------------- */}
@@ -70,7 +111,7 @@ const AddContactInfoWmsForm = ({
       </Grid>
       <Grid item container xs={12} spacing={2}>
         <Grid item xs={12}>
-          <Typography variant="h4" className="text-black py-2 font-semibold">
+          <Typography variant="h4" className="text-black  font-semibold">
             Telephones
           </Typography>
         </Grid>
@@ -111,7 +152,7 @@ const AddContactInfoWmsForm = ({
 
       <Grid item container xs={12} spacing={2}>
         <Grid item xs={12}>
-          <Typography variant="h4" className="text-black py-2 font-semibold">
+          <Typography variant="h4" className="text-black  font-semibold">
             Faxs & Reference
           </Typography>
         </Grid>

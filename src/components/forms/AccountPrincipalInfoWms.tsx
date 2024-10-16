@@ -44,7 +44,7 @@ const AccountPrincipalInfoWms = ({
   const formik = useFormik<TAccountPrincipalWms>({
     initialValues: accountInfo,
     validationSchema: yup.object().shape({
-      // curr_code: yup.string().required('This field is required')
+      curr_code: yup.string().required('This field is required')
     }),
     onSubmit: async (values) => {
       setAccountInfo(values);
@@ -85,9 +85,10 @@ const AccountPrincipalInfoWms = ({
       }
     }
   };
+  console.log('account', formik.values);
 
   return (
-    <Grid container spacing={6} component={'form'} onSubmit={formik.handleSubmit}>
+    <Grid container spacing={8} component={'form'} onSubmit={formik.handleSubmit}>
       {/*----------------------Tax and Registration Information-------------------------- */}
       <Grid item xs={12} sm={6}>
         <Grid container spacing={4}>
@@ -100,7 +101,20 @@ const AccountPrincipalInfoWms = ({
             {/*----------------------Tax Registered No.-------------------------- */}
             <Grid item xs={12} sm={6}>
               <InputLabel>Tax Registered No.</InputLabel>
-              <TextField onChange={formik.handleChange} id="trn_no" name="trn_no" fullWidth value={formik.values.trn_no} />
+              <TextField
+                type="number"
+                inputProps={{ min: 0 }}
+                onChange={(event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+                  const inputValue = event.target.value;
+                  if (inputValue.charAt(0) !== '-') {
+                    formik.handleChange(event);
+                  }
+                }}
+                id="trn_no"
+                name="trn_no"
+                fullWidth
+                value={formik.values.trn_no}
+              />
             </Grid>
             {/*----------------------Tax Registration Expiry Date-------------------------- */}
             <Grid item xs={12} sm={6}>
@@ -118,7 +132,20 @@ const AccountPrincipalInfoWms = ({
             {/*----------------------Commercial Registered No.-------------------------- */}
             <Grid item xs={12} sm={6}>
               <InputLabel>Commercial Registered No.</InputLabel>
-              <TextField onChange={formik.handleChange} id="comm_reg_no" name="comm_reg_no" fullWidth value={formik.values.comm_reg_no} />
+              <TextField
+                type="number"
+                inputProps={{ min: 0 }}
+                onChange={(event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+                  const inputValue = event.target.value;
+                  if (inputValue.charAt(0) !== '-') {
+                    formik.handleChange(event);
+                  }
+                }}
+                id="comm_reg_no"
+                name="comm_reg_no"
+                fullWidth
+                value={formik.values.comm_reg_no}
+              />
             </Grid>
             {/*----------------------Commercial Registration No. Expiry Date-------------------------- */}
             <Grid item xs={12} sm={6}>
@@ -136,7 +163,20 @@ const AccountPrincipalInfoWms = ({
             {/*----------------------License No.-------------------------- */}
             <Grid item xs={12} sm={6}>
               <InputLabel>License No.</InputLabel>
-              <TextField onChange={formik.handleChange} id="prin_lic_no" name="prin_lic_no" fullWidth value={formik.values.prin_lic_no} />
+              <TextField
+                type="number"
+                inputProps={{ min: 0 }}
+                onChange={(event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+                  const inputValue = event.target.value;
+                  if (inputValue.charAt(0) !== '-') {
+                    formik.handleChange(event);
+                  }
+                }}
+                id="prin_lic_no"
+                name="prin_lic_no"
+                fullWidth
+                value={formik.values.prin_lic_no}
+              />
             </Grid>
             {/*----------------------License Type-------------------------- */}
             <Grid item xs={12} sm={6}>
@@ -244,7 +284,14 @@ const AccountPrincipalInfoWms = ({
             <Grid item xs={12} sm={4}>
               <InputLabel>Credit Limit</InputLabel>
               <TextField
-                onChange={formik.handleChange}
+                type="number"
+                inputProps={{ min: 0 }}
+                onChange={(event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+                  const inputValue = event.target.value;
+                  if (inputValue.charAt(0) !== '-') {
+                    formik.handleChange(event);
+                  }
+                }}
                 id="credit_limit"
                 name="credit_limit"
                 fullWidth
@@ -254,14 +301,36 @@ const AccountPrincipalInfoWms = ({
             {/*----------------------Credit Period (WMS)-------------------------- */}
             <Grid item xs={12} sm={4}>
               <InputLabel>Credit Period (WMS)</InputLabel>
-              <TextField onChange={formik.handleChange} id="creditdays" name="creditdays" fullWidth value={formik.values.creditdays} />
+
+              <TextField
+                type="number"
+                inputProps={{ min: 0 }}
+                onChange={(event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+                  const inputValue = event.target.value;
+                  if (inputValue.charAt(0) !== '-') {
+                    formik.handleChange(event);
+                  }
+                }}
+                id="creditdays"
+                name="creditdays"
+                fullWidth
+                value={formik.values.creditdays}
+              />
             </Grid>
             {/*----------------------Credit Frieght-------------------------- */}
 
             <Grid item xs={12} sm={4}>
               <InputLabel>(Frieght)</InputLabel>
+
               <TextField
-                onChange={formik.handleChange}
+                type="number"
+                inputProps={{ min: 0 }}
+                onChange={(event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+                  const inputValue = event.target.value;
+                  if (inputValue.charAt(0) !== '-') {
+                    formik.handleChange(event);
+                  }
+                }}
                 id="creditdays_freight"
                 name="creditdays_freight"
                 fullWidth

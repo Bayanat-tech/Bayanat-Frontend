@@ -55,7 +55,7 @@ const Navigation = () => {
           items: [
             {
               id: 'other',
-              title: <FormattedMessage id="Modules" />,
+              title: <FormattedMessage id={app.toUpperCase()} />,
               type: 'group',
               children: [...(permissionBasedMenuTree[selectAppIndex]?.children ?? [])]
             }
