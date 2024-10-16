@@ -10,6 +10,7 @@ class Wms {
     searchData?: ISearch | null
   ) => {
     try {
+      console.log(master);
       const page = paginationData && paginationData?.page + 1;
       const limit = paginationData && paginationData?.rowsPerPage;
       const response: IApiResponse<{ tableData: unknown[]; count: number }> = await axiosServices.get(`api/${app_code}/${master}`, {

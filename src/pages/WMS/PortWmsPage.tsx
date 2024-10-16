@@ -15,17 +15,18 @@ import { getPathNameList } from 'utils/functions';
 import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
 import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
 
-// import Pick Wave Table
-import { TPickWave } from './types/PickWave-wms.types';
-
-//import pickwave Form
-import AddPickWaveWmsForm from 'components/forms/AddPickWaveWmsForm';
+// import Port Table
+import { TPort } from './types/Port-wms.types';
 
 //import GM
 import GmServiceInstance from 'service/wms/services.gm_wms';
 
-const PickWaveWmsPage = () => {
+// import form
+import AddPortWmsForm from 'components/forms/AddPortWmsForm';
+
+const PortWmsPage = () => {
   //--------------constants----------
+
   const { permissions, user_permission } = useAuth();
   const location = useLocation();
   const pathNameList = getPathNameList(location.pathname);
@@ -35,18 +36,18 @@ const PickWaveWmsPage = () => {
   const [toggleFilter, setToggleFilter] = useState<boolean | null>(null);
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
-  const [PickWaveFormPopup, setPickWaveFormPopup] = useState<TUniversalDialogProps>({
+  const [PortFormPopup, setPortFormPopup] = useState<TUniversalDialogProps>({
     action: {
       open: false,
       fullWidth: true,
       maxWidth: 'sm'
     },
-    title: 'Add Pick Wave',
+    title: 'Add Port',
     data: { existingData: {}, isEditMode: false }
   });
 
-  // First need to add TpickWave in WMS/TYPES
-  const columns = useMemo<ColumnDef<TPickWave>[]>(
+  // First need to add TPort in WMS/TYPES
+  const columns = useMemo<ColumnDef<TPort>[]>(
     () => [
       {
         id: 'select-col',
@@ -62,28 +63,30 @@ const PickWaveWmsPage = () => {
         )
       },
       {
-        //second add all the col names + use Query
-
-        accessorFn: (row) => row.wave_code,
-        id: 'wave_code',
-        header: () => <span>Wave Code</span>
+        accessorFn: (row) => row.port_code,
+        id: 'port_code',
+        header: () => <span>Port Code</span>
       },
       {
-        accessorFn: (row) => row.wave_name,
-        id: 'wave_name',
-        header: () => <span>Wave Name</span>
+        accessorFn: (row) => row.port_name,
+        id: 'port_name',
+        header: () => <span>Port Name</span>
+      },
+      {
+        accessorFn: (row) => row.trp_mode,
+        id: 'trp_mode',
+        header: () => <span>TRP Mode</span>
+      },
+      {
+        accessorFn: (row) => row.country_code,
+        id: 'country_code',
+        header: () => <span>Country Code</span>
       },
       {
         accessorFn: (row) => row.company_code,
         id: 'company_code',
         header: () => <span>Company Code</span>
       },
-      {
-        accessorFn: (row) => row.indicator,
-        id: 'indicator',
-        header: () => <span>Indicator</span>
-      },
-
       {
         id: 'actions',
         header: () => <span>Actions</span>,
@@ -97,50 +100,48 @@ const PickWaveWmsPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
-
   //----------- useQuery--------------
-
   const {
-    data: pickwave_data,
-    isFetching: isPickWaveFetchLoading,
-    refetch: refetchPickWaveData
+    data: Port_data,
+    isFetching: isPortFetchLoading,
+    refetch: refetchPortData
   } = useQuery({
-    queryKey: ['pickwave_data', searchData, paginationData],
+    queryKey: ['Port_data', searchData, paginationData],
     queryFn: () => WmsSerivceInstance.getMasters(app, pathNameList[pathNameList.length - 1], paginationData, searchData),
     enabled: user_permission?.includes(permissions?.[app.toUpperCase()]?.children[pathNameList[3]?.toUpperCase()]?.serial_number)
   });
-
   //-------------handlers---------------
   const handleChangePagination = (page: number, rowsPerPage: number) => {
     setPaginationData({ page, rowsPerPage });
   };
 
-  const handleEditPickWave = (existingData: TPickWave) => {
-    setPickWaveFormPopup((prev) => {
+  const handleEditPort = (existingData: TPort) => {
+    setPortFormPopup((prev) => {
       return {
         action: { ...prev.action, open: !prev.action.open },
-        title: 'Edit Pick Wave',
+        title: 'Edit Port',
         data: { existingData, isEditMode: true }
       };
     });
   };
 
-  const togglePickWavePopup = (refetchData?: boolean) => {
-    if (PickWaveFormPopup.action.open === true && refetchData) {
-      refetchPickWaveData();
+  const togglePortPopup = (refetchData?: boolean) => {
+    if (PortFormPopup.action.open === true && refetchData) {
+      refetchPortData();
     }
-    setPickWaveFormPopup((prev) => {
+    setPortFormPopup((prev) => {
       return { ...prev, action: { ...prev.action, open: !prev.action.open } };
     });
   };
 
-  const handleActions = (actionType: string, rowOriginal: TPickWave) => {
-    actionType === 'edit' && handleEditPickWave(rowOriginal);
+  const handleActions = (actionType: string, rowOriginal: TPort) => {
+    actionType === 'edit' && handleEditPort(rowOriginal);
   };
-  const handleDeletePickWave = async () => {
-    await GmServiceInstance.deletePickWave(Object.keys(rowSelection));
+
+  const handleDeletePort = async () => {
+    await GmServiceInstance.deletePort(Object.keys(rowSelection));
     setRowSelection({});
-    refetchPickWaveData();
+    refetchPortData();
   };
 
   //------------------useEffect----------------
@@ -157,7 +158,7 @@ const PickWaveWmsPage = () => {
           // Delete Button
           <Button
             variant="outlined"
-            onClick={handleDeletePickWave}
+            onClick={handleDeletePort}
             color="error"
             hidden={!Object.keys(rowSelection).length}
             startIcon={<DeleteOutlined />}
@@ -166,39 +167,38 @@ const PickWaveWmsPage = () => {
           </Button>
         }
 
-        <Button startIcon={<PlusOutlined />} variant="shadow" onClick={() => togglePickWavePopup()}>
-          Pick Wave
+        <Button startIcon={<PlusOutlined />} variant="shadow" onClick={() => togglePortPopup()}>
+          Port
         </Button>
       </div>
-
       <CustomDataTable
         rowSelection={rowSelection}
         setRowSelection={setRowSelection}
-        row_id="wave_code"
-        data={pickwave_data?.tableData || []}
+        row_id="Port_code"
+        data={Port_data?.tableData || []}
         columns={columns}
-        count={pickwave_data?.count}
+        count={Port_data?.count}
         onPaginationChange={handleChangePagination}
-        isDataLoading={isPickWaveFetchLoading}
+        isDataLoading={isPortFetchLoading}
         toggleFilter={toggleFilter}
       />
-
-      {PickWaveFormPopup.action.open === true && (
+      {PortFormPopup.action.open === true && (
         <UniversalDialog
-          action={{ ...PickWaveFormPopup.action }}
-          onClose={togglePickWavePopup}
-          title={PickWaveFormPopup.title}
+          action={{ ...PortFormPopup.action }}
+          onClose={togglePortPopup}
+          title={PortFormPopup.title}
           hasPrimaryButton={false}
         >
-          <AddPickWaveWmsForm
-            onClose={togglePickWavePopup}
-            isEditMode={PickWaveFormPopup?.data?.isEditMode}
-            existingData={PickWaveFormPopup.data.existingData}
+          <AddPortWmsForm
+            onClose={togglePortPopup}
+            isEditMode={PortFormPopup?.data?.isEditMode}
+            existingData={PortFormPopup.data.existingData}
           />
         </UniversalDialog>
       )}
+      ;
     </div>
   );
 };
 
-export default PickWaveWmsPage;
+export default PortWmsPage;

@@ -8,7 +8,6 @@ import MainLayout from 'layout/MainLayout';
 import AppSelectionPage from 'pages/AppSelection/AppSelectionPage';
 import WareHouseManagmentSystemPage from 'pages/WMS/WareHouseManagmentSystemPage';
 import AuthGuard from 'utils/route-guard/AuthGuard';
-import PickWaveWmsPage from 'pages/WMS/PickWaveWmsPage';
 
 // pages routing
 const MaintenanceError = Loadable(lazy(() => import('pages/maintenance/404')));
@@ -18,6 +17,8 @@ const MaintenanceComingSoon = Loadable(lazy(() => import('pages/maintenance/comi
 const CountryWmsPage = Loadable(lazy(() => import('pages/WMS/CountryWmsPage')));
 const DepartmentWmsPage = Loadable(lazy(() => import('pages/WMS/DepartmentWmsPage')));
 const LocationWmsPage = Loadable(lazy(() => import('pages/WMS/LocationWmsPage')));
+const PickWaveWmsPage = Loadable(lazy(() => import('pages/WMS/PickWaveWmsPage')));
+const PortWmsPage = Loadable(lazy(() => import('pages/WMS/PortWmsPage')));
 
 // render - sample page
 // const AppSelectionPage = Loadable(lazy(() => import('pages/AppSelection/AppSelectionPage')));
@@ -53,6 +54,7 @@ const MainRoutes = {
                     { path: 'department', element: <DepartmentWmsPage /> },
                     { path: 'location', element: <LocationWmsPage /> },
                     { path: 'pickwave', element: <PickWaveWmsPage /> },
+                    { path: 'port', element: <PortWmsPage /> },
                     { path: '*', element: <MaintenanceError /> }
                   ]
                 },
