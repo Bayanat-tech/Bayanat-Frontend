@@ -409,108 +409,107 @@ class GM {
       );
     }
   };
-  //--------------------salesman----------------------
-  addSalesman = async (values: Tsalesman) => {
-    try {
-      const response: IApiResponse<null> = await axiosServices.post('api/wms/gm/salesman', values);
-      if (response.data.success) {
-        dispatch(
-          openSnackbar({
-            open: true,
-            message: response.data.message,
-            variant: 'alert',
-            alert: {
-              color: 'success'
-            },
-            close: true
-          })
-        );
-        return response.data.success;
-      }
-    } catch (error: unknown) {
-      const knownError = error as { message: string };
-      dispatch(
-        openSnackbar({
-          open: true,
-          message: knownError.message,
-          variant: 'alert',
-          alert: {
-            color: 'error'
-          },
-          severity: 'error',
-          close: true
-        })
-      );
-    }
-  };
-  editsalesman = async (values: Tsalesman) => {
-    try {
-      const response: IApiResponse<null> = await axiosServices.put('api/wms/gm/salesman', values);
-      if (response.data.success) {
-        dispatch(
-          openSnackbar({
-            open: true,
-            message: response.data.message,
-            variant: 'alert',
-            alert: {
-              color: 'success'
-            },
-            close: true
-          })
-        );
-        return response.data.success;
-      }
-    } catch (error: unknown) {
-      const knownError = error as { message: string };
-      dispatch(
-        openSnackbar({
-          open: true,
-          message: knownError.message,
-          variant: 'alert',
-          alert: {
-            color: 'error'
-          },
-          severity: 'error',
-          close: true
-        })
-      );
-    }
-  };
-  deletesalesman = async (locationCodes: string[]) => {
-    try {
-      const response: IApiResponse<null> = await axiosServices.post('api/wms/gm/salesman', locationCodes);
-      if (response.data.success) {
-        dispatch(
-          openSnackbar({
-            open: true,
-            message: response.data.message,
-            variant: 'alert',
-            alert: {
-              color: 'success'
-            },
-            close: true
-          })
-        );
-        return response.data.success;
-      }
-    } catch (error: unknown) {
-      const knownError = error as { message: string };
-      dispatch(
-        openSnackbar({
-          open: true,
-          message: knownError.message,
-          variant: 'alert',
-          alert: {
-            color: 'error'
-          },
-          severity: 'error',
-          close: true
-        })
-      );
-    }
-  };
+  // //--------------------salesman----------------------
+  // addSalesman = async (values: Tsalesman) => {
+  //   try {
+  //     const response: IApiResponse<null> = await axiosServices.post('api/wms/gm/salesman', values);
+  //     if (response.data.success) {
+  //       dispatch(
+  //         openSnackbar({
+  //           open: true,
+  //           message: response.data.message,
+  //           variant: 'alert',
+  //           alert: {
+  //             color: 'success'
+  //           },
+  //           close: true
+  //         })
+  //       );
+  //       return response.data.success;
+  //     }
+  //   } catch (error: unknown) {
+  //     const knownError = error as { message: string };
+  //     dispatch(
+  //       openSnackbar({
+  //         open: true,
+  //         message: knownError.message,
+  //         variant: 'alert',
+  //         alert: {
+  //           color: 'error'
+  //         },
+  //         severity: 'error',
+  //         close: true
+  //       })
+  //     );
+  //   }
+  // };
+  // editsalesman = async (values: Tsalesman) => {
+  //   try {
+  //     const response: IApiResponse<null> = await axiosServices.put('api/wms/gm/salesman', values);
+  //     if (response.data.success) {
+  //       dispatch(
+  //         openSnackbar({
+  //           open: true,
+  //           message: response.data.message,
+  //           variant: 'alert',
+  //           alert: {
+  //             color: 'success'
+  //           },
+  //           close: true
+  //         })
+  //       );
+  //       return response.data.success;
+  //     }
+  //   } catch (error: unknown) {
+  //     const knownError = error as { message: string };
+  //     dispatch(
+  //       openSnackbar({
+  //         open: true,
+  //         message: knownError.message,
+  //         variant: 'alert',
+  //         alert: {
+  //           color: 'error'
+  //         },
+  //         severity: 'error',
+  //         close: true
+  //       })
+  //     );
+  //   }
+  // };
+  // deletesalesman = async (locationCodes: string[]) => {
+  //   try {
+  //     const response: IApiResponse<null> = await axiosServices.post('api/wms/gm/salesman', locationCodes);
+  //     if (response.data.success) {
+  //       dispatch(
+  //         openSnackbar({
+  //           open: true,
+  //           message: response.data.message,
+  //           variant: 'alert',
+  //           alert: {
+  //             color: 'success'
+  //           },
+  //           close: true
+  //         })
+  //       );
+  //       return response.data.success;
+  //     }
+  //   } catch (error: unknown) {
+  //     const knownError = error as { message: string };
+  //     dispatch(
+  //       openSnackbar({
+  //         open: true,
+  //         message: knownError.message,
+  //         variant: 'alert',
+  //         alert: {
+  //           color: 'error'
+  //         },
+  //         severity: 'error',
+  //         close: true
+  //       })
+  //     );
+  //   }
+  // };
 }
 const GmServiceInstance = new GM();
 
 export default GmServiceInstance;
-
