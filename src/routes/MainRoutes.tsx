@@ -9,6 +9,7 @@ import AppSelectionPage from 'pages/AppSelection/AppSelectionPage';
 import WareHouseManagmentSystemPage from 'pages/WMS/WareHouseManagmentSystemPage';
 import AuthGuard from 'utils/route-guard/AuthGuard';
 import PickWaveWmsPage from 'pages/WMS/PickWaveWmsPage';
+import SalesmanWmsPage from 'pages/WMS/SalesmanWmsPage';
 
 // pages routing
 const MaintenanceError = Loadable(lazy(() => import('pages/maintenance/404')));
@@ -55,6 +56,7 @@ const MainRoutes = {
                     { path: 'location', element: <LocationWmsPage /> },
                     { path: 'currency', element: <CurrencyWmsPage /> },
                     { path: 'pickwave', element: <PickWaveWmsPage /> },
+                    { path: 'salesman', element: <SalesmanWmsPage /> },
                     { path: '*', element: <MaintenanceError /> }
                   ]
                 },
