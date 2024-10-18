@@ -12,17 +12,13 @@ import WmsSerivceInstance from 'service/service.wms';
 import { useSelector } from 'store';
 import { TUniversalDialogProps } from 'types/types.UniversalDialog';
 import { getPathNameList } from 'utils/functions';
-
-//import AddCountryWmsForm from 'components/forms/AddCountryWmsForm';
-import AddDepartmentWmsForm from 'components/forms/AddDepartmentWmsForm';
-
+import { Tsecrollmaster } from './types/rollmaster-wms.types';
 import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
 import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
 import GmServiceInstance from 'service/wms/services.gm_wms';
-//import { TCountry } from './types/country-wms.types';
-import { TDepartment } from './types/department-wms.types';
+import AddSalesmanWmsForm from 'components/forms/AddSalesmanWmsForm';
 
-const DepartmentWmsPage = () => {
+const SecrollmasterWmsPage = () => {
   //--------------constants----------
   const { permissions, user_permission } = useAuth();
   const location = useLocation();
@@ -33,16 +29,16 @@ const DepartmentWmsPage = () => {
   const [toggleFilter, setToggleFilter] = useState<boolean | null>(null);
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
-  const [departmentFormPopup, setDepartmentFormPopup] = useState<TUniversalDialogProps>({
+  const [salesmanFormPopup, setCountryFormPopup] = useState<TUniversalDialogProps>({
     action: {
       open: false,
       fullWidth: true,
       maxWidth: 'sm'
     },
-    title: 'Add Department',
+    title: 'Add Salesman',
     data: { existingData: {}, isEditMode: false }
   });
-  const columns = useMemo<ColumnDef<TDepartment>[]>(
+  const columns = useMemo<ColumnDef<Tsecrollmaster>[]>(
     () => [
       {
         id: 'select-col',
@@ -58,36 +54,25 @@ const DepartmentWmsPage = () => {
         )
       },
       {
-        accessorFn: (row) => row.dept_code,
-        id: 'dept_code',
-        header: () => <span>Department Code</span>
+        accessorFn: (row) => row.company_code,
+        id: 'company_code',
+        header: () => <span>Company Code</span>
       },
       {
-        accessorFn: (row) => row.dept_name,
-        id: 'dept_name',
-        header: () => <span>Department Name</span>
-      },
-      //   {
-      //     accessorFn: (row) => row.country_gcc,
-      //     id: 'country_gcc',
-      //     header: () => <span>Country GCC</span>
-      //   },
-      // {
-      //   accessorFn: (row) => row.company_code,
-      //   id: 'company_code',
-      //   header: () => <span>Company Code</span>
-      // },
-      {
-        accessorFn: (row) => row.div_code,
-        id: 'div_code',
-        header: () => <span>Division Code</span>
+        accessorFn: (row) => row.role_id,
+        id: 'role_id',
+        header: () => <span>Role ID</span>
       },
       {
-        accessorFn: (row) => row.jobno_seq,
-        id: 'jobno_seq',
-        header: () => <span>JobNo Sequence</span>
+        accessorFn: (row) => row.role_desc,
+        id: 'role_desc',
+        header: () => <span>Role Description</span>
       },
-
+      {
+        accessorFn: (row) => row.remarks,
+        id: 'row.remarks',
+        header: () => <span>Remarks</span>
+      },
       {
         id: 'actions',
         header: () => <span>Actions</span>,
@@ -104,11 +89,11 @@ const DepartmentWmsPage = () => {
 
   //----------- useQuery--------------
   const {
-    data: departmentData,
-    isFetching: isDepartmentFetchLoading,
-    refetch: refetchDepartmentData
+    data: secrollmasterData,
+    isFetching: issecrollmasterfetchLoading,
+    refetch: refetchSalesmanData
   } = useQuery({
-    queryKey: ['department_data', searchData, paginationData],
+    queryKey: ['salesman_data', searchData, paginationData],
     queryFn: () => WmsSerivceInstance.getMasters(app, pathNameList[pathNameList.length - 1], paginationData, searchData),
     enabled: user_permission?.includes(permissions?.[app.toUpperCase()]?.children[pathNameList[3]?.toUpperCase()]?.serial_number)
   });
@@ -117,32 +102,32 @@ const DepartmentWmsPage = () => {
     setPaginationData({ page, rowsPerPage });
   };
 
-  const handleEditDepartment = (existingData: TDepartment) => {
-    setDepartmentFormPopup((prev) => {
+  const handleEditsecrollmaster = (existingData: Tsecrollmaster) => {
+    setCountryFormPopup((prev) => {
       return {
         action: { ...prev.action, open: !prev.action.open },
-        title: 'Edit Department',
+        title: 'Edit secrollmaster',
         data: { existingData, isEditMode: true }
       };
     });
   };
 
-  const toggleDepartmentPopup = (refetchData?: boolean) => {
-    if (departmentFormPopup.action.open === true && refetchData) {
-      refetchDepartmentData();
+  const toggleCountryPopup = (refetchData?: boolean) => {
+    if (salesmanFormPopup.action.open === true && refetchData) {
+        refetchSalesmanData();
     }
-    setDepartmentFormPopup((prev) => {
-      return { ...prev, action: { ...prev.action, open: !prev.action.open } };
+    setCountryFormPopup((prev) => {
+      return { ...prev, data: { isEditMode: false, existingData: {} }, action: { ...prev.action, open: !prev.action.open } };
     });
   };
 
-  const handleActions = (actionType: string, rowOriginal: TDepartment) => {
-    actionType === 'edit' && handleEditDepartment(rowOriginal);
+  const handleActions = (actionType: string, rowOriginal: Tsecrollmaster) => {
+    actionType === 'edit' && handleEditsecrollmaster(rowOriginal);
   };
-  const handleDeleteDepartment = async () => {
-    await GmServiceInstance.deleteDepartment(Object.keys(rowSelection));
+  const handleDeleteSecrollmaster = async () => {
+    await GmServiceInstance.deletesalesman(Object.keys(rowSelection));
     setRowSelection({});
-    refetchDepartmentData();
+    refetchSalesmanData();
   };
   //------------------useEffect----------------
   useEffect(() => {
@@ -155,7 +140,7 @@ const DepartmentWmsPage = () => {
         {
           <Button
             variant="outlined"
-            onClick={handleDeleteDepartment}
+            onClick={()=>handleDeleteSecrollmaster}
             color="error"
             hidden={!Object.keys(rowSelection).length}
             startIcon={<DeleteOutlined />}
@@ -163,32 +148,33 @@ const DepartmentWmsPage = () => {
             Delete
           </Button>
         }
-        <Button startIcon={<PlusOutlined />} variant="shadow" onClick={() => toggleDepartmentPopup()}>
-          Department
+        <Button startIcon={<PlusOutlined />} variant="shadow" onClick={() => toggleCountryPopup()}>
+          Salesman
         </Button>
       </div>
       <CustomDataTable
         rowSelection={rowSelection}
         setRowSelection={setRowSelection}
-        row_id="dept_code"
-        data={departmentData?.tableData || []}
+        row_id="salesman_code"
+        data={secrollmasterData?.tableData || []}
         columns={columns}
-        count={departmentData?.count}
+        count={secrollmasterData?.count}
         onPaginationChange={handleChangePagination}
-        isDataLoading={isDepartmentFetchLoading}
+        isDataLoading={issecrollmasterfetchLoading}
         toggleFilter={toggleFilter}
+        hasPagination={true}
       />
-      {departmentFormPopup.action.open === true && (
+      {!!salesmanFormPopup && salesmanFormPopup.action.open && (
         <UniversalDialog
-          action={{ ...departmentFormPopup.action }}
-          onClose={toggleDepartmentPopup}
-          title={departmentFormPopup.title}
+          action={{ ...salesmanFormPopup.action }}
+          onClose={toggleCountryPopup}
+          title={salesmanFormPopup.title}
           hasPrimaryButton={false}
         >
-          <AddDepartmentWmsForm
-            onClose={toggleDepartmentPopup}
-            isEditMode={departmentFormPopup?.data?.isEditMode}
-            existingData={departmentFormPopup.data.existingData}
+          <AddSalesmanWmsForm
+            onClose={toggleCountryPopup}
+            isEditMode={salesmanFormPopup?.data?.isEditMode}
+            existingData={salesmanFormPopup.data.existingData}
           />
         </UniversalDialog>
       )}
@@ -196,4 +182,4 @@ const DepartmentWmsPage = () => {
   );
 };
 
-export default DepartmentWmsPage;
+export default SecrollmasterWmsPage;

@@ -14,15 +14,14 @@ import { TUniversalDialogProps } from 'types/types.UniversalDialog';
 import { getPathNameList } from 'utils/functions';
 
 //import AddCountryWmsForm from 'components/forms/AddCountryWmsForm';
-import AddDepartmentWmsForm from 'components/forms/AddDepartmentWmsForm';
-
+import AddCurrencyWmsForm from 'components/forms/AddCurrencyWmsForm';
 import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
 import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
 import GmServiceInstance from 'service/wms/services.gm_wms';
 //import { TCountry } from './types/country-wms.types';
-import { TDepartment } from './types/department-wms.types';
+import { TCurrency } from './types/currency-wms.types';
 
-const DepartmentWmsPage = () => {
+const CurrencyWmsPage = () => {
   //--------------constants----------
   const { permissions, user_permission } = useAuth();
   const location = useLocation();
@@ -33,16 +32,16 @@ const DepartmentWmsPage = () => {
   const [toggleFilter, setToggleFilter] = useState<boolean | null>(null);
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
-  const [departmentFormPopup, setDepartmentFormPopup] = useState<TUniversalDialogProps>({
+  const [currencyFormPopup, setCurrencyFormPopup] = useState<TUniversalDialogProps>({
     action: {
       open: false,
       fullWidth: true,
       maxWidth: 'sm'
     },
-    title: 'Add Department',
+    title: 'Add Currency',
     data: { existingData: {}, isEditMode: false }
   });
-  const columns = useMemo<ColumnDef<TDepartment>[]>(
+  const columns = useMemo<ColumnDef<TCurrency>[]>(
     () => [
       {
         id: 'select-col',
@@ -58,14 +57,14 @@ const DepartmentWmsPage = () => {
         )
       },
       {
-        accessorFn: (row) => row.dept_code,
-        id: 'dept_code',
-        header: () => <span>Department Code</span>
+        accessorFn: (row) => row.curr_code,
+        id: 'curr_code',
+        header: () => <span>Currency Code</span>
       },
       {
-        accessorFn: (row) => row.dept_name,
-        id: 'dept_name',
-        header: () => <span>Department Name</span>
+        accessorFn: (row) => row.curr_name,
+        id: 'curr_name',
+        header: () => <span>Currency Name</span>
       },
       //   {
       //     accessorFn: (row) => row.country_gcc,
@@ -78,16 +77,26 @@ const DepartmentWmsPage = () => {
       //   header: () => <span>Company Code</span>
       // },
       {
-        accessorFn: (row) => row.div_code,
-        id: 'div_code',
+        accessorFn: (row) => row.division,
+        id: 'division',
         header: () => <span>Division Code</span>
       },
       {
-        accessorFn: (row) => row.jobno_seq,
-        id: 'jobno_seq',
-        header: () => <span>JobNo Sequence</span>
+        accessorFn: (row) => row.ex_rate,
+        id: 'ex_rate',
+        header: () => <span>Exchange Rate</span>
       },
 
+      //   {
+      //     accessorFn: (row) => row.short_desc,
+      //     id: 'short_desc',
+      //     header: () => <span>Short Description</span>
+      //   },
+      //   {
+      //     accessorFn: (row) => row.nationality,
+      //     id: 'nationality',
+      //     header: () => <span>Nationality</span>
+      //   },
       {
         id: 'actions',
         header: () => <span>Actions</span>,
@@ -104,11 +113,11 @@ const DepartmentWmsPage = () => {
 
   //----------- useQuery--------------
   const {
-    data: departmentData,
-    isFetching: isDepartmentFetchLoading,
-    refetch: refetchDepartmentData
+    data: currencyData,
+    isFetching: isCurrencyFetchLoading,
+    refetch: refetchCurrencyData
   } = useQuery({
-    queryKey: ['department_data', searchData, paginationData],
+    queryKey: ['currency_data', searchData, paginationData],
     queryFn: () => WmsSerivceInstance.getMasters(app, pathNameList[pathNameList.length - 1], paginationData, searchData),
     enabled: user_permission?.includes(permissions?.[app.toUpperCase()]?.children[pathNameList[3]?.toUpperCase()]?.serial_number)
   });
@@ -117,32 +126,32 @@ const DepartmentWmsPage = () => {
     setPaginationData({ page, rowsPerPage });
   };
 
-  const handleEditDepartment = (existingData: TDepartment) => {
-    setDepartmentFormPopup((prev) => {
+  const handleEditCurrency = (existingData: TCurrency) => {
+    setCurrencyFormPopup((prev) => {
       return {
         action: { ...prev.action, open: !prev.action.open },
-        title: 'Edit Department',
+        title: 'Edit Currency',
         data: { existingData, isEditMode: true }
       };
     });
   };
 
-  const toggleDepartmentPopup = (refetchData?: boolean) => {
-    if (departmentFormPopup.action.open === true && refetchData) {
-      refetchDepartmentData();
+  const toggleCurrencyPopup = (refetchData?: boolean) => {
+    if (currencyFormPopup.action.open === true && refetchData) {
+      refetchCurrencyData();
     }
-    setDepartmentFormPopup((prev) => {
+    setCurrencyFormPopup((prev) => {
       return { ...prev, action: { ...prev.action, open: !prev.action.open } };
     });
   };
 
-  const handleActions = (actionType: string, rowOriginal: TDepartment) => {
-    actionType === 'edit' && handleEditDepartment(rowOriginal);
+  const handleActions = (actionType: string, rowOriginal: TCurrency) => {
+    actionType === 'edit' && handleEditCurrency(rowOriginal);
   };
-  const handleDeleteDepartment = async () => {
-    await GmServiceInstance.deleteDepartment(Object.keys(rowSelection));
+  const handleDeleteCurrency = async () => {
+    await GmServiceInstance.deleteCurrency(Object.keys(rowSelection));
     setRowSelection({});
-    refetchDepartmentData();
+    refetchCurrencyData();
   };
   //------------------useEffect----------------
   useEffect(() => {
@@ -155,7 +164,7 @@ const DepartmentWmsPage = () => {
         {
           <Button
             variant="outlined"
-            onClick={handleDeleteDepartment}
+            onClick={handleDeleteCurrency}
             color="error"
             hidden={!Object.keys(rowSelection).length}
             startIcon={<DeleteOutlined />}
@@ -163,32 +172,32 @@ const DepartmentWmsPage = () => {
             Delete
           </Button>
         }
-        <Button startIcon={<PlusOutlined />} variant="shadow" onClick={() => toggleDepartmentPopup()}>
-          Department
+        <Button startIcon={<PlusOutlined />} variant="shadow" onClick={() => toggleCurrencyPopup()}>
+          Currency
         </Button>
       </div>
       <CustomDataTable
         rowSelection={rowSelection}
         setRowSelection={setRowSelection}
-        row_id="dept_code"
-        data={departmentData?.tableData || []}
+        row_id="curr_code"
+        data={currencyData?.tableData || []}
         columns={columns}
-        count={departmentData?.count}
+        count={currencyData?.count}
         onPaginationChange={handleChangePagination}
-        isDataLoading={isDepartmentFetchLoading}
+        isDataLoading={isCurrencyFetchLoading}
         toggleFilter={toggleFilter}
       />
-      {departmentFormPopup.action.open === true && (
+      {currencyFormPopup.action.open === true && (
         <UniversalDialog
-          action={{ ...departmentFormPopup.action }}
-          onClose={toggleDepartmentPopup}
-          title={departmentFormPopup.title}
+          action={{ ...currencyFormPopup.action }}
+          onClose={toggleCurrencyPopup}
+          title={currencyFormPopup.title}
           hasPrimaryButton={false}
         >
-          <AddDepartmentWmsForm
-            onClose={toggleDepartmentPopup}
-            isEditMode={departmentFormPopup?.data?.isEditMode}
-            existingData={departmentFormPopup.data.existingData}
+          <AddCurrencyWmsForm
+            onClose={toggleCurrencyPopup}
+            isEditMode={currencyFormPopup?.data?.isEditMode}
+            existingData={currencyFormPopup.data.existingData}
           />
         </UniversalDialog>
       )}
@@ -196,4 +205,4 @@ const DepartmentWmsPage = () => {
   );
 };
 
-export default DepartmentWmsPage;
+export default CurrencyWmsPage;
