@@ -21,6 +21,7 @@ const CountryWmsPage = Loadable(lazy(() => import('pages/WMS/CountryWmsPage')));
 const DepartmentWmsPage = Loadable(lazy(() => import('pages/WMS/DepartmentWmsPage')));
 const LocationWmsPage = Loadable(lazy(() => import('pages/WMS/LocationWmsPage')));
 const CurrencyWmsPage = Loadable(lazy(() => import('pages/WMS/CurrencyWmsPage')));
+const BillingActivityPage = Loadable(lazy(() => import('../pages/WMS/ActivityBillingPage')));
 
 // render - sample page
 // const AppSelectionPage = Loadable(lazy(() => import('pages/AppSelection/AppSelectionPage')));
@@ -58,6 +59,7 @@ const MainRoutes = {
                     { path: 'currency', element: <CurrencyWmsPage /> },
                     { path: 'pickwave', element: <PickWaveWmsPage /> },
                     { path: 'salesman', element: <SalesmanWmsPage /> },
+                    { path: 'billingactivity', element: <BillingActivityPage /> },
                     { path: 'secrole', element: <SecrollmasterWmsPage /> },
                     { path: '*', element: <MaintenanceError /> }
                   ]
