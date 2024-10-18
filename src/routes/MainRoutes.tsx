@@ -10,7 +10,7 @@ import WareHouseManagmentSystemPage from 'pages/WMS/WareHouseManagmentSystemPage
 import FlowmasterSecPage from 'pages/Security/flowmaster-sec.types';
 import AuthGuard from 'utils/route-guard/AuthGuard';
 import SalesmanWmsPage from 'pages/WMS/SalesmanWmsPage';
-import SecrollmasterWmsPage from 'pages/WMS/SecrollmasterWmsPage';
+import SecrollmasterWmsPage from 'pages/Security/SecrollmasterWmsPage';
 
 // pages routing
 const MaintenanceError = Loadable(lazy(() => import('pages/maintenance/404')));
@@ -58,7 +58,6 @@ const MainRoutes = {
                     { path: 'currency', element: <CurrencyWmsPage /> },
                     { path: 'pickwave', element: <PickWaveWmsPage /> },
                     { path: 'salesman', element: <SalesmanWmsPage /> },
-                    { path: 'secrole', element: <SecrollmasterWmsPage /> },
                     { path: '*', element: <MaintenanceError /> }
                   ]
                 },
@@ -83,6 +82,7 @@ const MainRoutes = {
                   path: 'gm',
                   children: [
                     { path: 'flowmaster', element: <FlowmasterSecPage /> },
+                    { path: 'rolemaster', element: <SecrollmasterWmsPage /> },
                     { path: '*', element: <MaintenanceError /> }
                   ]
                 },

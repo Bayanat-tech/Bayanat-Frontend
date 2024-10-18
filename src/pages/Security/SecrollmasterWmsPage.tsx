@@ -12,11 +12,11 @@ import WmsSerivceInstance from 'service/service.wms';
 import { useSelector } from 'store';
 import { TUniversalDialogProps } from 'types/types.UniversalDialog';
 import { getPathNameList } from 'utils/functions';
-import { Tsecrollmaster } from './types/rollmaster-wms.types';
+import { Tsecrollmaster } from './type/flowmaster-sec-types'; 
 import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
 import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
 import GmServiceInstance from 'service/wms/services.gm_wms';
-import AddSalesmanWmsForm from 'components/forms/AddSalesmanWmsForm';
+import AddSecRoleWmsForm from 'components/forms/Security/AddSecRoleWmsForm';
 
 const SecrollmasterWmsPage = () => {
   //--------------constants----------
@@ -29,13 +29,13 @@ const SecrollmasterWmsPage = () => {
   const [toggleFilter, setToggleFilter] = useState<boolean | null>(null);
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
-  const [salesmanFormPopup, setCountryFormPopup] = useState<TUniversalDialogProps>({
+  const [secroleFormPopup, setCountryFormPopup] = useState<TUniversalDialogProps>({
     action: {
       open: false,
       fullWidth: true,
       maxWidth: 'sm'
     },
-    title: 'Add Salesman',
+    title: 'Add Role Master',
     data: { existingData: {}, isEditMode: false }
   });
   const columns = useMemo<ColumnDef<Tsecrollmaster>[]>(
@@ -106,14 +106,14 @@ const SecrollmasterWmsPage = () => {
     setCountryFormPopup((prev) => {
       return {
         action: { ...prev.action, open: !prev.action.open },
-        title: 'Edit secrollmaster',
+        title: 'Edit  Role Master',
         data: { existingData, isEditMode: true }
       };
     });
   };
 
   const toggleCountryPopup = (refetchData?: boolean) => {
-    if (salesmanFormPopup.action.open === true && refetchData) {
+    if (secroleFormPopup.action.open === true && refetchData) {
         refetchSalesmanData();
     }
     setCountryFormPopup((prev) => {
@@ -149,7 +149,7 @@ const SecrollmasterWmsPage = () => {
           </Button>
         }
         <Button startIcon={<PlusOutlined />} variant="shadow" onClick={() => toggleCountryPopup()}>
-          Salesman
+          AddRole
         </Button>
       </div>
       <CustomDataTable
@@ -164,17 +164,17 @@ const SecrollmasterWmsPage = () => {
         toggleFilter={toggleFilter}
         hasPagination={true}
       />
-      {!!salesmanFormPopup && salesmanFormPopup.action.open && (
+      {!!secroleFormPopup && secroleFormPopup.action.open && (
         <UniversalDialog
-          action={{ ...salesmanFormPopup.action }}
+          action={{ ...secroleFormPopup.action }}
           onClose={toggleCountryPopup}
-          title={salesmanFormPopup.title}
+          title={secroleFormPopup.title}
           hasPrimaryButton={false}
         >
-          <AddSalesmanWmsForm
+          <AddSecRoleWmsForm
             onClose={toggleCountryPopup}
-            isEditMode={salesmanFormPopup?.data?.isEditMode}
-            existingData={salesmanFormPopup.data.existingData}
+            isEditMode={secroleFormPopup?.data?.isEditMode}
+            existingData={secroleFormPopup.data.existingData}
           />
         </UniversalDialog>
       )}
