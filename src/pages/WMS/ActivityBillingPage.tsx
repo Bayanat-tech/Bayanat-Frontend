@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { TUniversalDialogProps } from "types/types.UniversalDialog";
 import UniversalDialog from "components/popup/UniversalDialog";
-
+import { Button } from "@mui/material";
 const ActivityBillingPage = () => {
     const [addActivityFormPopup, setActivityFormPopup] = useState<TUniversalDialogProps>({
         action: {
@@ -30,7 +30,7 @@ const ActivityBillingPage = () => {
             </div>
             <div className="ba_add_activity_and_populate_div">
             <div className="ba_add_activity_div">
-                <button onClick={handleAddActivityForm}>add new activity</button>
+                <Button variant="contained" onClick={handleAddActivityForm}>add new activity</Button>
             </div>
             <div className="ba_populate_activity">
                 populate activities
