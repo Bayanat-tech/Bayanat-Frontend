@@ -2,7 +2,7 @@ import { ISearch } from 'components/filters/SearchFilter';
 import { IApiResponse } from 'types/types.services';
 import axiosServices from 'utils/axios';
 
-class Wms {
+class Sec {
   getMasters = async (
     app_code: string,
     master: string,
@@ -29,5 +29,5 @@ class Wms {
   //-------------------------------General Master(GM)---------------------
 }
 
-const WmsSerivceInstance = new Wms();
-export default WmsSerivceInstance;
+const SecSerivceInstance = new Sec();
+export default SecSerivceInstance;

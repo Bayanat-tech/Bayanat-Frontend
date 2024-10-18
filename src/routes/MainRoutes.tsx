@@ -2,13 +2,13 @@ import { lazy } from 'react';
 
 // project import
 import Loadable from 'components/Loadable';
-import MasterSelectionAutoComplete from 'components/MasterSelectionAutoComplete';
 import CommonLayout from 'layout/CommonLayout';
 import MainLayout from 'layout/MainLayout';
 import AppSelectionPage from 'pages/AppSelection/AppSelectionPage';
-import WareHouseManagmentSystemPage from 'pages/WMS/WareHouseManagmentSystemPage';
-import AuthGuard from 'utils/route-guard/AuthGuard';
 import PickWaveWmsPage from 'pages/WMS/PickWaveWmsPage';
+import WareHouseManagmentSystemPage from 'pages/WMS/WareHouseManagmentSystemPage';
+import FlowmasterSecPage from 'pages/Security/flowmaster-sec.types';
+import AuthGuard from 'utils/route-guard/AuthGuard';
 
 // pages routing
 const MaintenanceError = Loadable(lazy(() => import('pages/maintenance/404')));
@@ -53,6 +53,7 @@ const MainRoutes = {
                     { path: 'department', element: <DepartmentWmsPage /> },
                     { path: 'location', element: <LocationWmsPage /> },
                     { path: 'pickwave', element: <PickWaveWmsPage /> },
+                    { path: 'flowmaster', element: <FlowmasterSecPage /> },
                     { path: '*', element: <MaintenanceError /> }
                   ]
                 },
@@ -68,12 +69,27 @@ const MainRoutes = {
           ]
         },
         {
-          path: 'finance',
-          element: <MasterSelectionAutoComplete />,
+          path: 'security',
           children: [
-            { path: 'accounts/ac_tree', element: <MasterSelectionAutoComplete /> },
-            { path: ':level1', element: <MasterSelectionAutoComplete /> },
-            { path: ':level1/:level2/:level3', element: <MasterSelectionAutoComplete /> }
+            {
+              path: 'masters',
+              children: [
+                {
+                  path: 'gm',
+                  children: [
+                    { path: 'flowmaster', element: <FlowmasterSecPage /> },
+                    { path: '*', element: <MaintenanceError /> }
+                  ]
+                },
+                {
+                  path: 'inbound'
+                },
+                {
+                  path: '*',
+                  element: <MaintenanceComingSoon />
+                }
+              ]
+            }
           ]
         },
         {
