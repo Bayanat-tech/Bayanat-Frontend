@@ -24,16 +24,16 @@ const ActivityBillingPage = () => {
     }
   return (
    <div className="w-full">
-       <div className="w-full d-flex">
+       <div className="w-full flex justify-between"> 
             <div className="ba_principal_search_div">
                 Principal dropdown
             </div>
-            <div className="ba_add_activity_and_populate_div">
-            <div className="ba_add_activity_div">
+            <div className="ba_add_activity_and_populate_div flex">
+            <div className="ba_add_activity_div mx-2">
                 <Button variant="contained" onClick={handleAddActivityForm}>add new activity</Button>
             </div>
-            <div className="ba_populate_activity">
-                populate activities
+            <div className="ba_populate_activity mx-2">
+               <Button variant="contained" color="warning"> populate activities</Button>
             </div>
             </div>
        </div>
