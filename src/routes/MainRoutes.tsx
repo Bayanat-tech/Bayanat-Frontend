@@ -18,6 +18,7 @@ const MaintenanceComingSoon = Loadable(lazy(() => import('pages/maintenance/comi
 const CountryWmsPage = Loadable(lazy(() => import('pages/WMS/CountryWmsPage')));
 const DepartmentWmsPage = Loadable(lazy(() => import('pages/WMS/DepartmentWmsPage')));
 const LocationWmsPage = Loadable(lazy(() => import('pages/WMS/LocationWmsPage')));
+const ActivityGroupWmsPage = Loadable(lazy(() => import('pages/WMS/ActivityGroupWmsPage')));
 
 // render - sample page
 // const AppSelectionPage = Loadable(lazy(() => import('pages/AppSelection/AppSelectionPage')));
@@ -53,6 +54,7 @@ const MainRoutes = {
                     { path: 'department', element: <DepartmentWmsPage /> },
                     { path: 'location', element: <LocationWmsPage /> },
                     { path: 'pickwave', element: <PickWaveWmsPage /> },
+                    { path: 'activitygroup', element: <ActivityGroupWmsPage /> },
                     { path: '*', element: <MaintenanceError /> }
                   ]
                 },
