@@ -11,6 +11,7 @@ import FlowmasterSecPage from 'pages/Security/flowmaster-sec.types';
 import AuthGuard from 'utils/route-guard/AuthGuard';
 import SalesmanWmsPage from 'pages/WMS/SalesmanWmsPage';
 import SecrollmasterWmsPage from 'pages/WMS/SecrollmasterWmsPage';
+//import ProjectmasterPfPage from 'pages/Purchasefolder/ProjectmasterPfPage';
 
 // pages routing
 const MaintenanceError = Loadable(lazy(() => import('pages/maintenance/404')));
@@ -21,7 +22,8 @@ const CountryWmsPage = Loadable(lazy(() => import('pages/WMS/CountryWmsPage')));
 const DepartmentWmsPage = Loadable(lazy(() => import('pages/WMS/DepartmentWmsPage')));
 const LocationWmsPage = Loadable(lazy(() => import('pages/WMS/LocationWmsPage')));
 const CurrencyWmsPage = Loadable(lazy(() => import('pages/WMS/CurrencyWmsPage')));
-
+const CostmasterPfPage = Loadable(lazy(() => import('pages/Purchasefolder/CostmasterPfpage')));
+const ProjectmasterPfPage = Loadable(lazy(() => import('pages/Purchasefolder/ProjectmasterPfPage')));
 // render - sample page
 // const AppSelectionPage = Loadable(lazy(() => import('pages/AppSelection/AppSelectionPage')));
 
@@ -83,6 +85,31 @@ const MainRoutes = {
                   path: 'gm',
                   children: [
                     { path: 'flowmaster', element: <FlowmasterSecPage /> },
+                    { path: '*', element: <MaintenanceError /> }
+                  ]
+                },
+                {
+                  path: 'inbound'
+                },
+                {
+                  path: '*',
+                  element: <MaintenanceComingSoon />
+                }
+              ]
+            }
+          ]
+        },
+        {
+          path: 'pf',
+          children: [
+            {
+              path: 'master',
+              children: [
+                {
+                  path: 'gm',
+                  children: [
+                    { path: 'costmaster', element: <CostmasterPfPage /> },
+                    { path: 'projectmaster', element: <ProjectmasterPfPage /> },
                     { path: '*', element: <MaintenanceError /> }
                   ]
                 },
