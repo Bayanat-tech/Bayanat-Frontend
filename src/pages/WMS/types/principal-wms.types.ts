@@ -1,3 +1,5 @@
+import { TFile } from 'types/types.file';
+
 // Combined Principal WMS Type
 export type TPrincipalWms = TBasicPrincipalWms &
   TAccountPrincipalWms &
@@ -39,6 +41,7 @@ export type TAccountPrincipalWms = {
   trn_exp_date?: Date;
   prin_invdate?: Date;
   curr_code?: string;
+  files?: TFile[];
   prin_infze?: string;
   credit_limit?: number;
   creditdays?: number;

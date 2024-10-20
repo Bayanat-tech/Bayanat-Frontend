@@ -4,6 +4,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
 import { useFormik } from 'formik';
 import { TSettingsPrincipalWms } from 'pages/WMS/types/principal-wms.types';
+import { useEffect } from 'react';
 
 const AddSettingsPrincipalWmsForm = ({
   handleNext,
@@ -26,8 +27,11 @@ const AddSettingsPrincipalWmsForm = ({
       handleNext();
     }
   });
-  console.log('settings', formik.values);
-
+  //------------------------useEffects-----------------
+  useEffect(() => {
+    if (!!settings && !!Object.keys(settings).length) formik.setValues(settings);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [settings]);
   return (
     <Grid container spacing={4} component={'form'} onSubmit={formik.handleSubmit}>
       <Grid item xs={12} sm={6}>

@@ -8,16 +8,19 @@ import { TLocation } from 'pages/WMS/types/location-wms.types';
 import { TStorageDetailsPrincipalWms } from 'pages/WMS/types/principal-wms.types';
 import { TSite } from 'pages/WMS/types/site-wms.types';
 import { TStorageWms } from 'pages/WMS/types/storage-wms.types';
+import { useEffect } from 'react';
 import WmsSerivceInstance from 'service/service.wms';
 import { useSelector } from 'store';
 
 type TItem = { label: string; value: string };
 const AddStoragePrincipleForm = ({
+  submitting,
   handleNext,
   handleBack,
   storage,
   setStorage
 }: {
+  submitting: boolean;
   handleNext: () => void;
   handleBack: () => void;
 
@@ -83,8 +86,11 @@ const AddStoragePrincipleForm = ({
       handleNext();
     }
   });
-  console.log('storage', formik.values);
-
+  //-------------------------useEffects--------------
+  useEffect(() => {
+    if (!!storage && !!Object.keys(storage).length) formik.setValues(storage);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [storage]);
   return (
     <Grid container spacing={6} component={'form'} onSubmit={formik.handleSubmit}>
       <Grid item xs={12} sm={6}>
@@ -380,7 +386,7 @@ const AddStoragePrincipleForm = ({
           <Button onClick={handleBack} sx={{ my: 1, ml: 1 }}>
             Back
           </Button>
-          <Button variant="contained" type="submit" sx={{ my: 1, ml: 1 }}>
+          <Button variant="contained" type="submit" sx={{ my: 1, ml: 1 }} disabled={submitting}>
             Submit
           </Button>
         </Stack>

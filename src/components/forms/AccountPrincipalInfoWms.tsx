@@ -3,7 +3,6 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
 import * as yup from 'yup';
 
-import { FileOutlined, LoadingOutlined } from '@ant-design/icons';
 import {
   Autocomplete,
   Button,
@@ -17,29 +16,50 @@ import {
   Typography
 } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
+import Files from 'components/Files';
+import UniversalDialog from 'components/popup/UniversalDialog';
 import { getIn, useFormik } from 'formik';
 import { TCurrency } from 'pages/WMS/types/currency-wms.types';
 import { TAccountPrincipalWms } from 'pages/WMS/types/principal-wms.types';
-import { ChangeEvent, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router';
 import WmsSerivceInstance from 'service/service.wms';
-import FileUploadServiceInstance from 'service/services.uploadFile';
+import FileUploadServiceInstance from 'service/services.files';
 import { useSelector } from 'store';
+import { TUniversalDialogProps } from 'types/types.UniversalDialog';
+import { getPathNameList } from 'utils/functions';
+import { TFile } from 'types/types.file';
 
 const AccountPrincipalInfoWms = ({
+  prin_code,
+  isEditMode,
+
   handleNext,
   handleBack,
   accountInfo,
   setAccountInfo
 }: {
+  prin_code: string;
+  isEditMode: boolean;
   handleNext: () => void;
   handleBack: () => void;
   accountInfo: TAccountPrincipalWms;
   setAccountInfo: (value: TAccountPrincipalWms) => void;
 }) => {
   //----------------constants-----------------
-
+  const location = useLocation();
+  const pathNameList = getPathNameList(location.pathname);
   const { app } = useSelector((state) => state.menuSelectionSlice);
-  const [isFileUploading, setIsFileUploading] = useState<boolean>(false);
+  const [filesData, setFilesData] = useState<TFile[]>([]);
+
+  const [uploadFilesPopup, setUploadFilesPopup] = useState<TUniversalDialogProps>({
+    action: {
+      open: false,
+      fullWidth: true,
+      maxWidth: 'md'
+    },
+    title: 'Upload Files'
+  });
   //----------------formik-----------------
   const formik = useFormik<TAccountPrincipalWms>({
     initialValues: accountInfo,
@@ -52,7 +72,6 @@ const AccountPrincipalInfoWms = ({
     }
   });
   //----------------useQuery-----------------
-
   const { data: currencyList } = useQuery({
     queryKey: ['currency_data'],
     queryFn: async () => {
@@ -66,26 +85,34 @@ const AccountPrincipalInfoWms = ({
       return { tableData: [], count: 0 }; // Handle undefined case
     }
   });
-  //---------------handlers-------------
-  const handleFileUpload = async (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files?.length) {
-      setIsFileUploading(true);
+  const { data: files } = useQuery({
+    queryKey: ['files_data'],
+    queryFn: () => FileUploadServiceInstance.getFile(pathNameList[pathNameList.length - 1].slice(0, 3).toUpperCase() + prin_code),
+    enabled: isEditMode
+  });
 
-      const selectedFile = event.target.files[0];
-      try {
-        const response = await FileUploadServiceInstance.uploadFile(selectedFile);
-
-        if (response && response.data) {
-          formik.setFieldValue('', response.data);
-        }
-      } catch (error) {
-        console.error('File upload failed:', error);
-      } finally {
-        setIsFileUploading(false);
-      }
+  //------------------handlers-----------------
+  const handleUploadPopup = () => {
+    if (uploadFilesPopup.action.open === true) {
+      formik.setFieldValue('files', filesData);
+      // set data as per serial number
     }
+    setUploadFilesPopup((prev) => {
+      return { ...prev, action: { ...prev.action, open: !prev.action.open } };
+    });
   };
-  console.log('account', formik.values);
+  //-----------useEffects---------
+  useEffect(() => {
+    if (files) {
+      formik.setFieldValue('files', files);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [files]);
+
+  useEffect(() => {
+    if (!!accountInfo && !!Object.keys(accountInfo).length) formik.setValues(accountInfo);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [accountInfo]);
 
   return (
     <Grid container spacing={8} component={'form'} onSubmit={formik.handleSubmit}>
@@ -195,24 +222,9 @@ const AccountPrincipalInfoWms = ({
           <Grid item xs={12}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <div className="flex space-x-2 align-middle items-center">
-                  <Typography variant="h4" className="text-black py-2 font-semibold">
-                    Currency and Upload Information
-                  </Typography>
-                  <input style={{ display: 'none' }} id="upload-file" type="file" onChange={handleFileUpload} />
-                  <label htmlFor="upload-file">
-                    <Button
-                      size="extraSmall"
-                      variant="dashed"
-                      color="primary"
-                      component="span"
-                      startIcon={isFileUploading ? <LoadingOutlined /> : <FileOutlined />}
-                      disabled={isFileUploading}
-                    >
-                      Upload
-                    </Button>
-                  </label>
-                </div>
+                <Button size="small" onClick={() => handleUploadPopup()}>
+                  Documents
+                </Button>
               </Grid>
               {/*----------------------Default Currency-------------------------- */}
               <Grid item xs={12} sm={6}>
@@ -221,7 +233,7 @@ const AccountPrincipalInfoWms = ({
                   id="curr_code"
                   value={
                     !!formik.values.curr_code
-                      ? currencyList?.tableData.find((eachCurrency) => eachCurrency.curr_code === formik.values.curr_code)
+                      ? currencyList?.tableData?.find((eachCurrency) => eachCurrency.curr_code === formik.values.curr_code)
                       : ({ curr_name: '' } as TCurrency)
                   }
                   onChange={(event, value: TCurrency | null) => {
@@ -398,6 +410,21 @@ const AccountPrincipalInfoWms = ({
           </Button>
         </Stack>
       </Grid>
+      {!!uploadFilesPopup && uploadFilesPopup.action.open && (
+        <UniversalDialog
+          action={{ ...uploadFilesPopup.action }}
+          onClose={handleUploadPopup}
+          title={uploadFilesPopup.title}
+          hasPrimaryButton={false}
+        >
+          <Files
+            existingFilesData={formik.values.files ?? []}
+            request_number={prin_code as unknown as string}
+            filesData={filesData}
+            setFilesData={setFilesData}
+          />
+        </UniversalDialog>
+      )}
     </Grid>
   );
 };

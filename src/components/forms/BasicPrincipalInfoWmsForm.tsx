@@ -19,7 +19,6 @@ import { TBasicPrincipalWms } from 'pages/WMS/types/principal-wms.types';
 import { TTerritory } from 'pages/WMS/types/territory-wms.types';
 import { useEffect } from 'react';
 import WmsSerivceInstance from 'service/service.wms';
-import GmServiceInstance from 'service/wms/services.gm_wms';
 import { useSelector } from 'store';
 import * as yup from 'yup';
 
@@ -49,11 +48,7 @@ const BasicPrincipalInfoWmsForm = ({
   });
 
   //----------------useQuery-----------------
-  const { data: prinCode } = useQuery({
-    queryKey: ['prin_code'],
-    queryFn: async () => await GmServiceInstance.getPrincipalCode(),
-    enabled: isEditMode === false
-  });
+
   const { data: departmentList } = useQuery({
     queryKey: ['department_data'],
     queryFn: async () => {
@@ -93,16 +88,10 @@ const BasicPrincipalInfoWmsForm = ({
       return { tableData: [], count: 0 }; // Handle undefined case
     }
   });
-  //--------------useEffects----------------
   useEffect(() => {
-    if (prinCode) {
-      console.log(typeof prinCode.prin_code);
-
-      formik.setFieldValue('prin_code', prinCode.prin_code.toString());
-    }
+    if (!!basicInfo && !!Object.keys(basicInfo).length) formik.setValues(basicInfo);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [prinCode]);
-
+  }, [basicInfo]);
   return (
     <Grid container spacing={6} component={'form'} onSubmit={formik.handleSubmit}>
       {/*----------------------Sales/Company Information-------------------------- */}
@@ -114,7 +103,7 @@ const BasicPrincipalInfoWmsForm = ({
             </Typography>
           </Grid>
           {/*----------------------Prin Code-------------------------- */}
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={6} hidden={!isEditMode}>
             <InputLabel>Code</InputLabel>
             <TextField
               name="prin_code"
@@ -385,8 +374,6 @@ const BasicPrincipalInfoWmsForm = ({
                       : ({ dept_name: '', dept_code: '' } as TDepartment)
                   }
                   onChange={(event, value: TDepartment | null) => {
-                    console.log(value);
-
                     formik.setFieldValue('prin_dept_code', value?.dept_code);
                   }}
                   options={departmentList?.tableData ?? []}

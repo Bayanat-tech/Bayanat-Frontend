@@ -1,6 +1,7 @@
 import { Button, Grid, InputLabel, Stack, TextField, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import { TContactPrincipalWms } from 'pages/WMS/types/principal-wms.types';
+import { useEffect } from 'react';
 
 const AddContactInfoWmsForm = ({
   handleNext,
@@ -23,7 +24,11 @@ const AddContactInfoWmsForm = ({
       handleNext();
     }
   });
-  console.log('contact', formik.values);
+  //----------------useEffects-----------------
+  useEffect(() => {
+    if (!!contactInfo && !!Object.keys(contactInfo).length) formik.setValues(contactInfo);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [contactInfo]);
 
   return (
     <Grid container spacing={2} component={'form'} onSubmit={formik.handleSubmit}>
@@ -43,26 +48,12 @@ const AddContactInfoWmsForm = ({
         {/*----------------------Contact 2-------------------------- */}
         <Grid item xs={12} sm={6} md={3}>
           <InputLabel>Contact 2</InputLabel>
-          <TextField
-            type="email"
-            onChange={formik.handleChange}
-            id="prin_cont_email2"
-            name="prin_cont_email2"
-            fullWidth
-            value={formik.values.prin_cont_email2}
-          />
+          <TextField onChange={formik.handleChange} id="prin_cont2" name="prin_cont2" fullWidth value={formik.values.prin_cont2} />
         </Grid>
         {/*----------------------Contact 3-------------------------- */}
         <Grid item xs={12} sm={6} md={3}>
           <InputLabel>Contact 3</InputLabel>
-          <TextField
-            type="email"
-            onChange={formik.handleChange}
-            id="prin_cont_email3"
-            name="prin_cont_email3"
-            fullWidth
-            value={formik.values.prin_cont_email3}
-          />
+          <TextField onChange={formik.handleChange} id="prin_cont3" name="prin_cont3" fullWidth value={formik.values.prin_cont3} />
         </Grid>
       </Grid>
       {/*-----------------------Emails------------------- */}
@@ -78,10 +69,10 @@ const AddContactInfoWmsForm = ({
           <TextField
             type="email"
             onChange={formik.handleChange}
-            id="prin_cont1"
-            name="prin_cont1"
+            id="prin_cont_email1"
+            name="prin_cont_email1"
             fullWidth
-            value={formik.values.prin_cont1}
+            value={formik.values.prin_cont_email1}
           />
         </Grid>
         {/*----------------------Email 2-------------------------- */}

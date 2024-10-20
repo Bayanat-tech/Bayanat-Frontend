@@ -34,6 +34,8 @@ const AddPrincipalWmsForm = ({
 
   //--------------------States-------------------
   const [activeStep, setActiveStep] = useState(0);
+  const [submitting, setSubmitting] = useState(false);
+
   const [basicInfo, setBasicInfo] = useState<TBasicPrincipalWms>({
     prin_code: '',
     prin_name: '',
@@ -54,7 +56,7 @@ const AddPrincipalWmsForm = ({
     prin_faxno1: '',
     prin_faxno2: '',
     prin_faxno3: '',
-    prin_status: 'N',
+    prin_status: 'Y',
     prin_dept_code: '',
     prin_ref1: ''
   } as TBasicPrincipalWms);
@@ -74,7 +76,8 @@ const AddPrincipalWmsForm = ({
     creditdays_freight: null as unknown as number,
     prin_imp_code: '',
     parent_prin_code: '',
-    prin_invdate: null as unknown as Date
+    prin_invdate: null as unknown as Date,
+    files: []
   } as TAccountPrincipalWms);
 
   const [contactInfo, setContactInfo] = useState<TContactPrincipalWms>({
@@ -133,7 +136,7 @@ const AddPrincipalWmsForm = ({
   } as TStorageDetailsPrincipalWms);
   //----------------useQuery-----------------
 
-  const { data: principalData } = useQuery<TPrincipalWms | undefined>({
+  const { data: principalData, isFetched: isPrincipalDataFetched } = useQuery<TPrincipalWms | undefined>({
     queryKey: ['currency_data'],
     queryFn: () => GmServiceInstance.getPrincipal(prin_code),
     enabled: isEditMode === true
@@ -141,9 +144,11 @@ const AddPrincipalWmsForm = ({
   //-----------------------------handlers----------------------
 
   const handlePrincipalFromSubmit = async () => {
+    setSubmitting(true);
     const finalPayload = {
       ...basicInfo,
       ...accountInfo,
+      files: accountInfo.files?.filter((eachFile) => eachFile.sr_no === undefined),
       ...contactInfo,
       ...pickRules,
       ...settings,
@@ -151,11 +156,13 @@ const AddPrincipalWmsForm = ({
       company_code: user?.company_code as string
     };
     let response;
+    delete finalPayload.prin_code;
     if (isEditMode) {
       response = await GmServiceInstance.editPrincipal(finalPayload, finalPayload?.prin_code ?? '');
     } else {
       response = await GmServiceInstance.addPrincipal(finalPayload);
     }
+    setSubmitting(false);
     if (response) {
       onClose();
     }
@@ -182,6 +189,8 @@ const AddPrincipalWmsForm = ({
       case 1:
         return (
           <AccountPrincipalInfoWms
+            prin_code={basicInfo.prin_code ?? ''}
+            isEditMode={isEditMode ?? false}
             accountInfo={accountInfo}
             setAccountInfo={setAccountInfo}
             handleNext={handleNext}
@@ -204,13 +213,23 @@ const AddPrincipalWmsForm = ({
           <AddSettingsPrincipalWmsForm settings={settings} setSettings={setSettings} handleNext={handleNext} handleBack={handleBack} />
         );
       case 5:
-        return <AddStoragePrincipleForm storage={storage} setStorage={setStorage} handleNext={handleNext} handleBack={handleBack} />;
+        return (
+          <AddStoragePrincipleForm
+            storage={storage}
+            setStorage={setStorage}
+            handleNext={handleNext}
+            handleBack={handleBack}
+            submitting={submitting}
+          />
+        );
     }
   };
   //-----------------------------useEffect----------------------
 
   useEffect(() => {
-    if (isEditMode && !!principalData && Object.keys(principalData).length > 0) {
+    if (isEditMode && isPrincipalDataFetched && !!principalData && Object.keys(principalData).length > 0) {
+      console.log('callled inside');
+
       const {
         prin_code,
         prin_name,
@@ -329,7 +348,8 @@ const AddPrincipalWmsForm = ({
         comm_reg_no,
         comm_exp_date,
         prin_imp_code,
-        parent_prin_code
+        parent_prin_code,
+        files: []
       });
       setContactInfo({
         prin_cont_email1,
@@ -378,15 +398,22 @@ const AddPrincipalWmsForm = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [principalData]);
+
   return (
     <CardContent>
-      <Stepper activeStep={activeStep} onClick={(event) => console.log(event)}>
+      <Stepper nonLinear activeStep={activeStep}>
         {steps.map((label, index) => (
           <Step key={label} completed={activeStep > index}>
-            <StepButton color="inherit">{label}</StepButton>
+            <StepButton
+              color="inherit"
+              onClick={() => index < activeStep && setActiveStep(index)} // Update activeStep on click
+            >
+              {label}
+            </StepButton>
           </Step>
         ))}
       </Stepper>
+
       <div className="pt-10">{renderStepContent()}</div>
     </CardContent>
   );

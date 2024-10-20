@@ -2,6 +2,7 @@ import { Button, Stack } from '@mui/material';
 import { Grid, InputLabel, TextField } from '@mui/material';
 import { useFormik } from 'formik';
 import { TPickRulesPrincipalWms } from 'pages/WMS/types/principal-wms.types';
+import { useEffect } from 'react';
 
 const AddPickRulesInfoWms = ({
   handleNext,
@@ -25,7 +26,11 @@ const AddPickRulesInfoWms = ({
       handleNext();
     }
   });
-  console.log('pick', formik.values);
+  //---------------------useEffects--------------------
+  useEffect(() => {
+    if (!!pickRules && !!Object.keys(pickRules).length) formik.setValues(pickRules);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pickRules]);
 
   return (
     <Grid container spacing={2} component={'form'} onSubmit={formik.handleSubmit}>

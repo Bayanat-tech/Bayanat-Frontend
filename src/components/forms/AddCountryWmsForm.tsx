@@ -40,13 +40,13 @@ const AddCountryWmsForm = ({
       }
     }
   });
-  useEffect(() => {
-    console.log(formik.errors);
-  }, [formik.errors]);
   //------------------Handlers------------
   const handleCountryGccChange = (event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
     formik.setFieldValue('country_gcc', checked ? 'Y' : 'N');
   };
+
+  //------------------useEffect------------
+
   useEffect(() => {
     if (isEditMode) {
       const { updated_at, updated_by, created_at, created_by, ...countryData } = existingData;
@@ -56,7 +56,6 @@ const AddCountryWmsForm = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isEditMode]);
-  console.log(formik.touched);
 
   return (
     <Grid container spacing={2} component={'form'} onSubmit={formik.handleSubmit}>
