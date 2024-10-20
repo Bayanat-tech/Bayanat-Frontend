@@ -10,16 +10,8 @@ import WareHouseManagmentSystemPage from 'pages/WMS/WareHouseManagmentSystemPage
 import FlowmasterSecPage from 'pages/Security/flowmaster-sec.types';
 import AuthGuard from 'utils/route-guard/AuthGuard';
 import SalesmanWmsPage from 'pages/WMS/SalesmanWmsPage';
-<<<<<<< HEAD
 import SecrollmasterWmsPage from 'pages/Security/SecrollmasterWmsPage';
-<<<<<<< HEAD
 import SecmasterWmsPage from 'pages/Security/secmasterWmsPage';
-=======
-=======
-import SecrollmasterWmsPage from 'pages/WMS/SecrollmasterWmsPage';
-//import ProjectmasterPfPage from 'pages/Purchasefolder/ProjectmasterPfPage';
->>>>>>> feature/purchasesecurity-purchaseflow-sandeep
->>>>>>> qa
 
 // pages routing
 const MaintenanceError = Loadable(lazy(() => import('pages/maintenance/404')));
