@@ -11,6 +11,7 @@ import FlowmasterSecPage from 'pages/Security/flowmaster-sec.types';
 import AuthGuard from 'utils/route-guard/AuthGuard';
 import SalesmanWmsPage from 'pages/WMS/SalesmanWmsPage';
 import SecrollmasterWmsPage from 'pages/Security/SecrollmasterWmsPage';
+import SecmasterWmsPage from 'pages/Security/secmasterWmsPage';
 
 // pages routing
 const MaintenanceError = Loadable(lazy(() => import('pages/maintenance/404')));
@@ -83,6 +84,7 @@ const MainRoutes = {
                   children: [
                     { path: 'flowmaster', element: <FlowmasterSecPage /> },
                     { path: 'rolemaster', element: <SecrollmasterWmsPage /> },
+                    { path: 'seclogin', element: <SecmasterWmsPage /> },
                     { path: '*', element: <MaintenanceError /> }
                   ]
                 },

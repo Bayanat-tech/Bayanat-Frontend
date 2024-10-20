@@ -19,3 +19,16 @@ export type Tsecrollmaster = {
   updated_by?: string;
   created_by?: string;
 };
+
+export interface  TSecmaster {
+  id: string;
+  username: string;
+  contact_no: string;
+  userpass: string;
+  email_id?: string;
+  company_code?: string;
+  created_at?: Date;
+  created_by?: string;
+  updated_at?: Date;
+  updated_by?: string;
+}

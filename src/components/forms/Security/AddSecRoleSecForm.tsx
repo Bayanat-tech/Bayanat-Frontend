@@ -64,6 +64,7 @@ const  AddSecRoleWmsForm = ({
         <TextField
           value={formik.values.role_id}
           name="role_id"
+          disabled={isEditMode===true}
           onChange={formik.handleChange}
           className="w-28"
           error={Boolean(getIn(formik.touched, 'salesman_code"') && getIn(formik.errors, 'salesman_code"'))}
