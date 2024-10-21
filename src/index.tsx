@@ -10,6 +10,7 @@ import 'simplebar/dist/simplebar.css';
 // apex-chart
 import 'assets/third-party/apex-chart.css';
 import 'assets/third-party/react-table.css';
+import './index.css';
 
 // project import
 import App from './App';

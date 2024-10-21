@@ -1,12 +1,11 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 // material-ui
-import { styled, useTheme } from '@mui/material/styles';
 import {
   Box,
-  Collapse,
   ClickAwayListener,
+  Collapse,
   List,
   ListItemButton,
   ListItemIcon,
@@ -16,23 +15,24 @@ import {
   Typography,
   useMediaQuery
 } from '@mui/material';
+import { styled, useTheme } from '@mui/material/styles';
 
 // project import
-import NavItem from './NavItem';
 import Dot from 'components/@extended/Dot';
-import SimpleBar from 'components/third-party/SimpleBar';
 import Transitions from 'components/@extended/Transitions';
+import SimpleBar from 'components/third-party/SimpleBar';
+import NavItem from './NavItem';
 
 import useConfig from 'hooks/useConfig';
 import { dispatch, useSelector } from 'store';
 import { activeItem } from 'store/reducers/menu';
 
 // assets
-import { BorderOutlined, DownOutlined, UpOutlined, RightOutlined } from '@ant-design/icons';
+import { BorderOutlined, DownOutlined, RightOutlined, UpOutlined } from '@ant-design/icons';
 
 // types
-import { NavItemType } from 'types/menu';
 import { MenuOrientation, ThemeMode } from 'types/config';
+import { NavItemType } from 'types/menu';
 
 type VirtualElement = {
   getBoundingClientRect: () => ClientRect | DOMRect;
@@ -93,7 +93,7 @@ const NavCollapse = ({ menu, level, parentId, setSelectedItems, selectedItems, s
       setOpen(!open);
       setSelected(!selected ? menu.id : null);
       setSelectedItems(!selected ? menu.id : '');
-      if (menu.url) Navigation(`${menu.url}`);
+      if (menu.url_path) Navigation(`${menu.url_path}`);
     } else {
       setAnchorEl(event?.currentTarget);
     }
@@ -101,7 +101,7 @@ const NavCollapse = ({ menu, level, parentId, setSelectedItems, selectedItems, s
 
   const handlerIconLink = () => {
     if (!drawerOpen) {
-      if (menu.url) Navigation(`${menu.url}`);
+      if (menu.url_path) Navigation(`${menu.url_path}`);
       setSelected(menu.id);
     }
   };
@@ -118,7 +118,7 @@ const NavCollapse = ({ menu, level, parentId, setSelectedItems, selectedItems, s
   const handleClose = () => {
     setOpen(false);
     if (!miniMenuOpened) {
-      if (!menu.url) {
+      if (!menu.url_path) {
         setSelected(null);
       }
     }
@@ -146,7 +146,7 @@ const NavCollapse = ({ menu, level, parentId, setSelectedItems, selectedItems, s
   const { pathname } = useLocation();
 
   useEffect(() => {
-    if (pathname === menu.url) {
+    if (pathname === menu.url_path) {
       setSelected(menu.id);
     }
     // eslint-disable-next-line
@@ -154,7 +154,7 @@ const NavCollapse = ({ menu, level, parentId, setSelectedItems, selectedItems, s
 
   const checkOpenForParent = (child: NavItemType[], id: string) => {
     child.forEach((item: NavItemType) => {
-      if (item.url === pathname) {
+      if (item.url_path === pathname) {
         setOpen(true);
         setSelected(id);
       }
@@ -174,12 +174,12 @@ const NavCollapse = ({ menu, level, parentId, setSelectedItems, selectedItems, s
           checkOpenForParent(item.children, menu.id!);
         }
         if (pathname && pathname.includes('product-details')) {
-          if (item.url && item.url.includes('product-details')) {
+          if (item.url_path && item.url_path.includes('product-details')) {
             setSelected(menu.id);
             setOpen(true);
           }
         }
-        if (item.url === pathname) {
+        if (item.url_path === pathname) {
           setSelected(menu.id);
           setOpen(true);
         }
@@ -190,7 +190,7 @@ const NavCollapse = ({ menu, level, parentId, setSelectedItems, selectedItems, s
   }, [pathname, menu.children]);
 
   useEffect(() => {
-    if (menu.url === pathname) {
+    if (menu.url_path === pathname) {
       dispatch(activeItem({ openItem: [menu.id] }));
       setSelected(menu.id);
       setAnchorEl(null);
@@ -225,8 +225,12 @@ const NavCollapse = ({ menu, level, parentId, setSelectedItems, selectedItems, s
   });
   const isSelected = selected === menu.id;
   const borderIcon = level === 1 ? <BorderOutlined style={{ fontSize: '1rem' }} /> : false;
-  const Icon = menu.icon!;
-  const menuIcon = menu.icon ? <Icon style={{ fontSize: drawerOpen ? '1rem' : '1.25rem' }} /> : borderIcon;
+  const menuIcon = menu.icon ? (
+    // <IconComponent icon={menu.icon as keyof typeof iconMapping} style={{ fontSize: drawerOpen ? '1.25rem' : '1rem' }} />
+    <></>
+  ) : (
+    borderIcon
+  );
   const textColor = theme.palette.mode === ThemeMode.DARK ? 'grey.400' : 'text.primary';
   const iconSelectedColor = theme.palette.mode === ThemeMode.DARK && drawerOpen ? theme.palette.text.primary : theme.palette.primary.main;
   const popperId = miniMenuOpened ? `collapse-pop-${menu.id}` : undefined;

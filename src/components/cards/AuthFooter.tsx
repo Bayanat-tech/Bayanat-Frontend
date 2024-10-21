@@ -1,15 +1,14 @@
 // material-ui
-import { Theme } from '@mui/material/styles';
-import { useMediaQuery, Container, Link, Typography, Stack } from '@mui/material';
+import { Container } from '@mui/material';
 
 // ==============================|| FOOTER - AUTHENTICATION ||============================== //
 
 const AuthFooter = () => {
-  const matchDownSM = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
+  // const matchDownSM = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   return (
     <Container maxWidth="xl">
-      <Stack
+      {/* <Stack
         direction={matchDownSM ? 'column' : 'row'}
         justifyContent={matchDownSM ? 'center' : 'space-between'}
         spacing={2}
@@ -54,7 +53,7 @@ const AuthFooter = () => {
             CA Privacy Notice
           </Typography>
         </Stack>
-      </Stack>
+      </Stack> */}
     </Container>
   );
 };

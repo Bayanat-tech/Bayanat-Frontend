@@ -10,9 +10,10 @@ import authReducer from 'store/reducers/auth';
 
 // project import
 import Loader from 'components/Loader';
-import axios from 'utils/axios';
-import { KeyedObject } from 'types/root';
 import { AuthProps, JWTContextType } from 'types/auth';
+import { KeyedObject } from 'types/root';
+import { default as axios } from 'utils/axios';
+import AuthServicesInstance from 'service/service.auth';
 
 const chance = new Chance();
 
@@ -20,7 +21,10 @@ const chance = new Chance();
 const initialState: AuthProps = {
   isLoggedIn: false,
   isInitialized: false,
-  user: null
+  user: null,
+  user_permission: [],
+  permissions: {},
+  permissionBasedMenuTree: []
 };
 
 const verifyToken: (st: string) => boolean = (serviceToken) => {
@@ -28,7 +32,8 @@ const verifyToken: (st: string) => boolean = (serviceToken) => {
     return false;
   }
   const decoded: KeyedObject = jwtDecode(serviceToken);
-  /**
+
+  /**log
    * Property 'exp' does not exist on type '<T = unknown>(token: string, options?: JwtDecodeOptions | undefined) => T'.
    */
   return decoded.exp > Date.now() / 1000;
@@ -55,17 +60,28 @@ export const JWTProvider = ({ children }: { children: React.ReactElement }) => {
     const init = async () => {
       try {
         const serviceToken = window.localStorage.getItem('serviceToken');
+
         if (serviceToken && verifyToken(serviceToken)) {
           setSession(serviceToken);
-          const response = await axios.get('/api/account/me');
-          const { user } = response.data;
-          dispatch({
-            type: LOGIN,
-            payload: {
-              isLoggedIn: true,
-              user
-            }
-          });
+          // const permissionsResponse = await AuthServicesInstance.getPermissions();
+
+          const meData = await AuthServicesInstance.getMe();
+
+          if (meData?.success) {
+            const { user, permissions, user_permission, permissionBasedMenuTree } = meData?.data;
+
+            // const permissions = permissionsResponse.data;
+            dispatch({
+              type: LOGIN,
+              payload: {
+                isLoggedIn: true,
+                user,
+                permissions,
+                user_permission,
+                permissionBasedMenuTree
+              }
+            });
+          }
         } else {
           dispatch({
             type: LOGOUT
@@ -83,22 +99,32 @@ export const JWTProvider = ({ children }: { children: React.ReactElement }) => {
   }, []);
 
   const login = async (email: string, password: string) => {
-    const response = await axios.post('/api/account/login', { email, password });
-    const { serviceToken, user } = response.data;
-    setSession(serviceToken);
-    dispatch({
-      type: LOGIN,
-      payload: {
-        isLoggedIn: true,
-        user
-      }
-    });
+    const response = await axios.post('/api/auth/login', { email, password });
+    const { token } = response.data.data;
+
+    setSession(token);
+    // const permissionsResponse = await AuthServicesInstance.getPermissions();
+
+    const meData = await AuthServicesInstance.getMe();
+    if (meData?.success) {
+      const { user, permissions, user_permission, permissionBasedMenuTree } = meData?.data;
+      dispatch({
+        type: LOGIN,
+        payload: {
+          isLoggedIn: true,
+          user: user,
+          permissions,
+          user_permission,
+          permissionBasedMenuTree
+        }
+      });
+    }
   };
 
   const register = async (email: string, password: string, firstName: string, lastName: string) => {
     // todo: this flow need to be recode as it not verified
     const id = chance.bb_pin();
-    const response = await axios.post('/api/account/register', {
+    const response = await axios.post('/api/register', {
       id,
       email,
       password,
