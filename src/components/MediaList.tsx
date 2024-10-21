@@ -4,7 +4,7 @@ import FileUploadServiceInstance from 'service/services.files';
 import { TFile } from 'types/types.file';
 import { getFileNameFromURL } from 'utils/functions';
 import CustomTooltip from './CustomTooltip';
-import { universalRenerMedia } from './UniversalRenderMedia';
+import { universalRenderMedia } from './UniversalRenderMedia';
 
 const MediaList = ({ mediaData, setFilesData }: { mediaData: TFile[]; setFilesData: React.Dispatch<React.SetStateAction<TFile[]>> }) => {
   //----------------handlers----------------
@@ -23,7 +23,7 @@ const MediaList = ({ mediaData, setFilesData }: { mediaData: TFile[]; setFilesDa
           className="border border-gray rounded-sm"
           style={{ minHeight: '200px', maxHeight: '280px' }}
         >
-          {universalRenerMedia(eachFile.aws_file_locn, index)}
+          {universalRenderMedia(eachFile.aws_file_locn, index)}
           <ImageListItemBar
             position={'bottom'}
             sx={{ opacity: 1 }}
