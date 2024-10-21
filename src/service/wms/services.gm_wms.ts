@@ -111,72 +111,72 @@ class GM {
     }
   };
   //--------------Department--------------
-  addDepartment = async (values: TDepartment) => {
-    try {
-      const response: IApiResponse<null> = await axiosServices.post('api/wms/gm/department', values);
-      if (response.data.success) {
-        dispatch(
-          openSnackbar({
-            open: true,
-            message: response.data.message,
-            variant: 'alert',
-            alert: {
-              color: 'success'
-            },
-            close: true
-          })
-        );
-        return response.data.success;
-      }
-    } catch (error: unknown) {
-      const knownError = error as { message: string };
-      dispatch(
-        openSnackbar({
-          open: true,
-          message: knownError.message,
-          variant: 'alert',
-          alert: {
-            color: 'error'
-          },
-          severity: 'error',
-          close: true
-        })
-      );
-    }
-  };
-  editDepartment = async (values: TDepartment) => {
-    try {
-      const response: IApiResponse<null> = await axiosServices.put('api/wms/gm/department', values);
-      if (response.data.success) {
-        dispatch(
-          openSnackbar({
-            open: true,
-            message: response.data.message,
-            variant: 'alert',
-            alert: {
-              color: 'success'
-            },
-            close: true
-          })
-        );
-        return response.data.success;
-      }
-    } catch (error: unknown) {
-      const knownError = error as { message: string };
-      dispatch(
-        openSnackbar({
-          open: true,
-          message: knownError.message,
-          variant: 'alert',
-          alert: {
-            color: 'error'
-          },
-          severity: 'error',
-          close: true
-        })
-      );
-    }
-  };
+  // addDepartment = async (values: TDepartment) => {
+  //   try {
+  //     const response: IApiResponse<null> = await axiosServices.post('api/wms/gm/department', values);
+  //     if (response.data.success) {
+  //       dispatch(
+  //         openSnackbar({
+  //           open: true,
+  //           message: response.data.message,
+  //           variant: 'alert',
+  //           alert: {
+  //             color: 'success'
+  //           },
+  //           close: true
+  //         })
+  //       );
+  //       return response.data.success;
+  //     }
+  //   } catch (error: unknown) {
+  //     const knownError = error as { message: string };
+  //     dispatch(
+  //       openSnackbar({
+  //         open: true,
+  //         message: knownError.message,
+  //         variant: 'alert',
+  //         alert: {
+  //           color: 'error'
+  //         },
+  //         severity: 'error',
+  //         close: true
+  //       })
+  //     );
+  //   }
+  // };
+  // editDepartment = async (values: TDepartment) => {
+  //   try {
+  //     const response: IApiResponse<null> = await axiosServices.put('api/wms/gm/department', values);
+  //     if (response.data.success) {
+  //       dispatch(
+  //         openSnackbar({
+  //           open: true,
+  //           message: response.data.message,
+  //           variant: 'alert',
+  //           alert: {
+  //             color: 'success'
+  //           },
+  //           close: true
+  //         })
+  //       );
+  //       return response.data.success;
+  //     }
+  //   } catch (error: unknown) {
+  //     const knownError = error as { message: string };
+  //     dispatch(
+  //       openSnackbar({
+  //         open: true,
+  //         message: knownError.message,
+  //         variant: 'alert',
+  //         alert: {
+  //           color: 'error'
+  //         },
+  //         severity: 'error',
+  //         close: true
+  //       })
+  //     );
+  //   }
+  // };
   deleteDepartment = async (departmentCodes: string[]) => {
     try {
       const response: IApiResponse<null> = await axiosServices.post('api/wms/gm/department/delete', departmentCodes);
@@ -611,7 +611,6 @@ class GM {
       );
     }
   };
-
 }
 const GmServiceInstance = new GM();
 
