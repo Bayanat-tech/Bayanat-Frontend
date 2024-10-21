@@ -13,6 +13,7 @@ import PrincipalWmsPage from 'pages/WMS/PrincipalWmsPage';
 import SalesmanWmsPage from 'pages/WMS/SalesmanWmsPage';
 import SecrollmasterWmsPage from 'pages/Security/SecrollmasterWmsPage';
 import SecmasterWmsPage from 'pages/Security/secmasterWmsPage';
+import ItemmasterPfPage from 'pages/Purchasefolder/ItemmasterPfpage';
 
 // pages routing
 const MaintenanceError = Loadable(lazy(() => import('pages/maintenance/404')));
@@ -113,6 +114,7 @@ const MainRoutes = {
                   children: [
                     { path: 'costmaster', element: <CostmasterPfPage /> },
                     { path: 'projectmaster', element: <ProjectmasterPfPage /> },
+                    { path: 'itemmaster', element: <ItemmasterPfPage /> },
                     { path: '*', element: <MaintenanceError /> }
                   ]
                 },
