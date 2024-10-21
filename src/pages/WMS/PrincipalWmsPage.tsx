@@ -96,27 +96,42 @@ const PrincipalWmsPage = () => {
     setPaginationData({ page, rowsPerPage });
   };
 
-  const handleEditPrincipal = (existingData: TPrincipalWms) => {
+  // const handleEditPrincipal = (existingData: TPrincipalWms) => {
+  //   setPrincipalFormPopup((prev) => {
+  //     return {
+  //       action: { ...prev.action, open: !prev.action.open },
+  //       title: 'Edit Principal',
+  //       data: { prin_code: existingData.prin_code, isEditMode: true }
+  //     };
+  //   });
+  // };
+
+  // const togglePrincipalPopup = (refetchData?: boolean) => {
+  //   if (principalFormPopup.action.open === true && refetchData) {
+  //     refetchPrincipalData();
+  //   }
+  //   setPrincipalFormPopup((prev) => {
+  //     return { ...prev, data: { isEditMode: false, prin_code: '' }, action: { ...prev.action, open: !prev.action.open } };
+  //   });
+  // };
+  const handleTogglePopup = (existingData?: TPrincipalWms, refetchData?: boolean) => {
+    if (principalFormPopup.action.open && refetchData) {
+      refetchPrincipalData();
+    }
     setPrincipalFormPopup((prev) => {
       return {
         action: { ...prev.action, open: !prev.action.open },
-        title: 'Edit Principal',
-        data: { prin_code: existingData.prin_code, isEditMode: true }
+        title: `${!!existingData && Object.keys(existingData).length > 0 ? 'Edit' : 'Add'} Principal`,
+        data: {
+          prin_code: existingData?.prin_code || '',
+          isEditMode: !!existingData
+        }
       };
     });
   };
 
-  const togglePrincipalPopup = (refetchData?: boolean) => {
-    if (principalFormPopup.action.open === true && refetchData) {
-      refetchPrincipalData();
-    }
-    setPrincipalFormPopup((prev) => {
-      return { ...prev, data: { isEditMode: false, prin_code: '' }, action: { ...prev.action, open: !prev.action.open } };
-    });
-  };
-
   const handleActions = (actionType: string, rowOriginal: TPrincipalWms) => {
-    actionType === 'edit' && handleEditPrincipal(rowOriginal);
+    actionType === 'edit' && handleTogglePopup(rowOriginal);
   };
   const handleDeletePrincipal = async () => {
     await WmsSerivceInstance.deleteMasters('wms', 'principal', Object.keys(rowSelection));
@@ -143,7 +158,7 @@ const PrincipalWmsPage = () => {
             Delete
           </Button>
         }
-        <Button startIcon={<PlusOutlined />} variant="shadow" onClick={() => togglePrincipalPopup()}>
+        <Button startIcon={<PlusOutlined />} variant="shadow" onClick={() => handleTogglePopup()}>
           Principal
         </Button>
       </div>
@@ -162,12 +177,12 @@ const PrincipalWmsPage = () => {
       {!!principalFormPopup && principalFormPopup.action.open && (
         <UniversalDialog
           action={{ ...principalFormPopup.action }}
-          onClose={togglePrincipalPopup}
+          onClose={handleTogglePopup}
           title={principalFormPopup.title}
           hasPrimaryButton={false}
         >
           <AddPrincipalWmsForm
-            onClose={togglePrincipalPopup}
+            onClose={(existingData, refetchData) => handleTogglePopup(existingData, refetchData)}
             isEditMode={principalFormPopup?.data?.isEditMode}
             prin_code={principalFormPopup.data.prin_code}
           />

@@ -6,26 +6,19 @@ import FileUploadServiceInstance from 'service/services.files';
 import { useSelector } from 'store';
 import { TFile } from 'types/types.file';
 import MediaList from './MediaList';
-import { useLocation } from 'react-router';
-import { getPathNameList } from 'utils/functions';
 
 const Files = ({
   existingFilesData,
-  request_number,
   filesData,
   setFilesData
 }: {
   existingFilesData: any[];
-  request_number: string;
   filesData: TFile[];
   setFilesData: React.Dispatch<React.SetStateAction<TFile[]>>;
 }) => {
   //------------------------constants---------------
   const [isFileUploading, setIsFileUploading] = useState<boolean>(false);
   const { app } = useSelector((state) => state.menuSelectionSlice);
-  const location = useLocation(),
-    pathNameList = getPathNameList(location.pathname);
-
   const { user } = useAuth();
 
   //---------------handlers-------------
@@ -43,7 +36,6 @@ const Files = ({
                 aws_file_locn: response.data,
                 extensions: eachFile.type.split('/')[1],
                 company_code: user?.company_code as string,
-                request_number: pathNameList[pathNameList.length - 1].slice(0, 3).toUpperCase() + request_number,
                 org_file_name: eachFile.name,
                 modules: app
               }

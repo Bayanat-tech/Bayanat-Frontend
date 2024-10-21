@@ -116,6 +116,7 @@ const AddStoragePrincipleForm = ({
               options={siteList?.tableData ?? []}
               fullWidth
               autoHighlight
+              size="small"
               getOptionLabel={(option) => option?.site_name}
               isOptionEqualToValue={(option) => option.site_code === formik.values.pref_site}
               renderInput={(params) => (
@@ -145,6 +146,7 @@ const AddStoragePrincipleForm = ({
                 options={locationList?.tableData ?? []}
                 fullWidth
                 autoHighlight
+                size="small"
                 getOptionLabel={(option) => option?.loc_desc ?? ''}
                 isOptionEqualToValue={(option) => option.location_code === formik.values.pref_loc_from}
                 renderInput={(params) => (
@@ -171,6 +173,7 @@ const AddStoragePrincipleForm = ({
                 options={locationList?.tableData ?? []}
                 fullWidth
                 autoHighlight
+                size="small"
                 getOptionLabel={(option) => option?.loc_desc ?? ''}
                 isOptionEqualToValue={(option) => option.location_code === formik.values.pref_loc_to}
                 renderInput={(params) => (
@@ -297,6 +300,7 @@ const AddStoragePrincipleForm = ({
               }}
               options={siteList?.tableData ?? []}
               fullWidth
+              size="small"
               autoHighlight
               getOptionLabel={(option) => option?.site_name}
               isOptionEqualToValue={(option) => option.site_code === formik.values.prin_siteind}
@@ -315,6 +319,7 @@ const AddStoragePrincipleForm = ({
             <InputLabel>Last Invoice Date</InputLabel>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
+                slotProps={{ textField: { size: 'small' } }}
                 className="w-full"
                 value={formik.values.service_date ? dayjs(formik.values.service_date) : null}
                 onChange={(newValue: Dayjs | null) => {
@@ -338,6 +343,7 @@ const AddStoragePrincipleForm = ({
               }}
               options={storageTypes ?? []}
               fullWidth
+              size="small"
               autoHighlight
               getOptionLabel={(option) => option?.label}
               isOptionEqualToValue={(option) => option.value === formik.values.storage_type}
@@ -366,6 +372,7 @@ const AddStoragePrincipleForm = ({
               }}
               options={storageList?.tableData ?? []}
               fullWidth
+              size="small"
               autoHighlight
               getOptionLabel={(option) => option?.foc}
               isOptionEqualToValue={(option) => option.foc === formik.values.default_foc}

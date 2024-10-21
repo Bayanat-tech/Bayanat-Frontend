@@ -1,6 +1,6 @@
 export type TFile = {
   company_code: string;
-  request_number: string;
+  request_number?: string;
   extensions: string;
   sr_no?: number;
   file_name?: string;

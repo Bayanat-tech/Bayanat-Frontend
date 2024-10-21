@@ -79,7 +79,7 @@
 //           options={(mastersList ?? []).filter((eachMaster) =>
 //             user_permission?.includes(permissions[app.toUpperCase()].children[eachMaster.value.toUpperCase()]?.serial_number)
 //           )}
-//           renderInput={(params) => <TextField required {...params} />}
+//           renderInput={(params) => <TextField
 //         />
 //       )}
 //       {/* {renderMaster(reportData)} */}

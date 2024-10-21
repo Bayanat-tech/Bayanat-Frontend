@@ -164,6 +164,7 @@ const AddSettingsPrincipalWmsForm = ({
             <InputLabel>Outbound Validate Exp Date</InputLabel>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
+                slotProps={{ textField: { size: 'small' } }}
                 className="w-full"
                 value={formik.values.validate_expdate ? dayjs(formik.values.validate_expdate) : null}
                 onChange={(newValue: Dayjs | null) => {
@@ -177,6 +178,7 @@ const AddSettingsPrincipalWmsForm = ({
           <Grid item xs={12} sm={6}>
             <InputLabel>Outbound Minimum Exp Period</InputLabel>
             <TextField
+              size="small"
               inputProps={{ min: 0 }}
               onChange={(event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
                 const inputValue = event.target.value;
@@ -196,6 +198,7 @@ const AddSettingsPrincipalWmsForm = ({
           <Grid item xs={12} sm={6}>
             <InputLabel>Inbound Exp Limit (days)</InputLabel>
             <TextField
+              size="small"
               inputProps={{ min: 0 }}
               onChange={(event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
                 const inputValue = event.target.value;

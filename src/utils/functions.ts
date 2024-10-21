@@ -62,8 +62,6 @@ export const getFileNameFromURL = (url: string) => {
   return fileName;
 };
 export const handleDownload = async (url: string) => {
-  console.log('download url', url);
-
   try {
     const response = await fetch(url, {
       method: 'GET',

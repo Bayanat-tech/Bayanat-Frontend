@@ -43,17 +43,38 @@ const AddContactInfoWmsForm = ({
         {/*----------------------Contact 1-------------------------- */}
         <Grid item xs={12} sm={6} md={3}>
           <InputLabel>Contact 1</InputLabel>
-          <TextField onChange={formik.handleChange} id="prin_cont1" name="prin_cont1" fullWidth value={formik.values.prin_cont1} />
+          <TextField
+            size="small"
+            onChange={formik.handleChange}
+            id="prin_cont1"
+            name="prin_cont1"
+            fullWidth
+            value={formik.values.prin_cont1}
+          />
         </Grid>
         {/*----------------------Contact 2-------------------------- */}
         <Grid item xs={12} sm={6} md={3}>
           <InputLabel>Contact 2</InputLabel>
-          <TextField onChange={formik.handleChange} id="prin_cont2" name="prin_cont2" fullWidth value={formik.values.prin_cont2} />
+          <TextField
+            size="small"
+            onChange={formik.handleChange}
+            id="prin_cont2"
+            name="prin_cont2"
+            fullWidth
+            value={formik.values.prin_cont2}
+          />
         </Grid>
         {/*----------------------Contact 3-------------------------- */}
         <Grid item xs={12} sm={6} md={3}>
           <InputLabel>Contact 3</InputLabel>
-          <TextField onChange={formik.handleChange} id="prin_cont3" name="prin_cont3" fullWidth value={formik.values.prin_cont3} />
+          <TextField
+            size="small"
+            onChange={formik.handleChange}
+            id="prin_cont3"
+            name="prin_cont3"
+            fullWidth
+            value={formik.values.prin_cont3}
+          />
         </Grid>
       </Grid>
       {/*-----------------------Emails------------------- */}
@@ -67,6 +88,7 @@ const AddContactInfoWmsForm = ({
         <Grid item xs={12} sm={6} md={3}>
           <InputLabel>Email 1</InputLabel>
           <TextField
+            size="small"
             type="email"
             onChange={formik.handleChange}
             id="prin_cont_email1"
@@ -79,6 +101,7 @@ const AddContactInfoWmsForm = ({
         <Grid item xs={12} sm={6} md={3}>
           <InputLabel>Email 2</InputLabel>
           <TextField
+            size="small"
             type="email"
             onChange={formik.handleChange}
             id="prin_cont_email2"
@@ -91,6 +114,7 @@ const AddContactInfoWmsForm = ({
         <Grid item xs={12} sm={6} md={3}>
           <InputLabel>Email 3</InputLabel>
           <TextField
+            size="small"
             type="email"
             onChange={formik.handleChange}
             id="prin_cont_email3"
@@ -110,6 +134,7 @@ const AddContactInfoWmsForm = ({
         <Grid item xs={12} sm={6} md={3}>
           <InputLabel>Telephone 1</InputLabel>
           <TextField
+            size="small"
             onChange={formik.handleChange}
             id="prin_cont_telno1"
             name="prin_cont_telno1"
@@ -121,6 +146,7 @@ const AddContactInfoWmsForm = ({
         <Grid item xs={12} sm={6} md={3}>
           <InputLabel>Telephone 2</InputLabel>
           <TextField
+            size="small"
             onChange={formik.handleChange}
             id="prin_cont_telno2"
             name="prin_cont_telno2"
@@ -132,6 +158,7 @@ const AddContactInfoWmsForm = ({
         <Grid item xs={12} sm={6} md={3}>
           <InputLabel>Telephone 3</InputLabel>
           <TextField
+            size="small"
             onChange={formik.handleChange}
             id="prin_cont_telno3"
             name="prin_cont_telno3"
@@ -151,6 +178,7 @@ const AddContactInfoWmsForm = ({
         <Grid item xs={12} sm={6} md={3}>
           <InputLabel>Fax 1</InputLabel>
           <TextField
+            size="small"
             onChange={formik.handleChange}
             id="prin_cont_faxno1"
             name="prin_cont_faxno1"
@@ -162,6 +190,7 @@ const AddContactInfoWmsForm = ({
         <Grid item xs={12} sm={6} md={3}>
           <InputLabel>Fax 2</InputLabel>
           <TextField
+            size="small"
             onChange={formik.handleChange}
             id="prin_cont_faxno2"
             name="prin_cont_faxno2"
@@ -173,6 +202,7 @@ const AddContactInfoWmsForm = ({
         <Grid item xs={12} sm={6} md={3}>
           <InputLabel>Fax 3</InputLabel>
           <TextField
+            size="small"
             onChange={formik.handleChange}
             id="prin_cont_faxno3"
             name="prin_cont_faxno3"
@@ -184,6 +214,7 @@ const AddContactInfoWmsForm = ({
         <Grid item xs={12} sm={6} md={3}>
           <InputLabel>Reference</InputLabel>
           <TextField
+            size="small"
             onChange={formik.handleChange}
             id="prin_cont_ref1"
             name="prin_cont_ref1"

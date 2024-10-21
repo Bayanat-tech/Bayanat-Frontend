@@ -89,9 +89,12 @@ const BasicPrincipalInfoWmsForm = ({
     }
   });
   useEffect(() => {
-    if (!!basicInfo && !!Object.keys(basicInfo).length) formik.setValues(basicInfo);
+    if (!!basicInfo && !!Object.keys(basicInfo).length) {
+      formik.setValues(basicInfo);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [basicInfo]);
+
   return (
     <Grid container spacing={6} component={'form'} onSubmit={formik.handleSubmit}>
       {/*----------------------Sales/Company Information-------------------------- */}
@@ -106,6 +109,7 @@ const BasicPrincipalInfoWmsForm = ({
           <Grid item xs={12} sm={6} hidden={!isEditMode}>
             <InputLabel>Code</InputLabel>
             <TextField
+              size="small"
               name="prin_code"
               fullWidth
               disabled
@@ -122,6 +126,7 @@ const BasicPrincipalInfoWmsForm = ({
           <Grid item xs={12} sm={6}>
             <InputLabel>Name*</InputLabel>
             <TextField
+              size="small"
               onChange={formik.handleChange}
               name="prin_name"
               fullWidth
@@ -139,27 +144,62 @@ const BasicPrincipalInfoWmsForm = ({
               {/*----------------------Address1-------------------------- */}
               <Grid item xs={12} sm={6}>
                 <InputLabel>Address 1</InputLabel>
-                <TextField onChange={formik.handleChange} id="prin_addr1" name="prin_addr1" fullWidth value={formik.values.prin_addr1} />
+                <TextField
+                  size="small"
+                  onChange={formik.handleChange}
+                  id="prin_addr1"
+                  name="prin_addr1"
+                  fullWidth
+                  value={formik.values.prin_addr1}
+                />
               </Grid>
               {/*----------------------Address2-------------------------- */}
               <Grid item xs={12} sm={6}>
                 <InputLabel>Address 2</InputLabel>
-                <TextField onChange={formik.handleChange} id="prin_addr2" name="prin_addr2" fullWidth value={formik.values.prin_addr2} />
+                <TextField
+                  size="small"
+                  onChange={formik.handleChange}
+                  id="prin_addr2"
+                  name="prin_addr2"
+                  fullWidth
+                  value={formik.values.prin_addr2}
+                />
               </Grid>
               {/*----------------------Address3-------------------------- */}
               <Grid item xs={12} sm={6}>
                 <InputLabel>Address 3</InputLabel>
-                <TextField onChange={formik.handleChange} id="prin_addr3" name="prin_addr3" fullWidth value={formik.values.prin_addr3} />
+                <TextField
+                  size="small"
+                  onChange={formik.handleChange}
+                  id="prin_addr3"
+                  name="prin_addr3"
+                  fullWidth
+                  value={formik.values.prin_addr3}
+                />
               </Grid>
               {/*----------------------Address4-------------------------- */}
               <Grid item xs={12} sm={6}>
                 <InputLabel>Address 4</InputLabel>
-                <TextField onChange={formik.handleChange} id="prin_addr4" name="prin_addr4" fullWidth value={formik.values.prin_addr4} />
+                <TextField
+                  size="small"
+                  onChange={formik.handleChange}
+                  id="prin_addr4"
+                  name="prin_addr4"
+                  fullWidth
+                  value={formik.values.prin_addr4}
+                />
               </Grid>
               {/*----------------------City-------------------------- */}
               <Grid item xs={12} sm={6}>
                 <InputLabel>City</InputLabel>
-                <TextField onChange={formik.handleChange} id="prin_city" name="prin_city" fullWidth value={formik.values.prin_city} />
+                <TextField
+                  size="small"
+                  onChange={formik.handleChange}
+                  id="prin_city"
+                  name="prin_city"
+                  fullWidth
+                  value={formik.values.prin_city}
+                />
               </Grid>
               {/*----------------------Country-------------------------- */}
               <Grid item xs={12} sm={6}>
@@ -174,6 +214,7 @@ const BasicPrincipalInfoWmsForm = ({
                   onChange={(event, value: TCountry | null) => {
                     formik.setFieldValue('country_code', value?.country_code);
                   }}
+                  size="small"
                   options={countryList?.tableData ?? []}
                   fullWidth
                   autoHighlight
@@ -206,6 +247,7 @@ const BasicPrincipalInfoWmsForm = ({
                   fullWidth
                   autoHighlight
                   getOptionLabel={(option) => option?.territory_name}
+                  size="small"
                   isOptionEqualToValue={(option) => option.territory_code === formik.values.territory_code}
                   renderInput={(params) => (
                     <TextField
@@ -220,23 +262,51 @@ const BasicPrincipalInfoWmsForm = ({
               {/*----------------------Sector-------------------------- */}
               <Grid item xs={12} sm={6}>
                 <InputLabel>Sector</InputLabel>
-                <TextField onChange={formik.handleChange} id="sector_code" name="sector_code" fullWidth value={formik.values.sector_code} />
+                <TextField
+                  size="small"
+                  onChange={formik.handleChange}
+                  id="sector_code"
+                  name="sector_code"
+                  fullWidth
+                  value={formik.values.sector_code}
+                />
               </Grid>
 
               {/*----------------------Company Fax 1-------------------------- */}
               <Grid item xs={12} sm={4}>
                 <InputLabel>Company Fax 1</InputLabel>
-                <TextField onChange={formik.handleChange} id="prin_faxno1" name="prin_faxno1" fullWidth value={formik.values.prin_faxno1} />
+                <TextField
+                  size="small"
+                  onChange={formik.handleChange}
+                  id="prin_faxno1"
+                  name="prin_faxno1"
+                  fullWidth
+                  value={formik.values.prin_faxno1}
+                />
               </Grid>
               {/*----------------------Company Fax 2-------------------------- */}
               <Grid item xs={12} sm={4}>
                 <InputLabel>Company Fax 2</InputLabel>
-                <TextField onChange={formik.handleChange} id="prin_faxno2" name="prin_faxno2" fullWidth value={formik.values.prin_faxno2} />
+                <TextField
+                  size="small"
+                  onChange={formik.handleChange}
+                  id="prin_faxno2"
+                  name="prin_faxno2"
+                  fullWidth
+                  value={formik.values.prin_faxno2}
+                />
               </Grid>
               {/*----------------------Company Fax 3-------------------------- */}
               <Grid item xs={12} sm={4}>
                 <InputLabel>Company Fax 3</InputLabel>
-                <TextField onChange={formik.handleChange} id="prin_faxno3" name="prin_faxno3" fullWidth value={formik.values.prin_faxno3} />
+                <TextField
+                  size="small"
+                  onChange={formik.handleChange}
+                  id="prin_faxno3"
+                  name="prin_faxno3"
+                  fullWidth
+                  value={formik.values.prin_faxno3}
+                />
               </Grid>
             </Grid>
           </Grid>
@@ -290,6 +360,7 @@ const BasicPrincipalInfoWmsForm = ({
                       fullWidth
                       autoHighlight
                       getOptionLabel={(option) => option?.country_name}
+                      size="small"
                       isOptionEqualToValue={(option) => option.country_code === formik.values.tax_country_code}
                       renderInput={(params) => (
                         <TextField
@@ -305,6 +376,7 @@ const BasicPrincipalInfoWmsForm = ({
                   <Grid item xs={12} sm={6}>
                     <InputLabel>Email Account</InputLabel>
                     <TextField
+                      size="small"
                       onChange={formik.handleChange}
                       id="acc_email"
                       name="acc_email"
@@ -317,6 +389,7 @@ const BasicPrincipalInfoWmsForm = ({
                   <Grid item xs={12} sm={6}>
                     <InputLabel>Email 1</InputLabel>
                     <TextField
+                      size="small"
                       onChange={formik.handleChange}
                       id="prin_email1"
                       name="prin_email1"
@@ -329,6 +402,7 @@ const BasicPrincipalInfoWmsForm = ({
                   <Grid item xs={12} sm={6}>
                     <InputLabel>Email 2</InputLabel>
                     <TextField
+                      size="small"
                       onChange={formik.handleChange}
                       id="prin_email2"
                       name="prin_email2"
@@ -341,6 +415,7 @@ const BasicPrincipalInfoWmsForm = ({
                   <Grid item xs={12} sm={6}>
                     <InputLabel>Email 3</InputLabel>
                     <TextField
+                      size="small"
                       onChange={formik.handleChange}
                       id="prin_email3"
                       name="prin_email3"
@@ -379,6 +454,7 @@ const BasicPrincipalInfoWmsForm = ({
                   options={departmentList?.tableData ?? []}
                   fullWidth
                   autoHighlight
+                  size="small"
                   getOptionLabel={(option) => option?.dept_name}
                   isOptionEqualToValue={(option) => option.dept_code === formik.values.prin_dept_code}
                   renderInput={(params) => (
@@ -399,7 +475,14 @@ const BasicPrincipalInfoWmsForm = ({
               {/*----------------------Reference-------------------------- */}
               <Grid item xs={12} sm={6}>
                 <InputLabel>Reference</InputLabel>
-                <TextField onChange={formik.handleChange} id="prin_ref1" name="prin_ref1" fullWidth value={formik.values.prin_ref1} />
+                <TextField
+                  size="small"
+                  onChange={formik.handleChange}
+                  id="prin_ref1"
+                  name="prin_ref1"
+                  fullWidth
+                  value={formik.values.prin_ref1}
+                />
               </Grid>
             </Grid>
           </Grid>

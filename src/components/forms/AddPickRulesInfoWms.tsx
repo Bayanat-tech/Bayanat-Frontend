@@ -38,7 +38,14 @@ const AddPickRulesInfoWms = ({
       <Grid item container className="px-14" xs={12}>
         <Grid item xs={12} sm={3}>
           <InputLabel>Pick Wave</InputLabel>
-          <TextField onChange={formik.handleChange} id="pick_wave" name="pick_wave" fullWidth value={formik.values.pick_wave} />
+          <TextField
+            size="small"
+            onChange={formik.handleChange}
+            id="pick_wave"
+            name="pick_wave"
+            fullWidth
+            value={formik.values.pick_wave}
+          />
         </Grid>
       </Grid>
 
@@ -47,6 +54,7 @@ const AddPickRulesInfoWms = ({
         <Grid item xs={12} sm={3}>
           <InputLabel>Pick Wave (Minimum Exp)</InputLabel>
           <TextField
+            size="small"
             type="number"
             inputProps={{ min: 0 }}
             onChange={(event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
@@ -67,6 +75,7 @@ const AddPickRulesInfoWms = ({
         <Grid item xs={12} sm={3}>
           <InputLabel>Pick Wave (Least Quantity)</InputLabel>
           <TextField
+            size="small"
             type="number"
             inputProps={{ min: 0 }}
             onChange={(event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {

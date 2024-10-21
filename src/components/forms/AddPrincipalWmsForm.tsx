@@ -24,13 +24,13 @@ const AddPrincipalWmsForm = ({
   isEditMode,
   prin_code
 }: {
-  onClose: (refetchData?: boolean) => void;
+  onClose: (existingData?: TPrincipalWms, refetchData?: boolean) => void;
   isEditMode: boolean;
   prin_code: string;
 }) => {
   //--------------------constants-------------------
   const { user } = useAuth();
-  const steps = ['Basic Info', 'Account Info', 'Contact Info', 'Pick Rules', 'Settings', 'Storage Detail'];
+  const steps = ['Basic Info', 'Account Info', 'Contact Info', 'Pick Rules', 'Settings', 'Storage Info'];
 
   //--------------------States-------------------
   const [activeStep, setActiveStep] = useState(0);
@@ -137,7 +137,7 @@ const AddPrincipalWmsForm = ({
   //----------------useQuery-----------------
 
   const { data: principalData, isFetched: isPrincipalDataFetched } = useQuery<TPrincipalWms | undefined>({
-    queryKey: ['currency_data'],
+    queryKey: ['principal_data'],
     queryFn: () => GmServiceInstance.getPrincipal(prin_code),
     enabled: isEditMode === true
   });
@@ -155,16 +155,17 @@ const AddPrincipalWmsForm = ({
       ...storage,
       company_code: user?.company_code as string
     };
-    let response;
+    let response,
+      prinCode = finalPayload.prin_code;
     delete finalPayload.prin_code;
     if (isEditMode) {
-      response = await GmServiceInstance.editPrincipal(finalPayload, finalPayload?.prin_code ?? '');
+      response = await GmServiceInstance.editPrincipal(finalPayload, prinCode ?? '');
     } else {
       response = await GmServiceInstance.addPrincipal(finalPayload);
     }
     setSubmitting(false);
     if (response) {
-      onClose();
+      onClose(undefined, true);
     }
   };
 
@@ -228,8 +229,6 @@ const AddPrincipalWmsForm = ({
 
   useEffect(() => {
     if (isEditMode && isPrincipalDataFetched && !!principalData && Object.keys(principalData).length > 0) {
-      console.log('callled inside');
-
       const {
         prin_code,
         prin_name,
@@ -404,10 +403,7 @@ const AddPrincipalWmsForm = ({
       <Stepper nonLinear activeStep={activeStep}>
         {steps.map((label, index) => (
           <Step key={label} completed={activeStep > index}>
-            <StepButton
-              color="inherit"
-              onClick={() => index < activeStep && setActiveStep(index)} // Update activeStep on click
-            >
+            <StepButton color="inherit" onClick={() => index < activeStep && setActiveStep(index)}>
               {label}
             </StepButton>
           </Step>

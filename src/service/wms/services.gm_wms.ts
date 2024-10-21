@@ -112,7 +112,6 @@ class GM {
       const response: IApiResponse<TPrincipalWms> = await axiosServices.get(`api/wms/gm/principal/${prin_code}`);
 
       if (response.data.success === true && response.data.data) {
-        console.log(response);
         return response.data.data;
       }
     } catch (error: unknown) {

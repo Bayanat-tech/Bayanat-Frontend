@@ -26,9 +26,9 @@ import { useLocation } from 'react-router';
 import WmsSerivceInstance from 'service/service.wms';
 import FileUploadServiceInstance from 'service/services.files';
 import { useSelector } from 'store';
+import { TFile } from 'types/types.file';
 import { TUniversalDialogProps } from 'types/types.UniversalDialog';
 import { getPathNameList } from 'utils/functions';
-import { TFile } from 'types/types.file';
 
 const AccountPrincipalInfoWms = ({
   prin_code,
@@ -121,14 +121,24 @@ const AccountPrincipalInfoWms = ({
         <Grid container spacing={4}>
           <Grid item container xs={12} spacing={2}>
             <Grid item xs={12}>
-              <Typography variant="h4" className="text-black py-2 font-semibold">
-                Tax and Registration Information
-              </Typography>
+              <div className="flex flex-col sm:flex-row   space-x-2">
+                <Typography variant="h4" className="text-black py-2 font-semibold">
+                  Tax and Registration Information
+                </Typography>
+                <Button
+                  size="extraSmall"
+                  onClick={() => handleUploadPopup()}
+                  // variant="dashed"
+                >
+                  Upload Document
+                </Button>
+              </div>
             </Grid>
             {/*----------------------Tax Registered No.-------------------------- */}
             <Grid item xs={12} sm={6}>
               <InputLabel>Tax Registered No.</InputLabel>
               <TextField
+                size="small"
                 type="number"
                 inputProps={{ min: 0 }}
                 onChange={(event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
@@ -148,7 +158,8 @@ const AccountPrincipalInfoWms = ({
               <InputLabel>Tax Registration Expiry Date</InputLabel>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
-                  className="w-full"
+                  slotProps={{ textField: { size: 'small' } }}
+                  className="w-full "
                   value={formik.values.trn_exp_date ? dayjs(formik.values.trn_exp_date) : null}
                   onChange={(newValue: Dayjs | null) => {
                     if (newValue?.isValid()) formik.setFieldValue('trn_exp_date', newValue.toISOString());
@@ -160,6 +171,7 @@ const AccountPrincipalInfoWms = ({
             <Grid item xs={12} sm={6}>
               <InputLabel>Commercial Registered No.</InputLabel>
               <TextField
+                size="small"
                 type="number"
                 inputProps={{ min: 0 }}
                 onChange={(event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
@@ -179,6 +191,7 @@ const AccountPrincipalInfoWms = ({
               <InputLabel>Commercial Registration No. Expiry Date</InputLabel>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
+                  slotProps={{ textField: { size: 'small' } }}
                   className="w-full"
                   value={formik.values.comm_exp_date ? dayjs(formik.values.comm_exp_date) : null}
                   onChange={(newValue: Dayjs | null) => {
@@ -191,6 +204,7 @@ const AccountPrincipalInfoWms = ({
             <Grid item xs={12} sm={6}>
               <InputLabel>License No.</InputLabel>
               <TextField
+                size="small"
                 type="number"
                 inputProps={{ min: 0 }}
                 onChange={(event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
@@ -209,6 +223,7 @@ const AccountPrincipalInfoWms = ({
             <Grid item xs={12} sm={6}>
               <InputLabel>License Type</InputLabel>
               <TextField
+                size="small"
                 onChange={formik.handleChange}
                 id="prin_lic_type"
                 name="prin_lic_type"
@@ -221,11 +236,6 @@ const AccountPrincipalInfoWms = ({
           {/*----------------------Currency and Upload Information-------------------------- */}
           <Grid item xs={12}>
             <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <Button size="small" onClick={() => handleUploadPopup()}>
-                  Documents
-                </Button>
-              </Grid>
               {/*----------------------Default Currency-------------------------- */}
               <Grid item xs={12} sm={6}>
                 <InputLabel>Default Currency*</InputLabel>
@@ -239,6 +249,7 @@ const AccountPrincipalInfoWms = ({
                   onChange={(event, value: TCurrency | null) => {
                     formik.setFieldValue('curr_code', value?.curr_code);
                   }}
+                  size="small"
                   options={currencyList?.tableData ?? []}
                   fullWidth
                   autoHighlight
@@ -288,7 +299,14 @@ const AccountPrincipalInfoWms = ({
             <Grid item container xs={12}>
               <Grid item xs={12} sm={6}>
                 <InputLabel>A/C Reference</InputLabel>
-                <TextField onChange={formik.handleChange} id="prin_acref" name="prin_acref" fullWidth value={formik.values.prin_acref} />
+                <TextField
+                  size="small"
+                  onChange={formik.handleChange}
+                  id="prin_acref"
+                  name="prin_acref"
+                  fullWidth
+                  value={formik.values.prin_acref}
+                />
               </Grid>
             </Grid>
 
@@ -296,6 +314,7 @@ const AccountPrincipalInfoWms = ({
             <Grid item xs={12} sm={4}>
               <InputLabel>Credit Limit</InputLabel>
               <TextField
+                size="small"
                 type="number"
                 inputProps={{ min: 0 }}
                 onChange={(event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
@@ -315,6 +334,7 @@ const AccountPrincipalInfoWms = ({
               <InputLabel>Credit Period (WMS)</InputLabel>
 
               <TextField
+                size="small"
                 type="number"
                 inputProps={{ min: 0 }}
                 onChange={(event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
@@ -335,6 +355,7 @@ const AccountPrincipalInfoWms = ({
               <InputLabel>(Frieght)</InputLabel>
 
               <TextField
+                size="small"
                 type="number"
                 inputProps={{ min: 0 }}
                 onChange={(event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
@@ -364,6 +385,7 @@ const AccountPrincipalInfoWms = ({
               <Grid item xs={12} sm={6}>
                 <InputLabel>Import Code</InputLabel>
                 <TextField
+                  size="small"
                   onChange={formik.handleChange}
                   id="prin_imp_code"
                   name="prin_imp_code"
@@ -375,6 +397,7 @@ const AccountPrincipalInfoWms = ({
               <Grid item xs={12} sm={6}>
                 <InputLabel>Parent Principal Code</InputLabel>
                 <TextField
+                  size="small"
                   onChange={formik.handleChange}
                   id="parent_prin_code"
                   name="parent_prin_code"
@@ -387,6 +410,7 @@ const AccountPrincipalInfoWms = ({
                 <InputLabel>Last Invoice Date</InputLabel>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
+                    slotProps={{ textField: { size: 'small' } }}
                     className="w-full"
                     value={formik.values.prin_invdate ? dayjs(formik.values.prin_invdate) : null}
                     onChange={(newValue: Dayjs | null) => {
@@ -417,12 +441,7 @@ const AccountPrincipalInfoWms = ({
           title={uploadFilesPopup.title}
           hasPrimaryButton={false}
         >
-          <Files
-            existingFilesData={formik.values.files ?? []}
-            request_number={prin_code as unknown as string}
-            filesData={filesData}
-            setFilesData={setFilesData}
-          />
+          <Files existingFilesData={formik.values.files ?? []} filesData={filesData} setFilesData={setFilesData} />
         </UniversalDialog>
       )}
     </Grid>
