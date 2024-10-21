@@ -17,6 +17,10 @@ import SalesmanWmsPage from 'pages/WMS/SalesmanWmsPage';
 =======
 import SecrollmasterWmsPage from 'pages/Security/SecrollmasterWmsPage';
 import SecmasterWmsPage from 'pages/Security/secmasterWmsPage';
+<<<<<<< HEAD
+>>>>>>> qa
+=======
+import ItemmasterPfPage from 'pages/Purchasefolder/ItemmasterPfpage';
 >>>>>>> qa
 
 // pages routing
@@ -25,12 +29,17 @@ const MaintenanceError500 = Loadable(lazy(() => import('pages/maintenance/500'))
 const MaintenanceUnderConstruction = Loadable(lazy(() => import('pages/maintenance/under-construction')));
 const MaintenanceComingSoon = Loadable(lazy(() => import('pages/maintenance/coming-soon')));
 const CountryWmsPage = Loadable(lazy(() => import('pages/WMS/CountryWmsPage')));
-const DepartmentWmsPage = Loadable(lazy(() => import('pages/WMS/DepartmentWmsPage')));
+// const DepartmentWmsPage = Loadable(lazy(() => import('pages/WMS/DepartmentWmsPage')));
 const LocationWmsPage = Loadable(lazy(() => import('pages/WMS/LocationWmsPage')));
 const CurrencyWmsPage = Loadable(lazy(() => import('pages/WMS/CurrencyWmsPage')));
 const CostmasterPfPage = Loadable(lazy(() => import('pages/Purchasefolder/CostmasterPfpage')));
 const ProjectmasterPfPage = Loadable(lazy(() => import('pages/Purchasefolder/ProjectmasterPfPage')));
+<<<<<<< HEAD
 //const RollmasterSecPage = Loadable(lazy(() => import('pages/Security/r')));
+=======
+const BillingActivityPage = Loadable(lazy(() => import('../pages/WMS/ActivityBillingPage')));
+
+>>>>>>> qa
 // render - sample page
 // const AppSelectionPage = Loadable(lazy(() => import('pages/AppSelection/AppSelectionPage')));
 
@@ -63,11 +72,13 @@ const MainRoutes = {
                     { path: 'city', element: <CountryWmsPage /> },
                     { path: 'country', element: <CountryWmsPage /> },
                     { path: 'principal', element: <PrincipalWmsPage /> },
-                    { path: 'department', element: <DepartmentWmsPage /> },
+                    // { path: 'department', element: <DepartmentWmsPage /> },
                     { path: 'location', element: <LocationWmsPage /> },
                     { path: 'currency', element: <CurrencyWmsPage /> },
                     { path: 'pickwave', element: <PickWaveWmsPage /> },
                     { path: 'salesman', element: <SalesmanWmsPage /> },
+                    { path: 'billingactivity', element: <BillingActivityPage /> },
+                    { path: 'secrole', element: <SecrollmasterWmsPage /> },
                     { path: '*', element: <MaintenanceError /> }
                   ]
                 },
@@ -123,6 +134,7 @@ const MainRoutes = {
                   children: [
                     { path: 'costmaster', element: <CostmasterPfPage /> },
                     { path: 'projectmaster', element: <ProjectmasterPfPage /> },
+                    { path: 'itemmaster', element: <ItemmasterPfPage /> },
                     { path: '*', element: <MaintenanceError /> }
                   ]
                 },
