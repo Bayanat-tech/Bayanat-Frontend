@@ -12,13 +12,12 @@ import WmsSerivceInstance from 'service/service.wms';
 import { useSelector } from 'store';
 import { TUniversalDialogProps } from 'types/types.UniversalDialog';
 import { getPathNameList } from 'utils/functions';
-import { Tsecrollmaster } from './type/flowmaster-sec-types'; 
-import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
 import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
-import GmServiceInstance from 'service/wms/services.gm_wms';
-import AddSecRoleWmsForm from 'components/forms/Security/AddSecRoleSecForm';
+import AddPrincipalWmsForm from 'components/forms/AddPrincipalWmsForm';
+import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
+import { TPrincipalWms } from './types/principal-wms.types';
 
-const SecrollmasterWmsPage = () => {
+const PrincipalWmsPage = () => {
   //--------------constants----------
   const { permissions, user_permission } = useAuth();
   const location = useLocation();
@@ -28,17 +27,16 @@ const SecrollmasterWmsPage = () => {
   const [searchData, setSearchData] = useState<ISearch>();
   const [toggleFilter, setToggleFilter] = useState<boolean | null>(null);
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
-
-  const [secroleFormPopup, setCountryFormPopup] = useState<TUniversalDialogProps>({
+  const [principalFormPopup, setPrincipalFormPopup] = useState<TUniversalDialogProps>({
     action: {
       open: false,
-      fullWidth: true,
-      maxWidth: 'sm'
+      fullScreen: true
     },
-    title: 'Add Role Master',
-    data: { existingData: {}, isEditMode: false }
+    title: 'Add Principal',
+    data: { prin_code: '', isEditMode: false }
   });
-  const columns = useMemo<ColumnDef<Tsecrollmaster>[]>(
+
+  const columns = useMemo<ColumnDef<TPrincipalWms>[]>(
     () => [
       {
         id: 'select-col',
@@ -54,24 +52,20 @@ const SecrollmasterWmsPage = () => {
         )
       },
       {
-        accessorFn: (row) => row.company_code,
-        id: 'company_code',
-        header: () => <span>Company Code</span>
+        accessorFn: (row) => row.prin_code,
+        id: 'prin_code',
+        header: () => <span>Code</span>
       },
       {
-        accessorFn: (row) => row.role_id,
-        id: 'role_id',
-        header: () => <span>Role ID</span>
+        accessorFn: (row) => row.prin_name,
+        id: 'prin_name',
+        header: () => <span>Name</span>
       },
+
       {
-        accessorFn: (row) => row.role_desc,
-        id: 'role_desc',
-        header: () => <span>Role Description</span>
-      },
-      {
-        accessorFn: (row) => row.remarks,
-        id: 'row.remarks',
-        header: () => <span>Remarks</span>
+        accessorFn: (row) => row.prin_status,
+        id: 'prin_status',
+        header: () => <span>Status</span>
       },
       {
         id: 'actions',
@@ -89,11 +83,11 @@ const SecrollmasterWmsPage = () => {
 
   //----------- useQuery--------------
   const {
-    data: secrollmasterData,
-    isFetching: issecrollmasterfetchLoading,
-    refetch: refetchSalesmanData
+    data: principalData,
+    isFetching: isPrincipalFetchLoading,
+    refetch: refetchPrincipalData
   } = useQuery({
-    queryKey: ['salesman_data', searchData, paginationData],
+    queryKey: ['principal_data', searchData, paginationData],
     queryFn: () => WmsSerivceInstance.getMasters(app, pathNameList[pathNameList.length - 1], paginationData, searchData),
     enabled: user_permission?.includes(permissions?.[app.toUpperCase()]?.children[pathNameList[3]?.toUpperCase()]?.serial_number)
   });
@@ -102,45 +96,61 @@ const SecrollmasterWmsPage = () => {
     setPaginationData({ page, rowsPerPage });
   };
 
-  const handleEditsecrollmaster = (existingData: Tsecrollmaster) => {
-    setCountryFormPopup((prev) => {
+  // const handleEditPrincipal = (existingData: TPrincipalWms) => {
+  //   setPrincipalFormPopup((prev) => {
+  //     return {
+  //       action: { ...prev.action, open: !prev.action.open },
+  //       title: 'Edit Principal',
+  //       data: { prin_code: existingData.prin_code, isEditMode: true }
+  //     };
+  //   });
+  // };
+
+  // const togglePrincipalPopup = (refetchData?: boolean) => {
+  //   if (principalFormPopup.action.open === true && refetchData) {
+  //     refetchPrincipalData();
+  //   }
+  //   setPrincipalFormPopup((prev) => {
+  //     return { ...prev, data: { isEditMode: false, prin_code: '' }, action: { ...prev.action, open: !prev.action.open } };
+  //   });
+  // };
+  const handleTogglePopup = (existingData?: TPrincipalWms, refetchData?: boolean) => {
+    if (principalFormPopup.action.open && refetchData) {
+      refetchPrincipalData();
+    }
+    setPrincipalFormPopup((prev) => {
       return {
         action: { ...prev.action, open: !prev.action.open },
-        title: 'Edit  Role Master',
-        data: { existingData, isEditMode: true }
+        title: `${!!existingData && Object.keys(existingData).length > 0 ? 'Edit' : 'Add'} Principal`,
+        data: {
+          prin_code: existingData?.prin_code || '',
+          isEditMode: !!existingData
+        }
       };
     });
   };
 
-  const toggleCountryPopup = (refetchData?: boolean) => {
-    if (secroleFormPopup.action.open === true && refetchData) {
-        refetchSalesmanData();
-    }
-    setCountryFormPopup((prev) => {
-      return { ...prev, data: { isEditMode: false, existingData: {} }, action: { ...prev.action, open: !prev.action.open } };
-    });
+  const handleActions = (actionType: string, rowOriginal: TPrincipalWms) => {
+    actionType === 'edit' && handleTogglePopup(rowOriginal);
   };
-
-  const handleActions = (actionType: string, rowOriginal: Tsecrollmaster) => {
-    actionType === 'edit' && handleEditsecrollmaster(rowOriginal);
-  };
-  const handleDeleteSecrollmaster = async () => {
-    await GmServiceInstance.deletesalesman(Object.keys(rowSelection));
+  const handleDeletePrincipal = async () => {
+    await WmsSerivceInstance.deleteMasters('wms', 'principal', Object.keys(rowSelection));
     setRowSelection({});
-    refetchSalesmanData();
+    refetchPrincipalData();
   };
   //------------------useEffect----------------
   useEffect(() => {
     setSearchData(null as any);
     setToggleFilter(null as any);
   }, []);
+
   return (
     <div className="flex flex-col space-y-2">
       <div className="flex justify-end space-x-2">
         {
           <Button
             variant="outlined"
-            onClick={()=>handleDeleteSecrollmaster}
+            onClick={handleDeletePrincipal}
             color="error"
             hidden={!Object.keys(rowSelection).length}
             startIcon={<DeleteOutlined />}
@@ -148,33 +158,33 @@ const SecrollmasterWmsPage = () => {
             Delete
           </Button>
         }
-        <Button startIcon={<PlusOutlined />} variant="shadow" onClick={() => toggleCountryPopup()}>
-          AddRole
+        <Button startIcon={<PlusOutlined />} variant="shadow" onClick={() => handleTogglePopup()}>
+          Principal
         </Button>
       </div>
       <CustomDataTable
         rowSelection={rowSelection}
         setRowSelection={setRowSelection}
-        row_id="salesman_code"
-        data={secrollmasterData?.tableData || []}
+        row_id="prin_code"
+        data={principalData?.tableData || []}
         columns={columns}
-        count={secrollmasterData?.count}
+        count={principalData?.count}
         onPaginationChange={handleChangePagination}
-        isDataLoading={issecrollmasterfetchLoading}
+        isDataLoading={isPrincipalFetchLoading}
         toggleFilter={toggleFilter}
         hasPagination={true}
       />
-      {!!secroleFormPopup && secroleFormPopup.action.open && (
+      {!!principalFormPopup && principalFormPopup.action.open && (
         <UniversalDialog
-          action={{ ...secroleFormPopup.action }}
-          onClose={toggleCountryPopup}
-          title={secroleFormPopup.title}
+          action={{ ...principalFormPopup.action }}
+          onClose={handleTogglePopup}
+          title={principalFormPopup.title}
           hasPrimaryButton={false}
         >
-          <AddSecRoleWmsForm
-            onClose={toggleCountryPopup}
-            isEditMode={secroleFormPopup?.data?.isEditMode}
-            existingData={secroleFormPopup.data.existingData}
+          <AddPrincipalWmsForm
+            onClose={(existingData, refetchData) => handleTogglePopup(existingData, refetchData)}
+            isEditMode={principalFormPopup?.data?.isEditMode}
+            prin_code={principalFormPopup.data.prin_code}
           />
         </UniversalDialog>
       )}
@@ -182,4 +192,4 @@ const SecrollmasterWmsPage = () => {
   );
 };
 
-export default SecrollmasterWmsPage;
+export default PrincipalWmsPage;

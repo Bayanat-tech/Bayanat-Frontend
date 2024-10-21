@@ -9,9 +9,15 @@ import PickWaveWmsPage from 'pages/WMS/PickWaveWmsPage';
 import WareHouseManagmentSystemPage from 'pages/WMS/WareHouseManagmentSystemPage';
 import FlowmasterSecPage from 'pages/Security/flowmaster-sec.types';
 import AuthGuard from 'utils/route-guard/AuthGuard';
+import PrincipalWmsPage from 'pages/WMS/PrincipalWmsPage';
 import SalesmanWmsPage from 'pages/WMS/SalesmanWmsPage';
+<<<<<<< HEAD
 //import SecrollmasterWmsPage from 'pages/WMS/SecrollmasterWmsPage';
 //import ProjectmasterPfPage from 'pages/Purchasefolder/ProjectmasterPfPage';
+=======
+import SecrollmasterWmsPage from 'pages/Security/SecrollmasterWmsPage';
+import SecmasterWmsPage from 'pages/Security/secmasterWmsPage';
+>>>>>>> qa
 
 // pages routing
 const MaintenanceError = Loadable(lazy(() => import('pages/maintenance/404')));
@@ -56,6 +62,7 @@ const MainRoutes = {
                   children: [
                     { path: 'city', element: <CountryWmsPage /> },
                     { path: 'country', element: <CountryWmsPage /> },
+                    { path: 'principal', element: <PrincipalWmsPage /> },
                     { path: 'department', element: <DepartmentWmsPage /> },
                     { path: 'location', element: <LocationWmsPage /> },
                     { path: 'currency', element: <CurrencyWmsPage /> },
@@ -85,7 +92,12 @@ const MainRoutes = {
                   path: 'gm',
                   children: [
                     { path: 'flowmaster', element: <FlowmasterSecPage /> },
+<<<<<<< HEAD
          //           { path: 'rolemaster', element: <RollmasterSecPage /> },
+=======
+                    { path: 'rolemaster', element: <SecrollmasterWmsPage /> },
+                    { path: 'seclogin', element: <SecmasterWmsPage /> },
+>>>>>>> qa
                     { path: '*', element: <MaintenanceError /> }
                   ]
                 },

@@ -16,3 +16,8 @@ export type IApiResponse<T> = {
     message?: string;
   };
 };
+
+export type TMasterWGetResponse<T> = {
+  tableData: T[];
+  count: number;
+};

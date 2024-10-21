@@ -12,13 +12,13 @@ import WmsSerivceInstance from 'service/service.wms';
 import { useSelector } from 'store';
 import { TUniversalDialogProps } from 'types/types.UniversalDialog';
 import { getPathNameList } from 'utils/functions';
-import { Tsecrollmaster } from './type/flowmaster-sec-types'; 
+import { TSecmaster } from './type/flowmaster-sec-types';
 import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
 import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
 import GmServiceInstance from 'service/wms/services.gm_wms';
-import AddSecRoleWmsForm from 'components/forms/Security/AddSecRoleSecForm';
+import AddSecLoginSecForm from 'components/forms/Security/AddSecLoginSecForm';
 
-const SecrollmasterWmsPage = () => {
+const SecmasterWmsPage = () => {
   //--------------constants----------
   const { permissions, user_permission } = useAuth();
   const location = useLocation();
@@ -35,10 +35,10 @@ const SecrollmasterWmsPage = () => {
       fullWidth: true,
       maxWidth: 'sm'
     },
-    title: 'Add Role Master',
+    title: 'Sec Login User Creation',
     data: { existingData: {}, isEditMode: false }
   });
-  const columns = useMemo<ColumnDef<Tsecrollmaster>[]>(
+  const columns = useMemo<ColumnDef<TSecmaster>[]>(
     () => [
       {
         id: 'select-col',
@@ -59,19 +59,24 @@ const SecrollmasterWmsPage = () => {
         header: () => <span>Company Code</span>
       },
       {
-        accessorFn: (row) => row.role_id,
-        id: 'role_id',
-        header: () => <span>Role ID</span>
+        accessorFn: (row) => row.id,
+        id: 'id',
+        header: () => <span>User ID</span>
       },
       {
-        accessorFn: (row) => row.role_desc,
-        id: 'role_desc',
-        header: () => <span>Role Description</span>
+        accessorFn: (row) => row.username,
+        id: 'username',
+        header: () => <span>Username</span>
       },
       {
-        accessorFn: (row) => row.remarks,
-        id: 'row.remarks',
-        header: () => <span>Remarks</span>
+        accessorFn: (row) => row.contact_no,
+        id: 'contact_no',
+        header: () => <span> Contact No </span>
+      },
+      {
+        accessorFn: (row) => row.email_id,
+        id: 'email_id',
+        header: () => <span>Email ID</span>
       },
       {
         id: 'actions',
@@ -89,11 +94,11 @@ const SecrollmasterWmsPage = () => {
 
   //----------- useQuery--------------
   const {
-    data: secrollmasterData,
+    data: secmasterData,
     isFetching: issecrollmasterfetchLoading,
     refetch: refetchSalesmanData
   } = useQuery({
-    queryKey: ['salesman_data', searchData, paginationData],
+    queryKey: ['SecLogin', searchData, paginationData],
     queryFn: () => WmsSerivceInstance.getMasters(app, pathNameList[pathNameList.length - 1], paginationData, searchData),
     enabled: user_permission?.includes(permissions?.[app.toUpperCase()]?.children[pathNameList[3]?.toUpperCase()]?.serial_number)
   });
@@ -102,11 +107,11 @@ const SecrollmasterWmsPage = () => {
     setPaginationData({ page, rowsPerPage });
   };
 
-  const handleEditsecrollmaster = (existingData: Tsecrollmaster) => {
+  const handleEditsecrollmaster = (existingData: TSecmaster) => {
     setCountryFormPopup((prev) => {
       return {
         action: { ...prev.action, open: !prev.action.open },
-        title: 'Edit  Role Master',
+        title: 'Edit  Sec Login',
         data: { existingData, isEditMode: true }
       };
     });
@@ -121,7 +126,7 @@ const SecrollmasterWmsPage = () => {
     });
   };
 
-  const handleActions = (actionType: string, rowOriginal: Tsecrollmaster) => {
+  const handleActions = (actionType: string, rowOriginal: TSecmaster) => {
     actionType === 'edit' && handleEditsecrollmaster(rowOriginal);
   };
   const handleDeleteSecrollmaster = async () => {
@@ -155,10 +160,10 @@ const SecrollmasterWmsPage = () => {
       <CustomDataTable
         rowSelection={rowSelection}
         setRowSelection={setRowSelection}
-        row_id="salesman_code"
-        data={secrollmasterData?.tableData || []}
+        row_id="id"
+        data={secmasterData?.tableData || []}
         columns={columns}
-        count={secrollmasterData?.count}
+        count={secmasterData?.count}
         onPaginationChange={handleChangePagination}
         isDataLoading={issecrollmasterfetchLoading}
         toggleFilter={toggleFilter}
@@ -171,7 +176,7 @@ const SecrollmasterWmsPage = () => {
           title={secroleFormPopup.title}
           hasPrimaryButton={false}
         >
-          <AddSecRoleWmsForm
+          <AddSecLoginSecForm
             onClose={toggleCountryPopup}
             isEditMode={secroleFormPopup?.data?.isEditMode}
             existingData={secroleFormPopup.data.existingData}
@@ -182,4 +187,4 @@ const SecrollmasterWmsPage = () => {
   );
 };
 
-export default SecrollmasterWmsPage;
+export default SecmasterWmsPage;
