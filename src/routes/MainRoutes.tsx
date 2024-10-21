@@ -24,6 +24,7 @@ const CountryWmsPage = Loadable(lazy(() => import('pages/WMS/CountryWmsPage')));
 // const DepartmentWmsPage = Loadable(lazy(() => import('pages/WMS/DepartmentWmsPage')));
 const LocationWmsPage = Loadable(lazy(() => import('pages/WMS/LocationWmsPage')));
 const CurrencyWmsPage = Loadable(lazy(() => import('pages/WMS/CurrencyWmsPage')));
+const LineWmsPage = Loadable(lazy(() => import('pages/WMS/LineWmsPage')));
 const CostmasterPfPage = Loadable(lazy(() => import('pages/Purchasefolder/CostmasterPfpage')));
 const ProjectmasterPfPage = Loadable(lazy(() => import('pages/Purchasefolder/ProjectmasterPfPage')));
 const BillingActivityPage = Loadable(lazy(() => import('../pages/WMS/ActivityBillingPage')));
@@ -67,6 +68,7 @@ const MainRoutes = {
                     { path: 'salesman', element: <SalesmanWmsPage /> },
                     { path: 'billingactivity', element: <BillingActivityPage /> },
                     { path: 'secrole', element: <SecrollmasterWmsPage /> },
+                    { path: 'line', element: <LineWmsPage /> },
                     { path: '*', element: <MaintenanceError /> }
                   ]
                 },
