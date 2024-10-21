@@ -1,83 +1,15 @@
-import { TFlowmaster } from 'pages/Security/type/flowmaster-sec-types';
+import { TCostmaster } from 'pages/Purchasefolder/type/costmaster-pf-types';
+import { TProjectmaster } from 'pages/Purchasefolder/type/projectmaster-pf-types';
 import { dispatch } from 'store';
 import { openSnackbar } from 'store/reducers/snackbar';
 import { IApiResponse } from 'types/types.services';
 import axiosServices from 'utils/axios';
-import { Tsecrollmaster } from 'pages/Security/type/flowmaster-sec-types';
-import { TSecmaster } from 'pages/Security/type/flowmaster-sec-types';
-class GMsec {
 
-  //--------------Flowmaster--------------
-  addFlowmaster = async (values: TFlowmaster) => {
+class GMpf {
+  //-------------- Costmaster--------------
+  addCostmaster = async (values: TCostmaster) => {
     try {
-      const response: IApiResponse<null> = await axiosServices.post('api/security/gm/flowmaster', values);
-      if (response.data.success) {
-        dispatch(
-          openSnackbar({
-            open: true,
-            message: response.data.message,
-            variant: 'alert',
-            alert: {
-              color: 'success'
-            },
-            close: true
-          })
-        );
-        return response.data.success;
-      }
-    } catch (error: unknown) {
-      const knownError = error as { message: string };
-      dispatch(
-        openSnackbar({
-          open: true,
-          message: knownError.message,
-          variant: 'alert',
-          alert: {
-            color: 'error'
-          },
-          severity: 'error',
-          close: true
-        })
-      );
-    }
-  };
-  editFlowmaster = async (values: TFlowmaster) => {
-    try {
-      const response: IApiResponse<null> = await axiosServices.put('api/security/gm/flowmaster', values);
-      if (response.data.success) {
-        dispatch(
-          openSnackbar({
-            open: true,
-            message: response.data.message,
-            variant: 'alert',
-            alert: {
-              color: 'success'
-            },
-            close: true
-          })
-        );
-        return response.data.success;
-      }
-    } catch (error: unknown) {
-      const knownError = error as { message: string };
-      dispatch(
-        openSnackbar({
-          open: true,
-          message: knownError.message,
-          variant: 'alert',
-          alert: {
-            color: 'error'
-          },
-          severity: 'error',
-          close: true
-        })
-      );
-    }
-  };
-  deleteFlowmaster = async (flowCodes: string[]) => {
-    try {
-      console.log(`inside deleteFlowmaster: ${flowCodes}`);
-      const response: IApiResponse<null> = await axiosServices.post('api/security/gm/flowmaster', flowCodes);
+      const response: IApiResponse<null> = await axiosServices.post('api/pf/gm/costmaster', values);
       if (response.data.success) {
         dispatch(
           openSnackbar({
@@ -109,10 +41,10 @@ class GMsec {
     }
   };
 
-  //--------------------Rollmaster--------------------
-  addsecrolemaster = async (values: Tsecrollmaster) => {
+  editCostmaster = async (values: TCostmaster) => {
     try {
-      const response: IApiResponse<null> = await axiosServices.post('api/security/gm/rolemaster', values);
+      console.log(values);
+      const response: IApiResponse<null> = await axiosServices.put('api/pf/gm/costmaster', values);
       if (response.data.success) {
         dispatch(
           openSnackbar({
@@ -143,9 +75,10 @@ class GMsec {
       );
     }
   };
-  editsecrolemaster = async (values: Tsecrollmaster) => {
+  deleteCostmaster = async (costCodes: string[]) => {
     try {
-      const response: IApiResponse<null> = await axiosServices.put('api/security/gm/rolemaster', values);
+      console.log(`inside deleteCostmaster: ${costCodes}`);
+      const response: IApiResponse<null> = await axiosServices.post('api/pf/gm/costmaster', costCodes);
       if (response.data.success) {
         dispatch(
           openSnackbar({
@@ -176,9 +109,11 @@ class GMsec {
       );
     }
   };
-  deletesecrolemaster = async (secrolemaster: string[]) => {
+  //-------------- Projectmaster--------------
+  addProjectmaster = async (values: TProjectmaster) => {
     try {
-      const response: IApiResponse<null> = await axiosServices.post('api/security/gm/rolemaster', secrolemaster);
+      console.log('inside addProjectmaster');
+      const response: IApiResponse<null> = await axiosServices.post('api/pf/gm/projectmaster', values);
       if (response.data.success) {
         dispatch(
           openSnackbar({
@@ -210,10 +145,10 @@ class GMsec {
     }
   };
 
-  //-------------------------SecLogin------------------
-  addsecemaster = async (values: TSecmaster) => {
+  editProjectmaster = async (values: TProjectmaster) => {
     try {
-      const response: IApiResponse<null> = await axiosServices.post('api/security/gm/secmaster', values);
+      console.log(values);
+      const response: IApiResponse<null> = await axiosServices.put('api/pf/gm/projectmaster', values);
       if (response.data.success) {
         dispatch(
           openSnackbar({
@@ -244,42 +179,10 @@ class GMsec {
       );
     }
   };
-  editsecemaster = async (values: TSecmaster) => {
+  deleteProjectmaster = async (projectCodes: string[]) => {
     try {
-      const response: IApiResponse<null> = await axiosServices.put('api/security/gm/secmaster', values);
-      if (response.data.success) {
-        dispatch(
-          openSnackbar({
-            open: true,
-            message: response.data.message,
-            variant: 'alert',
-            alert: {
-              color: 'success'
-            },
-            close: true
-          })
-        );
-        return response.data.success;
-      }
-    } catch (error: unknown) {
-      const knownError = error as { message: string };
-      dispatch(
-        openSnackbar({
-          open: true,
-          message: knownError.message,
-          variant: 'alert',
-          alert: {
-            color: 'error'
-          },
-          severity: 'error',
-          close: true
-        })
-      );
-    }
-  };
-  deletesecemaster = async (secrolemaster: string[]) => {
-    try {
-      const response: IApiResponse<null> = await axiosServices.post('api/security/gm/secmaster', secrolemaster);
+      console.log(`inside deleteProjectmaster: ${projectCodes}`);
+      const response: IApiResponse<null> = await axiosServices.post('api/pf/gm/projectmaster', projectCodes);
       if (response.data.success) {
         dispatch(
           openSnackbar({
@@ -312,5 +215,5 @@ class GMsec {
   };
 }
 
-const GmSecServiceInstance = new GMsec();
-export default GmSecServiceInstance;
+const GmPfServiceInstance = new GMpf();
+export default GmPfServiceInstance;

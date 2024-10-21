@@ -3,12 +3,12 @@ import { Button, FormHelperText, Grid, InputLabel } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import { getIn, useFormik } from 'formik';
 import useAuth from 'hooks/useAuth';
-import { Tsecrollmaster } from 'pages/WMS/types/rollmaster-wms.types';
+import { Tsecrollmaster } from 'pages/Security/type/flowmaster-sec-types';
 import { useEffect } from 'react';
-import GmServiceInstance from 'service/wms/services.gm_wms';
+import GmSecServiceInstance from 'service/security/services.gm_security';
 import * as yup from 'yup';
 
-const  AddSalesmanWmsForm = ({
+const  AddSecRoleWmsForm = ({
   onClose,
   isEditMode,
   existingData
@@ -23,17 +23,16 @@ const  AddSalesmanWmsForm = ({
   const formik = useFormik<Tsecrollmaster>({
         initialValues: {company_code: user?.company_code, role_id : '', role_desc: '', remarks :'' },
     validationSchema: yup.object().shape({
-      // country_code: yup.string().required('This field is required'),
-      salesman_name: yup.string().required('This field is required')
+      // country_code: yup.string().required('This field is required')
     }),
     onSubmit: async (values, { setSubmitting }) => {
-      
+      console.log('mode',isEditMode);
       setSubmitting(true);
       let response;
       if (isEditMode) {
-        response = await GmServiceInstance.editsecrolemaster(values);
+        response = await GmSecServiceInstance.editsecrolemaster(values);
       } else {
-        response = await GmServiceInstance.addsecrolemaster(values);
+        response = await GmSecServiceInstance.addsecrolemaster(values);
       }
       if (response) {
         onClose(true);
@@ -65,6 +64,7 @@ const  AddSalesmanWmsForm = ({
         <TextField
           value={formik.values.role_id}
           name="role_id"
+          disabled={isEditMode===true}
           onChange={formik.handleChange}
           className="w-28"
           error={Boolean(getIn(formik.touched, 'salesman_code"') && getIn(formik.errors, 'salesman_code"'))}
@@ -93,7 +93,7 @@ const  AddSalesmanWmsForm = ({
       <Grid item xs={12} sm={5}>
         <InputLabel>Remarks</InputLabel>
         <TextField
-          value={formik.values.role_desc}
+          value={formik.values.remarks}
           name="remarks"
           onChange={formik.handleChange}
           fullWidth
@@ -118,4 +118,4 @@ const  AddSalesmanWmsForm = ({
     </Grid>
   );
 };
-export default AddSalesmanWmsForm;
+export default  AddSecRoleWmsForm;
