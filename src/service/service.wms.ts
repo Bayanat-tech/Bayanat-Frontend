@@ -14,6 +14,9 @@ class Wms {
     try {
       const page = paginationData && paginationData?.page + 1;
       const limit = paginationData && paginationData?.rowsPerPage;
+      console.log(app_code);
+
+      // app_code = 'pf';
       const response: IApiResponse<{ tableData: unknown[]; count: number }> = await axiosServices.get(`api/${app_code}/${master}`, {
         params: {
           ...(page && { page }),
