@@ -9,6 +9,7 @@ import PickWaveWmsPage from 'pages/WMS/PickWaveWmsPage';
 import WareHouseManagmentSystemPage from 'pages/WMS/WareHouseManagmentSystemPage';
 import FlowmasterSecPage from 'pages/Security/flowmaster-sec.types';
 import AuthGuard from 'utils/route-guard/AuthGuard';
+import PrincipalWmsPage from 'pages/WMS/PrincipalWmsPage';
 import SalesmanWmsPage from 'pages/WMS/SalesmanWmsPage';
 import SecrollmasterWmsPage from 'pages/Security/SecrollmasterWmsPage';
 import SecmasterWmsPage from 'pages/Security/secmasterWmsPage';
@@ -56,6 +57,7 @@ const MainRoutes = {
                   children: [
                     { path: 'city', element: <CountryWmsPage /> },
                     { path: 'country', element: <CountryWmsPage /> },
+                    { path: 'principal', element: <PrincipalWmsPage /> },
                     { path: 'department', element: <DepartmentWmsPage /> },
                     { path: 'location', element: <LocationWmsPage /> },
                     { path: 'currency', element: <CurrencyWmsPage /> },

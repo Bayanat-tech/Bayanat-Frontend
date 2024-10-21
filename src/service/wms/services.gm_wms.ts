@@ -1,8 +1,9 @@
 import { TCountry } from 'pages/WMS/types/country-wms.types';
+import { TCurrency } from 'pages/WMS/types/currency-wms.types';
 import { TDepartment } from 'pages/WMS/types/department-wms.types';
 import { TLocation } from 'pages/WMS/types/location-wms.types';
-import { TCurrency } from 'pages/WMS/types/currency-wms.types';
 import { TPickWave } from 'pages/WMS/types/PickWave-wms.types';
+import { TPrincipalWms } from 'pages/WMS/types/principal-wms.types';
 import { Tsalesman } from 'pages/WMS/types/salesman-wms.types';
 import { dispatch } from 'store';
 import { openSnackbar } from 'store/reducers/snackbar';
@@ -80,6 +81,97 @@ class GM {
   deleteCountry = async (countryCodes: string[]) => {
     try {
       const response: IApiResponse<null> = await axiosServices.post('api/wms/gm/country/delete', countryCodes);
+      if (response.data.success) {
+        dispatch(
+          openSnackbar({
+            open: true,
+            message: response.data.message,
+            variant: 'alert',
+            alert: {
+              color: 'success'
+            },
+            close: true
+          })
+        );
+        return response.data.success;
+      }
+    } catch (error: unknown) {
+      const knownError = error as { message: string };
+      dispatch(
+        openSnackbar({
+          open: true,
+          message: knownError.message,
+          variant: 'alert',
+          alert: {
+            color: 'error'
+          },
+          severity: 'error',
+          close: true
+        })
+      );
+    }
+  };
+  //--------------Principal--------------
+  getPrincipal = async (prin_code: string) => {
+    try {
+      const response: IApiResponse<TPrincipalWms> = await axiosServices.get(`api/wms/gm/principal/${prin_code}`);
+
+      if (response.data.success === true && response.data.data) {
+        return response.data.data;
+      }
+    } catch (error: unknown) {
+      const knownError = error as { message: string };
+      dispatch(
+        openSnackbar({
+          open: true,
+          message: knownError.message,
+          variant: 'alert',
+          alert: {
+            color: 'error'
+          },
+          severity: 'error',
+          close: true
+        })
+      );
+    }
+  };
+
+  addPrincipal = async (values: TPrincipalWms) => {
+    try {
+      const response: IApiResponse<null> = await axiosServices.post('api/wms/gm/principal', values);
+      if (response.data.success) {
+        dispatch(
+          openSnackbar({
+            open: true,
+            message: response.data.message,
+            variant: 'alert',
+            alert: {
+              color: 'success'
+            },
+            close: true
+          })
+        );
+        return response.data.success;
+      }
+    } catch (error: unknown) {
+      const knownError = error as { message: string };
+      dispatch(
+        openSnackbar({
+          open: true,
+          message: knownError.message,
+          variant: 'alert',
+          alert: {
+            color: 'error'
+          },
+          severity: 'error',
+          close: true
+        })
+      );
+    }
+  };
+  editPrincipal = async (values: TPrincipalWms, prin_code: string) => {
+    try {
+      const response: IApiResponse<null> = await axiosServices.put(`api/wms/gm/principal/${prin_code}`, values);
       if (response.data.success) {
         dispatch(
           openSnackbar({
@@ -611,7 +703,6 @@ class GM {
       );
     }
   };
-
 }
 const GmServiceInstance = new GM();
 

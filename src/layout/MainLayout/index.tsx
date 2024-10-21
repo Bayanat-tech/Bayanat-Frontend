@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 
 // material-ui
-import { Box, Container, Toolbar, useMediaQuery } from '@mui/material';
+import { Box, Card, CardContent, Container, Toolbar, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
 // project import
@@ -65,9 +65,9 @@ const MainLayout = () => {
               }}
             >
               <Breadcrumbs navigation={navigation} title titleBottom card={false} divider={false} />
-              <div className="p-2 h-full bg-white shadow-md border border-gray-200">
+              <Card component={CardContent}>
                 <Outlet />
-              </div>
+              </Card>
               <Footer />
             </Container>
           </Box>

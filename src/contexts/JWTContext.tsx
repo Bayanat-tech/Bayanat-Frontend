@@ -32,7 +32,6 @@ const verifyToken: (st: string) => boolean = (serviceToken) => {
     return false;
   }
   const decoded: KeyedObject = jwtDecode(serviceToken);
-  console.log(decoded);
 
   /**log
    * Property 'exp' does not exist on type '<T = unknown>(token: string, options?: JwtDecodeOptions | undefined) => T'.
