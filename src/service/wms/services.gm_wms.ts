@@ -1,5 +1,6 @@
 import { TCountry } from 'pages/WMS/types/country-wms.types';
 import { TCurrency } from 'pages/WMS/types/currency-wms.types';
+import { TDepartment } from 'pages/WMS/types/department-wms.types';
 import { TLocation } from 'pages/WMS/types/location-wms.types';
 import { TPickWave } from 'pages/WMS/types/PickWave-wms.types';
 import { TPrincipalWms } from 'pages/WMS/types/principal-wms.types';
@@ -171,6 +172,73 @@ class GM {
   editPrincipal = async (values: TPrincipalWms, prin_code: string) => {
     try {
       const response: IApiResponse<null> = await axiosServices.put(`api/wms/gm/principal/${prin_code}`, values);
+      if (response.data.success) {
+        dispatch(
+          openSnackbar({
+            open: true,
+            message: response.data.message,
+            variant: 'alert',
+            alert: {
+              color: 'success'
+            },
+            close: true
+          })
+        );
+        return response.data.success;
+      }
+    } catch (error: unknown) {
+      const knownError = error as { message: string };
+      dispatch(
+        openSnackbar({
+          open: true,
+          message: knownError.message,
+          variant: 'alert',
+          alert: {
+            color: 'error'
+          },
+          severity: 'error',
+          close: true
+        })
+      );
+    }
+  };
+  //--------------Department--------------
+  addDepartment = async (values: TDepartment) => {
+    try {
+      const response: IApiResponse<null> = await axiosServices.post('api/wms/gm/department', values);
+      if (response.data.success) {
+        dispatch(
+          openSnackbar({
+            open: true,
+            message: response.data.message,
+            variant: 'alert',
+            alert: {
+              color: 'success'
+            },
+            close: true
+          })
+        );
+        return response.data.success;
+      }
+    } catch (error: unknown) {
+      const knownError = error as { message: string };
+      dispatch(
+        openSnackbar({
+          open: true,
+          message: knownError.message,
+          variant: 'alert',
+          alert: {
+            color: 'error'
+          },
+          severity: 'error',
+          close: true
+        })
+      );
+    }
+  };
+  editDepartment = async (values: TDepartment) => {
+    try {
+      const response: IApiResponse<null> = await axiosServices.put('api/wms/gm/department', values);
       if (response.data.success) {
         dispatch(
           openSnackbar({
