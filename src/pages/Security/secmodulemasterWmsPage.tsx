@@ -2,9 +2,7 @@ import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Checkbox } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { ColumnDef, RowSelectionState } from '@tanstack/react-table';
-import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
 import { ISearch } from 'components/filters/SearchFilter';
-import AddSalesmanWmsForm from 'components/forms/AddSalesmanWmsForm';
 import UniversalDialog from 'components/popup/UniversalDialog';
 import CustomDataTable, { rowsPerPageOptions } from 'components/tables/CustomDataTables';
 import useAuth from 'hooks/useAuth';
@@ -12,12 +10,15 @@ import { useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router';
 import WmsSerivceInstance from 'service/service.wms';
 import { useSelector } from 'store';
-import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
 import { TUniversalDialogProps } from 'types/types.UniversalDialog';
 import { getPathNameList } from 'utils/functions';
-import { Tsalesman } from './types/salesman-wms.types';
+import { TSecmodulemaster } from './type/flowmaster-sec-types';
+import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
+import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
+import GmServiceInstance from 'service/wms/services.gm_wms';
+import AddSecModuleSecForm from 'components/forms/Security/AddSecModuleSecForm';
 
-const SalesmanWmsPage = () => {
+const SecmodulemasterWmsPage = () => {
   //--------------constants----------
   const { permissions, user_permission } = useAuth();
   const location = useLocation();
@@ -28,16 +29,16 @@ const SalesmanWmsPage = () => {
   const [toggleFilter, setToggleFilter] = useState<boolean | null>(null);
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
-  const [salesmanFormPopup, setCountryFormPopup] = useState<TUniversalDialogProps>({
+  const [secmoduleFormPopup, setSecmoduleFormPopup] = useState<TUniversalDialogProps>({
     action: {
       open: false,
       fullWidth: true,
       maxWidth: 'sm'
     },
-    title: 'Add Salesman',
+    title: 'Sec Module Creation',
     data: { existingData: {}, isEditMode: false }
   });
-  const columns = useMemo<ColumnDef<Tsalesman>[]>(
+  const columns = useMemo<ColumnDef<TSecmodulemaster>[]>(
     () => [
       {
         id: 'select-col',
@@ -58,14 +59,39 @@ const SalesmanWmsPage = () => {
         header: () => <span>Company Code</span>
       },
       {
-        accessorFn: (row) => row.salesman_code,
-        id: 'salesman_code',
-        header: () => <span>Salesman Code</span>
+        accessorFn: (row) => row.app_code,
+        id: 'app Code',
+        header: () => <span>APP Code</span>
       },
       {
-        accessorFn: (row) => row.salesman_name,
-        id: 'salesman_name',
-        header: () => <span>Salesman Name</span>
+        accessorFn: (row) => row.serial_no,
+        id: 'Serial No',
+        header: () => <span>Serial No</span>
+      },
+      {
+        accessorFn: (row) => row.level1,
+        id: 'level1',
+        header: () => <span>Level1</span>
+      },
+      {
+        accessorFn: (row) => row.level2,
+        id: 'level2',
+        header: () => <span>Level2</span>
+      },
+      {
+        accessorFn: (row) => row.level3,
+        id: 'level3',
+        header: () => <span>Level3</span>
+      },
+      {
+        accessorFn: (row) => row.position,
+        id: 'position',
+        header: () => <span>Position</span>
+      },
+      {
+        accessorFn: (row) => row.url_path,
+        id: 'url_path',
+        header: () => <span>Url Path</span>
       },
       {
         id: 'actions',
@@ -83,11 +109,11 @@ const SalesmanWmsPage = () => {
 
   //----------- useQuery--------------
   const {
-    data: salesmanData,
-    isFetching: isSalesmanFetchLoading,
+    data: secmodulemasterData,
+    isFetching: issecrollmasterfetchLoading,
     refetch: refetchSalesmanData
   } = useQuery({
-    queryKey: ['salesman_data', searchData, paginationData],
+    queryKey: ['secmodule', searchData, paginationData],
     queryFn: () => WmsSerivceInstance.getMasters(app, pathNameList[pathNameList.length - 1], paginationData, searchData),
     enabled: user_permission?.includes(permissions?.[app.toUpperCase()]?.children[pathNameList[3]?.toUpperCase()]?.serial_number)
   });
@@ -96,32 +122,30 @@ const SalesmanWmsPage = () => {
     setPaginationData({ page, rowsPerPage });
   };
 
-  const handleEditCountry = (existingData: Tsalesman) => {
-    setCountryFormPopup((prev) => {
+  const handleEditsecrollmaster = (existingData: TSecmodulemaster) => {
+    setSecmoduleFormPopup((prev) => {
       return {
         action: { ...prev.action, open: !prev.action.open },
-        title: 'Edit salesman',
+        title: 'Edit  Sec Module',
         data: { existingData, isEditMode: true }
       };
     });
   };
 
   const toggleCountryPopup = (refetchData?: boolean) => {
-    if (salesmanFormPopup.action.open === true && refetchData) {
+    if (secmoduleFormPopup.action.open === true && refetchData) {
       refetchSalesmanData();
     }
-    setCountryFormPopup((prev) => {
+    setSecmoduleFormPopup((prev) => {
       return { ...prev, data: { isEditMode: false, existingData: {} }, action: { ...prev.action, open: !prev.action.open } };
     });
   };
 
-  const handleActions = (actionType: string, rowOriginal: Tsalesman) => {
-    actionType === 'edit' && handleEditCountry(rowOriginal);
+  const handleActions = (actionType: string, rowOriginal: TSecmodulemaster) => {
+    actionType === 'edit' && handleEditsecrollmaster(rowOriginal);
   };
-  const handleDeleteSalesman = async () => {
-    console.log('called', rowSelection);
-
-    await WmsSerivceInstance.deleteMasters('wms', 'salesman', Object.keys(rowSelection));
+  const handleDeleteSecrollmaster = async () => {
+    await GmServiceInstance.deletesalesman(Object.keys(rowSelection));
     setRowSelection({});
     refetchSalesmanData();
   };
@@ -136,7 +160,7 @@ const SalesmanWmsPage = () => {
         {
           <Button
             variant="outlined"
-            onClick={handleDeleteSalesman}
+            onClick={() => handleDeleteSecrollmaster}
             color="error"
             hidden={!Object.keys(rowSelection).length}
             startIcon={<DeleteOutlined />}
@@ -145,32 +169,32 @@ const SalesmanWmsPage = () => {
           </Button>
         }
         <Button startIcon={<PlusOutlined />} variant="shadow" onClick={() => toggleCountryPopup()}>
-          Salesman
+          AddRole
         </Button>
       </div>
       <CustomDataTable
         rowSelection={rowSelection}
         setRowSelection={setRowSelection}
-        row_id="salesman_code"
-        data={salesmanData?.tableData || []}
+        row_id="serial_no"
+        data={secmodulemasterData?.tableData || []}
         columns={columns}
-        count={salesmanData?.count}
+        count={secmodulemasterData?.count}
         onPaginationChange={handleChangePagination}
-        isDataLoading={isSalesmanFetchLoading}
+        isDataLoading={issecrollmasterfetchLoading}
         toggleFilter={toggleFilter}
         hasPagination={true}
       />
-      {!!salesmanFormPopup && salesmanFormPopup.action.open && (
+      {!!secmoduleFormPopup && secmoduleFormPopup.action.open && (
         <UniversalDialog
-          action={{ ...salesmanFormPopup.action }}
+          action={{ ...secmoduleFormPopup.action }}
           onClose={toggleCountryPopup}
-          title={salesmanFormPopup.title}
+          title={secmoduleFormPopup.title}
           hasPrimaryButton={false}
         >
-          <AddSalesmanWmsForm
+          <AddSecModuleSecForm
             onClose={toggleCountryPopup}
-            isEditMode={salesmanFormPopup?.data?.isEditMode}
-            existingData={salesmanFormPopup.data.existingData}
+            isEditMode={secmoduleFormPopup?.data?.isEditMode}
+            existingData={secmoduleFormPopup.data.existingData}
           />
         </UniversalDialog>
       )}
@@ -178,4 +202,4 @@ const SalesmanWmsPage = () => {
   );
 };
 
-export default SalesmanWmsPage;
+export default SecmodulemasterWmsPage;

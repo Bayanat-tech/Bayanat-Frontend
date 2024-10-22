@@ -14,6 +14,7 @@ import SalesmanWmsPage from 'pages/WMS/SalesmanWmsPage';
 import SecrollmasterWmsPage from 'pages/Security/SecrollmasterWmsPage';
 import SecmasterWmsPage from 'pages/Security/secmasterWmsPage';
 import ItemmasterPfPage from 'pages/Purchasefolder/ItemmasterPfpage';
+import SecmodulemasterWmsPage from 'pages/Security/secmodulemasterWmsPage';
 
 // pages routing
 const MaintenanceError = Loadable(lazy(() => import('pages/maintenance/404')));
@@ -93,6 +94,7 @@ const MainRoutes = {
                     { path: 'flowmaster', element: <FlowmasterSecPage /> },
                     { path: 'rolemaster', element: <SecrollmasterWmsPage /> },
                     { path: 'seclogin', element: <SecmasterWmsPage /> },
+                    { path: 'secmoduledata', element: <SecmodulemasterWmsPage /> },
                     { path: '*', element: <MaintenanceError /> }
                   ]
                 },

@@ -12,7 +12,7 @@ import WmsSerivceInstance from 'service/service.wms';
 import { useSelector } from 'store';
 import { TUniversalDialogProps } from 'types/types.UniversalDialog';
 import { getPathNameList } from 'utils/functions';
-import { Tsecrollmaster } from './type/flowmaster-sec-types'; 
+import { Tsecrollmaster } from './type/flowmaster-sec-types';
 import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
 import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
 import GmServiceInstance from 'service/wms/services.gm_wms';
@@ -114,7 +114,7 @@ const SecrollmasterWmsPage = () => {
 
   const toggleCountryPopup = (refetchData?: boolean) => {
     if (secroleFormPopup.action.open === true && refetchData) {
-        refetchSalesmanData();
+      refetchSalesmanData();
     }
     setCountryFormPopup((prev) => {
       return { ...prev, data: { isEditMode: false, existingData: {} }, action: { ...prev.action, open: !prev.action.open } };
@@ -140,7 +140,7 @@ const SecrollmasterWmsPage = () => {
         {
           <Button
             variant="outlined"
-            onClick={()=>handleDeleteSecrollmaster}
+            onClick={() => handleDeleteSecrollmaster}
             color="error"
             hidden={!Object.keys(rowSelection).length}
             startIcon={<DeleteOutlined />}
