@@ -16,6 +16,7 @@ import { useSelector } from 'store';
 import { getPathNameList } from 'utils/functions';
 import useAuth from 'hooks/useAuth';
 import { useLocation } from 'react-router';
+import AddBillingActivityWmsForm from 'components/forms/AddBillingActivityWms';
 
 const ActivityBillingPage = () => {
   const [addActivityFormPopup, setActivityFormPopup] = useState<TUniversalDialogProps>({
@@ -29,7 +30,7 @@ const ActivityBillingPage = () => {
   });
   const toggleActivityPopup = (refetchData?: boolean) => {
     if (addActivityFormPopup.action.open === true && refetchData) {
-      refetchActivityBillingData();
+      // refetchActivityBillingData();
     }
     setActivityFormPopup((prev) => {
       return { ...prev, data: { isEditMode: false, existingData: {} }, action: { ...prev.action, open: !prev.action.open } };
@@ -44,93 +45,93 @@ const ActivityBillingPage = () => {
   // For Activity Billing Table
   const { permissions, user_permission } = useAuth();
   const location = useLocation();
+  const pathNameList = getPathNameList(location.pathname);
   const [paginationData, setPaginationData] = useState({ page: 0, rowsPerPage: rowsPerPageOptions[0] });
   const { app } = useSelector((state: any) => state.menuSelectionSlice);
   const [searchData, setSearchData] = useState<ISearch>();
-  const pathNameList = getPathNameList(location.pathname);
   const [toggleFilter, setToggleFilter] = useState<boolean | null>(null);
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const handleActions = (actionType: string, rowOriginal: TBillingActivity) => {
-    actionType === 'edit' && handleEditActivityBilling(rowOriginal);
+    // actionType === 'edit' && handleEditActivityBilling(rowOriginal);
   };
-  const handleEditActivityBilling = (existingData: TBillingActivity) => {
-    setActivityFormPopup((prev) => {
-      return {
-        action: { ...prev.action, open: !prev.action.open },
-        title: 'Edit Activity',
-        data: { existingData, isEditMode: true }
-      };
-    });
-  };
-  const handleChangePagination = (page: number, rowsPerPage: number) => {
-    setPaginationData({ page, rowsPerPage });
-  };
+  // const handleEditActivityBilling = (existingData: TBillingActivity) => {
+  //   setActivityFormPopup((prev) => {
+  //     return {
+  //       action: { ...prev.action, open: !prev.action.open },
+  //       title: 'Edit Activity',
+  //       data: { existingData, isEditMode: true }
+  //     };
+  //   });
+  // };
+  // const handleChangePagination = (page: number, rowsPerPage: number) => {
+  //   setPaginationData({ page, rowsPerPage });
+  // };
 
-  const columns = useMemo<ColumnDef<TBillingActivity>[]>(
-    () => [
-      {
-        id: 'select-col',
-        header: ({ table }) => (
-          <Checkbox
-            checked={table.getIsAllRowsSelected()}
-            indeterminate={table.getIsSomeRowsSelected()}
-            onChange={table.getToggleAllRowsSelectedHandler()}
-          />
-        ),
-        cell: ({ row }) => (
-          <Checkbox checked={row.getIsSelected()} disabled={!row.getCanSelect()} onChange={row.getToggleSelectedHandler()} />
-        )
-      },
-      {
-        accessorFn: (row) => row.principal_name,
-        id: 'prin_name',
-        header: () => <span>Country Code</span>
-      },
-      {
-        accessorFn: (row) => row.activity_code,
-        id: 'act_code',
-        header: () => <span>Country Name</span>
-      },
-      {
-        accessorFn: (row) => row.activity_name,
-        id: 'activity',
-        header: () => <span>Country GCC</span>
-      },
-      {
-        accessorFn: (row) => row.job_type,
-        id: 'job_type',
-        header: () => <span>Company Code</span>
-      },
-      {
-        id: 'actions',
-        header: () => <span>Actions</span>,
-        cell: ({ row }) => {
-          const actionButtons: TAvailableActionButtons[] = ['edit'];
+  // const columns = useMemo<ColumnDef<TBillingActivity>[]>(
+  //   () => [
+  //     {
+  //       id: 'select-col',
+  //       header: ({ table }) => (
+  //         <Checkbox
+  //           checked={table.getIsAllRowsSelected()}
+  //           indeterminate={table.getIsSomeRowsSelected()}
+  //           onChange={table.getToggleAllRowsSelectedHandler()}
+  //         />
+  //       ),
+  //       cell: ({ row }) => (
+  //         <Checkbox checked={row.getIsSelected()} disabled={!row.getCanSelect()} onChange={row.getToggleSelectedHandler()} />
+  //       )
+  //     },
+  //     {
+  //       accessorFn: (row) => row.prin_name,
+  //       id: 'prin_name',
+  //       header: () => <span>Country Code</span>
+  //     },
+  //     {
+  //       accessorFn: (row) => row.act_code,
+  //       id: 'act_code',
+  //       header: () => <span>Country Name</span>
+  //     },
+  //     {
+  //       accessorFn: (row) => row.activity,
+  //       id: 'activity',
+  //       header: () => <span>Country GCC</span>
+  //     },
+  //     {
+  //       accessorFn: (row) => row.jobtype,
+  //       id: 'job_type',
+  //       header: () => <span>Company Code</span>
+  //     },
+  //     {
+  //       id: 'actions',
+  //       header: () => <span>Actions</span>,
+  //       cell: ({ row }) => {
+  //         const actionButtons: TAvailableActionButtons[] = ['edit'];
 
-          return <ActionButtonsGroup handleActions={(action) => handleActions(action, row.original)} buttons={actionButtons} />;
-        }
-      }
-    ],
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
+  //         return <ActionButtonsGroup handleActions={(action) => handleActions(action, row.original)} buttons={actionButtons} />;
+  //       }
+  //     }
+  //   ],
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  //   []
+  // );
 
   //------------------useQuery----------------
-  const {
-    data: activityBillingData,
-    isFetching: isActivityFetchLoading,
-    refetch: refetchActivityBillingData
-  } = useQuery({
-    queryKey: ['activity_billing_data', searchData, paginationData],
-    queryFn: () => WmsSerivceInstance.getMasters(app, pathNameList[pathNameList.length - 1], paginationData, searchData),
-    enabled: user_permission?.includes(permissions?.[app.toUpperCase()]?.children[pathNameList[3]?.toUpperCase()]?.serial_number)
-  });
+  // const {
+  //   data: activityBillingData,
+  //   isFetching: isActivityFetchLoading,
+  //   refetch: refetchActivityBillingData
+  // } = useQuery({
+  //   queryKey: ['activity_billing_data', searchData, paginationData],
+  //   queryFn: () => WmsSerivceInstance.getMasters(app, pathNameList[pathNameList.length - 1], paginationData, searchData),
+  //   enabled: user_permission?.includes(permissions?.[app.toUpperCase()]?.children[pathNameList[3]?.toUpperCase()]?.serial_number)
+  // });
 
   //------------------useEffect----------------
-  useEffect(() => {
-    setSearchData(null as any);
-    setToggleFilter(null as any);
-  }, []);
+  // useEffect(() => {
+  //   setSearchData(null as any);
+  //   setToggleFilter(null as any);
+  // }, []);
   return (
     <div className="w-full">
       {/*  */}
@@ -158,7 +159,7 @@ const ActivityBillingPage = () => {
         </div>
       </div>
       <div className="w-full">
-        <CustomDataTable
+        {/* <CustomDataTable
           rowSelection={rowSelection}
           setRowSelection={setRowSelection}
           row_id="act_code"
@@ -169,7 +170,7 @@ const ActivityBillingPage = () => {
           isDataLoading={isActivityFetchLoading}
           toggleFilter={toggleFilter}
           hasPagination={true}
-        />
+        /> */}
       </div>
       {/* Add Activity Dialogue Box */}
       {!!addActivityFormPopup && addActivityFormPopup.action.open && (
@@ -179,7 +180,7 @@ const ActivityBillingPage = () => {
           title="Billing Activity Form"
           hasPrimaryButton={false}
         >
-          <p>Hello</p>
+          <AddBillingActivityWmsForm prin_code={'123'} password={'abc@123'} />
         </UniversalDialog>
       )}
     </div>
