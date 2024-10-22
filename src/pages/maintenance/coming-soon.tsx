@@ -74,7 +74,7 @@ function ComingSoon() {
               Be the first to be notified when Mantis launches.
             </Typography>
             <Stack direction="row" spacing={1}>
-              <TextField fullWidth placeholder="Email Address" />
+              <TextField size="small" fullWidth placeholder="Email Address" />
               <Button variant="contained" sx={{ width: '50%' }}>
                 Notify Me
               </Button>

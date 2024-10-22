@@ -1,9 +1,14 @@
 import { TCountry } from 'pages/WMS/types/country-wms.types';
+import { TCurrency } from 'pages/WMS/types/currency-wms.types';
 import { TDepartment } from 'pages/WMS/types/department-wms.types';
 import { TLocation } from 'pages/WMS/types/location-wms.types';
+<<<<<<< HEAD
 import { TCurrency } from 'pages/WMS/types/currency-wms.types';
 import { TSupplier } from 'pages/WMS/types/supplier-wms.types';
+=======
+>>>>>>> qa
 import { TPickWave } from 'pages/WMS/types/PickWave-wms.types';
+import { TPrincipalWms } from 'pages/WMS/types/principal-wms.types';
 import { Tsalesman } from 'pages/WMS/types/salesman-wms.types';
 import { TBrand } from 'pages/WMS/types/brand-wms.types';
 import { TGroup } from 'pages/WMS/types/group-wms.types';
@@ -114,6 +119,7 @@ class GM {
       );
     }
   };
+<<<<<<< HEAD
 
   //--------------Manufacture--------------
   addManufacture = async (values: TManufacture) => {
@@ -198,6 +204,15 @@ class GM {
           })
         );
         return response.data.success;
+=======
+  //--------------Principal--------------
+  getPrincipal = async (prin_code: string) => {
+    try {
+      const response: IApiResponse<TPrincipalWms> = await axiosServices.get(`api/wms/gm/principal/${prin_code}`);
+
+      if (response.data.success === true && response.data.data) {
+        return response.data.data;
+>>>>>>> qa
       }
     } catch (error: unknown) {
       const knownError = error as { message: string };
@@ -216,10 +231,16 @@ class GM {
     }
   };
 
+<<<<<<< HEAD
   //--------------Group--------------
   addGroup = async (values: TGroup) => {
     try {
       const response: IApiResponse<null> = await axiosServices.post('api/wms/gm/group', values);
+=======
+  addPrincipal = async (values: TPrincipalWms) => {
+    try {
+      const response: IApiResponse<null> = await axiosServices.post('api/wms/gm/principal', values);
+>>>>>>> qa
       if (response.data.success) {
         dispatch(
           openSnackbar({
@@ -250,6 +271,7 @@ class GM {
       );
     }
   };
+<<<<<<< HEAD
   editGroup = async (values: TGroup) => {
     try {
       const response: IApiResponse<null> = await axiosServices.put('api/wms/gm/group', values);
@@ -388,6 +410,11 @@ class GM {
   deleteBrand = async (brandCodes: string[]) => {
     try {
       const response: IApiResponse<null> = await axiosServices.post('api/wms/gm/brand/delete', brandCodes);
+=======
+  editPrincipal = async (values: TPrincipalWms, prin_code: string) => {
+    try {
+      const response: IApiResponse<null> = await axiosServices.put(`api/wms/gm/principal/${prin_code}`, values);
+>>>>>>> qa
       if (response.data.success) {
         dispatch(
           openSnackbar({
@@ -886,9 +913,9 @@ class GM {
       );
     }
   };
-  deletesalesman = async (locationCodes: string[]) => {
+  deletesalesman = async (saleman: string[]) => {
     try {
-      const response: IApiResponse<null> = await axiosServices.post('api/wms/gm/salesman', locationCodes);
+      const response: IApiResponse<null> = await axiosServices.post('api/wms/gm/salesman', saleman);
       if (response.data.success) {
         dispatch(
           openSnackbar({

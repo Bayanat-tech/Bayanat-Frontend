@@ -40,13 +40,13 @@ const AddCountryWmsForm = ({
       }
     }
   });
-  useEffect(() => {
-    console.log(formik.errors);
-  }, [formik.errors]);
   //------------------Handlers------------
   const handleCountryGccChange = (event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
     formik.setFieldValue('country_gcc', checked ? 'Y' : 'N');
   };
+
+  //------------------useEffect------------
+
   useEffect(() => {
     if (isEditMode) {
       const { updated_at, updated_by, created_at, created_by, ...countryData } = existingData;
@@ -62,6 +62,7 @@ const AddCountryWmsForm = ({
       <Grid item xs={12}>
         <InputLabel>Country Code*</InputLabel>
         <TextField
+          size="small"
           value={formik.values.country_code}
           name="country_code"
           onChange={formik.handleChange}
@@ -77,6 +78,7 @@ const AddCountryWmsForm = ({
       <Grid item xs={12} sm={5}>
         <InputLabel>Country Name*</InputLabel>
         <TextField
+          size="small"
           value={formik.values.country_name}
           name="country_name"
           onChange={formik.handleChange}
