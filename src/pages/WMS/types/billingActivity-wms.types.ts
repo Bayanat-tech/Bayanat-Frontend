@@ -3,5 +3,4 @@ export type TBillingActivity = {
   activity_code: string;
   principal_name: string;
   job_type: string;
-  
-}
+};

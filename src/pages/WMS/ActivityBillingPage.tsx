@@ -1,11 +1,11 @@
-import {useMemo, useState, useEffect } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { TUniversalDialogProps } from 'types/types.UniversalDialog';
 import UniversalDialog from 'components/popup/UniversalDialog';
 import { Button, Checkbox } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import { ColumnDef, RowSelectionState } from '@tanstack/react-table';
-import CustomDataTable, {rowsPerPageOptions} from 'components/tables/CustomDataTables';
+import CustomDataTable, { rowsPerPageOptions } from 'components/tables/CustomDataTables';
 import { TBillingActivity } from './types/billingActivity-wms.types';
 import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
 import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
@@ -15,8 +15,10 @@ import WmsSerivceInstance from 'service/service.wms';
 import { useSelector } from 'store';
 import { getPathNameList } from 'utils/functions';
 import useAuth from 'hooks/useAuth';
+import { useLocation } from 'react-router';
 
 const ActivityBillingPage = () => {
+  const location = useLocation();
   const [addActivityFormPopup, setActivityFormPopup] = useState<TUniversalDialogProps>({
     action: {
       open: false,
@@ -39,8 +41,7 @@ const ActivityBillingPage = () => {
       return { ...prev, data: { isEditMode: false, existingData: {} }, action: { ...prev.action, open: !prev.action.open } };
     });
   };
-  
-  
+
   // For Activity Billing Table
   const { permissions, user_permission } = useAuth();
   const [paginationData, setPaginationData] = useState({ page: 0, rowsPerPage: rowsPerPageOptions[0] });
@@ -64,7 +65,7 @@ const ActivityBillingPage = () => {
   const handleChangePagination = (page: number, rowsPerPage: number) => {
     setPaginationData({ page, rowsPerPage });
   };
-  
+
   const columns = useMemo<ColumnDef<TBillingActivity>[]>(
     () => [
       {
@@ -115,16 +116,16 @@ const ActivityBillingPage = () => {
   );
 
   //------------------useQuery----------------
-    const {
-      data: activityBillingData,
-      isFetching: isActivityFetchLoading, 
-      refetch: refetchActivityBillingData
-    } = useQuery ({
-      queryKey: ['activity_billing_data', searchData, paginationData],
-      queryFn:()=> WmsSerivceInstance.getMasters(app, pathNameList[pathNameList.length - 1], paginationData, searchData),
-      enabled: user_permission?.includes(permissions?.[app.toUpperCase()]?.children[pathNameList[3]?.toUpperCase()]?.serial_number)
-    })
-   
+  const {
+    data: activityBillingData,
+    isFetching: isActivityFetchLoading,
+    refetch: refetchActivityBillingData
+  } = useQuery({
+    queryKey: ['activity_billing_data', searchData, paginationData],
+    queryFn: () => WmsSerivceInstance.getMasters(app, pathNameList[pathNameList.length - 1], paginationData, searchData),
+    enabled: user_permission?.includes(permissions?.[app.toUpperCase()]?.children[pathNameList[3]?.toUpperCase()]?.serial_number)
+  });
+
   //------------------useEffect----------------
   useEffect(() => {
     setSearchData(null as any);
@@ -157,18 +158,18 @@ const ActivityBillingPage = () => {
         </div>
       </div>
       <div className="w-full">
-       <CustomDataTable
-         rowSelection={rowSelection}
-         setRowSelection={setRowSelection}
-         row_id="act_code"
-         columns={columns}
-         data={activityBillingData?.tableData || []}
-        count={activityBillingData?.count}
-        onPaginationChange={handleChangePagination}
-        isDataLoading={isActivityFetchLoading}
-        toggleFilter={toggleFilter}
-        hasPagination={true}
-       />
+        <CustomDataTable
+          rowSelection={rowSelection}
+          setRowSelection={setRowSelection}
+          row_id="act_code"
+          columns={columns}
+          data={activityBillingData?.tableData || []}
+          count={activityBillingData?.count}
+          onPaginationChange={handleChangePagination}
+          isDataLoading={isActivityFetchLoading}
+          toggleFilter={toggleFilter}
+          hasPagination={true}
+        />
       </div>
       {/* Add Activity Dialogue Box */}
       {!!addActivityFormPopup && addActivityFormPopup.action.open && (

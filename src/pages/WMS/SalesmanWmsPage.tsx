@@ -109,7 +109,7 @@ const SalesmanWmsPage = () => {
 
   const toggleCountryPopup = (refetchData?: boolean) => {
     if (salesmanFormPopup.action.open === true && refetchData) {
-        refetchSalesmanData();
+      refetchSalesmanData();
     }
     setCountryFormPopup((prev) => {
       return { ...prev, data: { isEditMode: false, existingData: {} }, action: { ...prev.action, open: !prev.action.open } };
@@ -135,7 +135,7 @@ const SalesmanWmsPage = () => {
         {
           <Button
             variant="outlined"
-            onClick={()=>handleDeleteSalesman}
+            onClick={() => handleDeleteSalesman}
             color="error"
             hidden={!Object.keys(rowSelection).length}
             startIcon={<DeleteOutlined />}
