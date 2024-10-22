@@ -6,10 +6,10 @@ import MasterSelectionAutoComplete from 'components/MasterSelectionAutoComplete'
 import CommonLayout from 'layout/CommonLayout';
 import MainLayout from 'layout/MainLayout';
 import AppSelectionPage from 'pages/AppSelection/AppSelectionPage';
-import WareHouseManagmentSystemPage from 'pages/WMS/WareHouseManagmentSystemPage';
-import AuthGuard from 'utils/route-guard/AuthGuard';
 import PickWaveWmsPage from 'pages/WMS/PickWaveWmsPage';
 import SalesmanWmsPage from 'pages/WMS/SalesmanWmsPage';
+import WareHouseManagmentSystemPage from 'pages/WMS/WareHouseManagmentSystemPage';
+import AuthGuard from 'utils/route-guard/AuthGuard';
 
 // pages routing
 const MaintenanceError = Loadable(lazy(() => import('pages/maintenance/404')));
@@ -20,6 +20,13 @@ const CountryWmsPage = Loadable(lazy(() => import('pages/WMS/CountryWmsPage')));
 const DepartmentWmsPage = Loadable(lazy(() => import('pages/WMS/DepartmentWmsPage')));
 const LocationWmsPage = Loadable(lazy(() => import('pages/WMS/LocationWmsPage')));
 const CurrencyWmsPage = Loadable(lazy(() => import('pages/WMS/CurrencyWmsPage')));
+const UomWmsPage = Loadable(lazy(() => import('pages/WMS/UomWmsPage')));
+const MocWmsPage = Loadable(lazy(() =>import('pages/WMS/MocWmsPage')));
+const Moc2WmsPage = Loadable(lazy(() =>import('pages/WMS/MocWmsPage')));
+const UocWmsPage = Loadable(lazy(() =>import('pages/WMS/UocWmsPage')));
+const Harmonize = Loadable(lazy(() =>import('pages/WMS/HarmonizeWmsPage')));
+const ActivitySubgroupWms = Loadable(lazy(() =>import('pages/WMS/ActivitySubgroupWmsPage')));
+
 
 // render - sample page
 // const AppSelectionPage = Loadable(lazy(() => import('pages/AppSelection/AppSelectionPage')));
@@ -57,6 +64,12 @@ const MainRoutes = {
                     { path: 'currency', element: <CurrencyWmsPage /> },
                     { path: 'pickwave', element: <PickWaveWmsPage /> },
                     { path: 'salesman', element: <SalesmanWmsPage /> },
+                    { path: 'uom', element: <UomWmsPage /> },
+                    { path: 'moc', element: <MocWmsPage/>},
+                    { path: 'moc2', element: <Moc2WmsPage/>},
+                    { path: 'uoc', element: <UocWmsPage/>},
+                    { path: 'harmonize', element: <Harmonize/>},
+                    { path: 'activitysubgroup', element: <ActivitySubgroupWms/>},
                     { path: '*', element: <MaintenanceError /> }
                   ]
                 },
