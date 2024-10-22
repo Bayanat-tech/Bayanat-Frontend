@@ -1,5 +1,4 @@
 import { lazy } from 'react';
-
 // project import
 import Loadable from 'components/Loadable';
 import CommonLayout from 'layout/CommonLayout';
@@ -29,6 +28,14 @@ const CurrencyWmsPage = Loadable(lazy(() => import('pages/WMS/CurrencyWmsPage'))
 const GroupWmsPage = Loadable(lazy(() => import('pages/WMS/GroupWmsPage')));
 const ManufactureWmsPage = Loadable(lazy(() => import('pages/WMS/ManufactureWmsPage')));
 // const DepartmentWmsPage = Loadable(lazy(() => import('pages/WMS/DepartmentWmsPage')));
+
+const UomWmsPage = Loadable(lazy(() => import('pages/WMS/UomWmsPage')));
+const MocWmsPage = Loadable(lazy(() => import('pages/WMS/MocWmsPage')));
+const Moc2WmsPage = Loadable(lazy(() => import('pages/WMS/MocWmsPage')));
+const UocWmsPage = Loadable(lazy(() => import('pages/WMS/UocWmsPage')));
+const Harmonize = Loadable(lazy(() => import('pages/WMS/HarmonizeWmsPage')));
+const ActivitySubgroupWms = Loadable(lazy(() => import('pages/WMS/ActivitySubgroupWmsPage')));
+
 const CostmasterPfPage = Loadable(lazy(() => import('pages/Purchasefolder/CostmasterPfpage')));
 const ProjectmasterPfPage = Loadable(lazy(() => import('pages/Purchasefolder/ProjectmasterPfPage')));
 const BillingActivityPage = Loadable(lazy(() => import('../pages/WMS/ActivityBillingPage')));
@@ -74,6 +81,12 @@ const MainRoutes = {
                     { path: 'brand', element: <BrandWmsPage /> },
                     { path: 'group', element: <GroupWmsPage /> },
                     { path: 'manufacturer', element: <ManufactureWmsPage /> },
+                    { path: 'uom', element: <UomWmsPage /> },
+                    { path: 'moc', element: <MocWmsPage /> },
+                    { path: 'moc2', element: <Moc2WmsPage /> },
+                    { path: 'uoc', element: <UocWmsPage /> },
+                    { path: 'harmonize', element: <Harmonize /> },
+                    { path: 'activitysubgroup', element: <ActivitySubgroupWms /> },
                     { path: 'billingactivity', element: <BillingActivityPage /> },
                     { path: 'secrole', element: <SecrollmasterWmsPage /> },
                     { path: '*', element: <MaintenanceError /> }

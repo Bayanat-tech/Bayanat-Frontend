@@ -12,15 +12,13 @@ import WmsSerivceInstance from 'service/service.wms';
 import { useSelector } from 'store';
 import { TUniversalDialogProps } from 'types/types.UniversalDialog';
 import { getPathNameList } from 'utils/functions';
-import { TCountry } from './types/country-wms.types';
-
-import AddCountryWmsForm from 'components/forms/AddCountryWmsForm';
+import { TUom } from './types/uom-wms.type';
+import AddUomWmsForm from 'components/forms/AddUomWmsForm';
 import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
 import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
 import GmServiceInstance from 'service/wms/services.gm_wms';
-import { FormattedMessage } from 'react-intl';
 
-const CountryWmsPage = () => {
+const UomWmsPage = () => {
   //--------------constants----------
   const { permissions, user_permission } = useAuth();
   const location = useLocation();
@@ -31,16 +29,16 @@ const CountryWmsPage = () => {
   const [toggleFilter, setToggleFilter] = useState<boolean | null>(null);
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
-  const [countryFormPopup, setCountryFormPopup] = useState<TUniversalDialogProps>({
+  const [countryFormPopup, setUomFormPopup] = useState<TUniversalDialogProps>({
     action: {
       open: false,
       fullWidth: true,
       maxWidth: 'sm'
     },
-    title: <FormattedMessage id="Add Country" />,
+    title: 'Add Uom',
     data: { existingData: {}, isEditMode: false }
   });
-  const columns = useMemo<ColumnDef<TCountry>[]>(
+  const columns = useMemo<ColumnDef<TUom>[]>(
     () => [
       {
         id: 'select-col',
@@ -56,39 +54,23 @@ const CountryWmsPage = () => {
         )
       },
       {
-        accessorFn: (row) => row.country_code,
-        id: 'country_code',
-        header: () => <FormattedMessage id="Country Code" />
+        accessorFn: (row) => row.uom_code,
+        id: 'uom_code',
+        header: () => <span>Uom Code</span>
       },
       {
-        accessorFn: (row) => row.country_name,
-        id: 'country_name',
-        header: () => <FormattedMessage id="Country Name" />
-      },
-      {
-        accessorFn: (row) => row.country_gcc,
-        id: 'country_gcc',
-        header: () => <FormattedMessage id="Country GCC" />
+        accessorFn: (row) => row.uom_name,
+        id: 'uom_name',
+        header: () => <span>Uom Name</span>
       },
       {
         accessorFn: (row) => row.company_code,
         id: 'company_code',
-        header: () => <FormattedMessage id="Company Code" />
-      },
-      {
-        accessorFn: (row) => row.short_desc,
-        id: 'short_desc',
-        header: () => <FormattedMessage id="Short Description" />
-      },
-      {
-        accessorFn: (row) => row.nationality,
-        id: 'nationality',
-        header: () => <FormattedMessage id="Nationality" />
+        header: () => <span>Company Code</span>
       },
       {
         id: 'actions',
-        header: () => <FormattedMessage id="Actions" />,
-
+        header: () => <span>Actions</span>,
         cell: ({ row }) => {
           const actionButtons: TAvailableActionButtons[] = ['edit'];
 
@@ -103,8 +85,8 @@ const CountryWmsPage = () => {
   //----------- useQuery--------------
   const {
     data: countryData,
-    isFetching: isCountryFetchLoading,
-    refetch: refetchCountryData
+    isFetching: isUomFetchLoading,
+    refetch: refetchUomData
   } = useQuery({
     queryKey: ['country_data', searchData, paginationData],
     queryFn: () => WmsSerivceInstance.getMasters(app, pathNameList[pathNameList.length - 1], paginationData, searchData),
@@ -115,33 +97,32 @@ const CountryWmsPage = () => {
     setPaginationData({ page, rowsPerPage });
   };
 
-  const handleEditCountry = (existingData: TCountry) => {
-    setCountryFormPopup((prev) => {
+  const handleEditUom = (existingData: TUom) => {
+    setUomFormPopup((prev) => {
       return {
         action: { ...prev.action, open: !prev.action.open },
-        title: <FormattedMessage id="Edit Country" />,
-
+        title: 'Edit Uom',
         data: { existingData, isEditMode: true }
       };
     });
   };
 
-  const toggleCountryPopup = (refetchData?: boolean) => {
+  const toggleUomPopup = (refetchData?: boolean) => {
     if (countryFormPopup.action.open === true && refetchData) {
-      refetchCountryData();
+      refetchUomData();
     }
-    setCountryFormPopup((prev) => {
+    setUomFormPopup((prev) => {
       return { ...prev, data: { isEditMode: false, existingData: {} }, action: { ...prev.action, open: !prev.action.open } };
     });
   };
 
-  const handleActions = (actionType: string, rowOriginal: TCountry) => {
-    actionType === 'edit' && handleEditCountry(rowOriginal);
+  const handleActions = (actionType: string, rowOriginal: TUom) => {
+    actionType === 'edit' && handleEditUom(rowOriginal);
   };
-  const handleDeleteCountry = async () => {
-    await GmServiceInstance.deleteCountry(Object.keys(rowSelection));
+  const handleDeleteUom = async () => {
+    await GmServiceInstance.deleteUom(Object.keys(rowSelection));
     setRowSelection({});
-    refetchCountryData();
+    refetchUomData();
   };
   //------------------useEffect----------------
   useEffect(() => {
@@ -154,39 +135,39 @@ const CountryWmsPage = () => {
         {
           <Button
             variant="outlined"
-            onClick={handleDeleteCountry}
+            onClick={handleDeleteUom}
             color="error"
             hidden={!Object.keys(rowSelection).length}
             startIcon={<DeleteOutlined />}
           >
-            <FormattedMessage id="Delete" />
+            Delete
           </Button>
         }
-        <Button startIcon={<PlusOutlined />} variant="shadow" onClick={() => toggleCountryPopup()}>
-          <FormattedMessage id="Country" />
+        <Button startIcon={<PlusOutlined />} variant="shadow" onClick={() => toggleUomPopup()}>
+          Uom
         </Button>
       </div>
       <CustomDataTable
         rowSelection={rowSelection}
         setRowSelection={setRowSelection}
-        row_id="country_code"
+        row_id="uom_code"
         data={countryData?.tableData || []}
         columns={columns}
         count={countryData?.count}
         onPaginationChange={handleChangePagination}
-        isDataLoading={isCountryFetchLoading}
+        isDataLoading={isUomFetchLoading}
         toggleFilter={toggleFilter}
         hasPagination={true}
       />
       {!!countryFormPopup && countryFormPopup.action.open && (
         <UniversalDialog
           action={{ ...countryFormPopup.action }}
-          onClose={toggleCountryPopup}
+          onClose={toggleUomPopup}
           title={countryFormPopup.title}
           hasPrimaryButton={false}
         >
-          <AddCountryWmsForm
-            onClose={toggleCountryPopup}
+          <AddUomWmsForm
+            onClose={toggleUomPopup}
             isEditMode={countryFormPopup?.data?.isEditMode}
             existingData={countryFormPopup.data.existingData}
           />
@@ -196,4 +177,4 @@ const CountryWmsPage = () => {
   );
 };
 
-export default CountryWmsPage;
+export default UomWmsPage;

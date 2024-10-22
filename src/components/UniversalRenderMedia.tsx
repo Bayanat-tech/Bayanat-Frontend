@@ -10,24 +10,9 @@ export const universalRenderMedia = (fileUrl: string, index: number) => {
   if (mimeType) {
     switch (mimeType[0]) {
       case 'image':
-        return (
-          <CardMedia
-            component="img"
-            src={fileUrl}
-            alt={`Media ${index + 1}`}
-            loading="lazy"
-            className="h-full"
-          />
-        );
+        return <CardMedia component="img" src={fileUrl} alt={`Media ${index + 1}`} loading="lazy" className="h-full" />;
       case 'video':
-        return (
-          <CardMedia
-            component="video"
-            src={fileUrl}
-            controls
-            className="h-full"
-          />
-        );
+        return <CardMedia component="video" src={fileUrl} controls className="h-full" />;
       default:
         return (
           <Stack
@@ -42,11 +27,7 @@ export const universalRenderMedia = (fileUrl: string, index: number) => {
             <IconButton sx={{ fontSize: '40px' }}>
               <FilePdfOutlined />
             </IconButton>
-            <Typography
-              variant="body2"
-              color="textSecondary"
-              className="text-md font-semibold break-all text-center mx-3"
-            >
+            <Typography variant="body2" color="textSecondary" className="text-md font-semibold break-all text-center mx-3">
               {getFileNameFromURL(fileUrl)}.{mimeType[1] || 'unknown'}
             </Typography>
           </Stack>
