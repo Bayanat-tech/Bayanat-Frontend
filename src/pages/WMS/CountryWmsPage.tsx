@@ -18,6 +18,7 @@ import AddCountryWmsForm from 'components/forms/AddCountryWmsForm';
 import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
 import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
 import GmServiceInstance from 'service/wms/services.gm_wms';
+import { FormattedMessage } from 'react-intl';
 
 const CountryWmsPage = () => {
   //--------------constants----------
@@ -36,7 +37,7 @@ const CountryWmsPage = () => {
       fullWidth: true,
       maxWidth: 'sm'
     },
-    title: 'Add Country',
+    title: <FormattedMessage id="Add Country" />,
     data: { existingData: {}, isEditMode: false }
   });
   const columns = useMemo<ColumnDef<TCountry>[]>(
@@ -57,36 +58,37 @@ const CountryWmsPage = () => {
       {
         accessorFn: (row) => row.country_code,
         id: 'country_code',
-        header: () => <span>Country Code</span>
+        header: () => <FormattedMessage id="Country Code" />
       },
       {
         accessorFn: (row) => row.country_name,
         id: 'country_name',
-        header: () => <span>Country Name</span>
+        header: () => <FormattedMessage id="Country Name" />
       },
       {
         accessorFn: (row) => row.country_gcc,
         id: 'country_gcc',
-        header: () => <span>Country GCC</span>
+        header: () => <FormattedMessage id="Country GCC" />
       },
       {
         accessorFn: (row) => row.company_code,
         id: 'company_code',
-        header: () => <span>Company Code</span>
+        header: () => <FormattedMessage id="Company Code" />
       },
       {
         accessorFn: (row) => row.short_desc,
         id: 'short_desc',
-        header: () => <span>Short Description</span>
+        header: () => <FormattedMessage id="Short Description" />
       },
       {
         accessorFn: (row) => row.nationality,
         id: 'nationality',
-        header: () => <span>Nationality</span>
+        header: () => <FormattedMessage id="Nationality" />
       },
       {
         id: 'actions',
-        header: () => <span>Actions</span>,
+        header: () => <FormattedMessage id="Actions" />,
+
         cell: ({ row }) => {
           const actionButtons: TAvailableActionButtons[] = ['edit'];
 
@@ -117,7 +119,8 @@ const CountryWmsPage = () => {
     setCountryFormPopup((prev) => {
       return {
         action: { ...prev.action, open: !prev.action.open },
-        title: 'Edit Country',
+        title: <FormattedMessage id="Edit Country" />,
+
         data: { existingData, isEditMode: true }
       };
     });
@@ -156,11 +159,11 @@ const CountryWmsPage = () => {
             hidden={!Object.keys(rowSelection).length}
             startIcon={<DeleteOutlined />}
           >
-            Delete
+            <FormattedMessage id="Delete" />
           </Button>
         }
         <Button startIcon={<PlusOutlined />} variant="shadow" onClick={() => toggleCountryPopup()}>
-          Country
+          <FormattedMessage id="Country" />
         </Button>
       </div>
       <CustomDataTable

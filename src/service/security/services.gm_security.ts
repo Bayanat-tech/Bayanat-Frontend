@@ -6,7 +6,6 @@ import axiosServices from 'utils/axios';
 import { Tsecrollmaster } from 'pages/Security/type/flowmaster-sec-types';
 import { TSecmaster } from 'pages/Security/type/flowmaster-sec-types';
 class GMsec {
-
   //--------------Flowmaster--------------
   addFlowmaster = async (values: TFlowmaster) => {
     try {

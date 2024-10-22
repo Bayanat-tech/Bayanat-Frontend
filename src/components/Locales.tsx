@@ -9,7 +9,14 @@ import { I18n } from 'types/config';
 
 // load locales files
 const loadLocaleData = (locale: I18n) => {
-  return import('utils/locales/en.json');
+  switch (locale) {
+    case 'ar':
+      return import('utils/locales/ar.json');
+
+    case 'en':
+    default:
+      return import('utils/locales/en.json');
+  }
 };
 
 // ==============================|| LOCALIZATION ||============================== //
@@ -25,6 +32,8 @@ const Locales = ({ children }: Props) => {
 
   useEffect(() => {
     loadLocaleData(i18n).then((d: { default: Record<string, string> | Record<string, MessageFormatElement[]> | undefined }) => {
+      console.log(d);
+
       setMessages(d.default);
     });
   }, [i18n]);
