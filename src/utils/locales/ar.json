@@ -1,0 +1,17 @@
+{
+  "Country": "بلد",
+  "Country Code": "رمز البلد",
+  "Country Name": "اسم البلد",
+  "Country GCC": "دول مجلس التعاون الخليجي",
+  "Company Code": "رمز الشركة",
+  "Short Description": "وصف مختصر",
+  "Nationality": "الجنسية",
+  "Actions": "إجراءات",
+  "Is gcc?": "هل هو gcc؟",
+  "Add Country": "أضف البلد",
+  "Submit": "إرسال",
+  "Yes/No": "نعم / لا",
+  "Delete": "حذف",
+  "Rows per page": "الصفوف لكل صفحة",
+  "Edit Country": "تحرير البلد"
+}

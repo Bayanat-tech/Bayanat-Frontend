@@ -1,11 +1,21 @@
 export type TDepartment = {
   dept_code: string;
   dept_name: string;
+  inv_flag?: string;
+  jobno_seq?: string;
+  invno_seq?: number;
   company_code?: string;
-  div_code: string;
-  jobno_seq: string;
+  operation_type?: string;
+  div_code?: string;
+  ac_div_code?: number;
+  dept_email?: string;
+  dn_email?: string;
+  grn_email?: string;
+  inv_gen?: string;
+  inb_oub_related?: string;
+  inv_prefix?: string;
+  created_at?: Date;
+  created_by?: string;
   updated_at?: Date;
   updated_by?: string;
-  created_by?: string;
-  created_at?: Date;
 };

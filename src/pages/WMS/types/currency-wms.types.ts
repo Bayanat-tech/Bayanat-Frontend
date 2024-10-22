@@ -6,8 +6,8 @@ export type TCurrency = {
   subdivision: number;
   company_code?: string;
   curr_sign?: string;
+  created_at?: Date;
+  created_by?: string;
   updated_at?: Date;
   updated_by?: string;
-  created_by?: string;
-  created_at?: Date;
 };
