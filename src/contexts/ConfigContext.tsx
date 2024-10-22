@@ -39,6 +39,8 @@ function ConfigProvider({ children }: ConfigProviderProps) {
   };
 
   const onChangeLocalization = (lang: I18n) => {
+    console.log(lang);
+
     setConfig({
       ...config,
       i18n: lang

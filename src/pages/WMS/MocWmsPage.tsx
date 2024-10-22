@@ -12,15 +12,13 @@ import WmsSerivceInstance from 'service/service.wms';
 import { useSelector } from 'store';
 import { TUniversalDialogProps } from 'types/types.UniversalDialog';
 import { getPathNameList } from 'utils/functions';
-import { TCountry } from './types/country-wms.types';
-
-import AddCountryWmsForm from 'components/forms/AddCountryWmsForm';
+import { TMoc } from './types/moc-wms.types';
+import AddMocWmsForm from 'components/forms/AddMocWmsForm';
 import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
 import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
 import GmServiceInstance from 'service/wms/services.gm_wms';
-import { FormattedMessage } from 'react-intl';
 
-const CountryWmsPage = () => {
+const MocWmsPage = () => {
   //--------------constants----------
   const { permissions, user_permission } = useAuth();
   const location = useLocation();
@@ -31,16 +29,16 @@ const CountryWmsPage = () => {
   const [toggleFilter, setToggleFilter] = useState<boolean | null>(null);
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
-  const [countryFormPopup, setCountryFormPopup] = useState<TUniversalDialogProps>({
+  const [countryFormPopup, setMocFormPopup] = useState<TUniversalDialogProps>({
     action: {
       open: false,
       fullWidth: true,
       maxWidth: 'sm'
     },
-    title: <FormattedMessage id="Add Country" />,
+    title: 'Add Moc',
     data: { existingData: {}, isEditMode: false }
   });
-  const columns = useMemo<ColumnDef<TCountry>[]>(
+  const columns = useMemo<ColumnDef<TMoc>[]>(
     () => [
       {
         id: 'select-col',
@@ -56,39 +54,23 @@ const CountryWmsPage = () => {
         )
       },
       {
-        accessorFn: (row) => row.country_code,
-        id: 'country_code',
-        header: () => <FormattedMessage id="Country Code" />
+        accessorFn: (row) => row.charge_code,
+        id: 'charge_code',
+        header: () => <span>Moc Code</span>
       },
       {
-        accessorFn: (row) => row.country_name,
-        id: 'country_name',
-        header: () => <FormattedMessage id="Country Name" />
-      },
-      {
-        accessorFn: (row) => row.country_gcc,
-        id: 'country_gcc',
-        header: () => <FormattedMessage id="Country GCC" />
+        accessorFn: (row) => row.description,
+        id: 'uom_name',
+        header: () => <span>Moc Name</span>
       },
       {
         accessorFn: (row) => row.company_code,
         id: 'company_code',
-        header: () => <FormattedMessage id="Company Code" />
-      },
-      {
-        accessorFn: (row) => row.short_desc,
-        id: 'short_desc',
-        header: () => <FormattedMessage id="Short Description" />
-      },
-      {
-        accessorFn: (row) => row.nationality,
-        id: 'nationality',
-        header: () => <FormattedMessage id="Nationality" />
+        header: () => <span>Company Code</span>
       },
       {
         id: 'actions',
-        header: () => <FormattedMessage id="Actions" />,
-
+        header: () => <span>Actions</span>,
         cell: ({ row }) => {
           const actionButtons: TAvailableActionButtons[] = ['edit'];
 
@@ -103,8 +85,8 @@ const CountryWmsPage = () => {
   //----------- useQuery--------------
   const {
     data: countryData,
-    isFetching: isCountryFetchLoading,
-    refetch: refetchCountryData
+    isFetching: isMocFetchLoading,
+    refetch: refetchMocData
   } = useQuery({
     queryKey: ['country_data', searchData, paginationData],
     queryFn: () => WmsSerivceInstance.getMasters(app, pathNameList[pathNameList.length - 1], paginationData, searchData),
@@ -115,33 +97,32 @@ const CountryWmsPage = () => {
     setPaginationData({ page, rowsPerPage });
   };
 
-  const handleEditCountry = (existingData: TCountry) => {
-    setCountryFormPopup((prev) => {
+  const handleEditMoc = (existingData: TMoc) => {
+    setMocFormPopup((prev) => {
       return {
         action: { ...prev.action, open: !prev.action.open },
-        title: <FormattedMessage id="Edit Country" />,
-
+        title: 'Edit Moc',
         data: { existingData, isEditMode: true }
       };
     });
   };
 
-  const toggleCountryPopup = (refetchData?: boolean) => {
+  const toggleMocPopup = (refetchData?: boolean) => {
     if (countryFormPopup.action.open === true && refetchData) {
-      refetchCountryData();
+      refetchMocData();
     }
-    setCountryFormPopup((prev) => {
+    setMocFormPopup((prev) => {
       return { ...prev, data: { isEditMode: false, existingData: {} }, action: { ...prev.action, open: !prev.action.open } };
     });
   };
 
-  const handleActions = (actionType: string, rowOriginal: TCountry) => {
-    actionType === 'edit' && handleEditCountry(rowOriginal);
+  const handleActions = (actionType: string, rowOriginal: TMoc) => {
+    actionType === 'edit' && handleEditMoc(rowOriginal);
   };
-  const handleDeleteCountry = async () => {
-    await GmServiceInstance.deleteCountry(Object.keys(rowSelection));
+  const handleDeleteMoc = async () => {
+    await GmServiceInstance.deleteMoc(Object.keys(rowSelection));
     setRowSelection({});
-    refetchCountryData();
+    refetchMocData();
   };
   //------------------useEffect----------------
   useEffect(() => {
@@ -154,39 +135,39 @@ const CountryWmsPage = () => {
         {
           <Button
             variant="outlined"
-            onClick={handleDeleteCountry}
+            onClick={handleDeleteMoc}
             color="error"
             hidden={!Object.keys(rowSelection).length}
             startIcon={<DeleteOutlined />}
           >
-            <FormattedMessage id="Delete" />
+            Delete
           </Button>
         }
-        <Button startIcon={<PlusOutlined />} variant="shadow" onClick={() => toggleCountryPopup()}>
-          <FormattedMessage id="Country" />
+        <Button startIcon={<PlusOutlined />} variant="shadow" onClick={() => toggleMocPopup()}>
+          Moc
         </Button>
       </div>
       <CustomDataTable
         rowSelection={rowSelection}
         setRowSelection={setRowSelection}
-        row_id="country_code"
+        row_id="charge_code"
         data={countryData?.tableData || []}
         columns={columns}
         count={countryData?.count}
         onPaginationChange={handleChangePagination}
-        isDataLoading={isCountryFetchLoading}
+        isDataLoading={isMocFetchLoading}
         toggleFilter={toggleFilter}
         hasPagination={true}
       />
       {!!countryFormPopup && countryFormPopup.action.open && (
         <UniversalDialog
           action={{ ...countryFormPopup.action }}
-          onClose={toggleCountryPopup}
+          onClose={toggleMocPopup}
           title={countryFormPopup.title}
           hasPrimaryButton={false}
         >
-          <AddCountryWmsForm
-            onClose={toggleCountryPopup}
+          <AddMocWmsForm
+            onClose={toggleMocPopup}
             isEditMode={countryFormPopup?.data?.isEditMode}
             existingData={countryFormPopup.data.existingData}
           />
@@ -196,4 +177,4 @@ const CountryWmsPage = () => {
   );
 };
 
-export default CountryWmsPage;
+export default MocWmsPage;

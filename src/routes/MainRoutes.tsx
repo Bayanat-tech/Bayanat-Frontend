@@ -25,6 +25,13 @@ const CountryWmsPage = Loadable(lazy(() => import('pages/WMS/CountryWmsPage')));
 // const DepartmentWmsPage = Loadable(lazy(() => import('pages/WMS/DepartmentWmsPage')));
 const LocationWmsPage = Loadable(lazy(() => import('pages/WMS/LocationWmsPage')));
 const CurrencyWmsPage = Loadable(lazy(() => import('pages/WMS/CurrencyWmsPage')));
+const UomWmsPage = Loadable(lazy(() => import('pages/WMS/UomWmsPage')));
+const MocWmsPage = Loadable(lazy(() => import('pages/WMS/MocWmsPage')));
+const Moc2WmsPage = Loadable(lazy(() => import('pages/WMS/MocWmsPage')));
+const UocWmsPage = Loadable(lazy(() => import('pages/WMS/UocWmsPage')));
+const Harmonize = Loadable(lazy(() => import('pages/WMS/HarmonizeWmsPage')));
+const ActivitySubgroupWms = Loadable(lazy(() => import('pages/WMS/ActivitySubgroupWmsPage')));
+
 const CostmasterPfPage = Loadable(lazy(() => import('pages/Purchasefolder/CostmasterPfpage')));
 const ProjectmasterPfPage = Loadable(lazy(() => import('pages/Purchasefolder/ProjectmasterPfPage')));
 const BillingActivityPage = Loadable(lazy(() => import('../pages/WMS/ActivityBillingPage')));
@@ -66,6 +73,12 @@ const MainRoutes = {
                     { path: 'currency', element: <CurrencyWmsPage /> },
                     { path: 'pickwave', element: <PickWaveWmsPage /> },
                     { path: 'salesman', element: <SalesmanWmsPage /> },
+                    { path: 'uom', element: <UomWmsPage /> },
+                    { path: 'moc', element: <MocWmsPage /> },
+                    { path: 'moc2', element: <Moc2WmsPage /> },
+                    { path: 'uoc', element: <UocWmsPage /> },
+                    { path: 'harmonize', element: <Harmonize /> },
+                    { path: 'activitysubgroup', element: <ActivitySubgroupWms /> },
                     { path: 'billingactivity', element: <BillingActivityPage /> },
                     { path: 'secrole', element: <SecrollmasterWmsPage /> },
                     { path: '*', element: <MaintenanceError /> }

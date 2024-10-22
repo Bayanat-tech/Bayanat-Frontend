@@ -1,39 +1,38 @@
 import { LoadingOutlined, SaveOutlined } from '@ant-design/icons';
-import { Button, Checkbox, FormControlLabel, FormHelperText, Grid, InputLabel } from '@mui/material';
+import { Button, FormHelperText, Grid, InputLabel } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import { getIn, useFormik } from 'formik';
 import useAuth from 'hooks/useAuth';
-import { TCountry } from 'pages/WMS/types/country-wms.types';
+import { THarmonize } from 'pages/WMS/types/harmonize-wms.types';
 import { useEffect } from 'react';
-import { FormattedMessage } from 'react-intl';
 import GmServiceInstance from 'service/wms/services.gm_wms';
 import * as yup from 'yup';
 
-const AddCountryWmsForm = ({
+const AddHarmonizeWmsForm = ({
   onClose,
   isEditMode,
   existingData
 }: {
   onClose: (refetchData?: boolean) => void;
   isEditMode: Boolean;
-  existingData: TCountry;
+  existingData: THarmonize;
 }) => {
   //-------------------constants-------------------
   const { user } = useAuth();
   //------------------formik-----------------
-  const formik = useFormik<TCountry>({
-    initialValues: { country_name: '', country_code: '', country_gcc: 'N', company_code: user?.company_code },
+  const formik = useFormik<THarmonize>({
+    initialValues: { harm_desc: '', harm_code: '', short_desc: '',uom: '',permit_reqd: '', unit: '',company_code: user?.company_code },
     validationSchema: yup.object().shape({
-      country_code: yup.string().required('This field is required'),
-      country_name: yup.string().required('This field is required')
+      harm_code: yup.string().required('This field is required'),
+      harm_desc: yup.string().required('This field is required')
     }),
     onSubmit: async (values, { setSubmitting }) => {
       setSubmitting(true);
       let response;
       if (isEditMode) {
-        response = await GmServiceInstance.editCountry(values);
+        response = await GmServiceInstance.editHarmonize(values);
       } else {
-        response = await GmServiceInstance.addCountry(values);
+        response = await GmServiceInstance.addHarmonize(values);
       }
       if (response) {
         onClose(true);
@@ -41,13 +40,13 @@ const AddCountryWmsForm = ({
       }
     }
   });
+  useEffect(() => {
+    console.log(formik.errors);
+  }, [formik.errors]);
   //------------------Handlers------------
-  const handleCountryGccChange = (event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
-    formik.setFieldValue('country_gcc', checked ? 'Y' : 'N');
-  };
-
-  //------------------useEffect------------
-
+  // const handleHarmonizeGccChange = (event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
+  //   formik.setFieldValue('country_gcc', checked ? 'Y' : 'N');
+  // };
   useEffect(() => {
     if (isEditMode) {
       const { updated_at, updated_by, created_at, created_by, ...countryData } = existingData;
@@ -61,53 +60,47 @@ const AddCountryWmsForm = ({
   return (
     <Grid container spacing={2} component={'form'} onSubmit={formik.handleSubmit}>
       <Grid item xs={12}>
-        <InputLabel>
-          <FormattedMessage id="Country Code" />*
-        </InputLabel>
+        <InputLabel>Harmonize Code*</InputLabel>
         <TextField
-          size="small"
-          value={formik.values.country_code}
-          name="country_code"
+          value={formik.values.harm_code}
+          name="harm_code"
           onChange={formik.handleChange}
           className="w-28"
-          error={Boolean(getIn(formik.touched, 'country_code') && getIn(formik.errors, 'country_code'))}
+          error={Boolean(getIn(formik.touched, 'harm_code') && getIn(formik.errors, 'harm_code'))}
         />
-        {getIn(formik.touched, 'country_code') && getIn(formik.errors, 'country_code') && (
+        {getIn(formik.touched, 'harm_code') && getIn(formik.errors, 'harm_code') && (
           <FormHelperText error id="helper-text-first_name">
-            {getIn(formik.errors, 'country_code')}
+            {getIn(formik.errors, 'harm_code')}
           </FormHelperText>
         )}
       </Grid>
       <Grid item xs={12} sm={5}>
-        <InputLabel>
-          <FormattedMessage id="Country Name" />*
-        </InputLabel>
+        <InputLabel>Harmonize Name*</InputLabel>
         <TextField
-          size="small"
-          value={formik.values.country_name}
-          name="country_name"
+          value={formik.values.harm_desc}
+          name="harm_desc"
           onChange={formik.handleChange}
           fullWidth
-          error={Boolean(getIn(formik.touched, 'country_name') && getIn(formik.errors, 'country_name'))}
+          error={Boolean(getIn(formik.touched, 'harm_desc') && getIn(formik.errors, 'harm_desc'))}
         />
-        {getIn(formik.touched, 'country_name') && getIn(formik.errors, 'country_name') && (
+        {getIn(formik.touched, 'harm_desc') && getIn(formik.errors, 'harm_desc') && (
           <FormHelperText error id="helper-text-first_name">
-            {getIn(formik.errors, 'country_name')}
+            {getIn(formik.errors, 'harm_desc')}
           </FormHelperText>
         )}
       </Grid>
+      {/*
       <Grid item xs={12} sm={6} md={3}>
-        <InputLabel>
-          <FormattedMessage id="Is gcc?" />
-        </InputLabel>
+        <InputLabel>Is gcc?</InputLabel>
         <FormControlLabel
-          control={<Checkbox onChange={handleCountryGccChange} />}
+          control={<Checkbox onChange={handleHarmonizeGccChange} />}
           checked={formik.values.country_gcc === 'Y'}
           name="country_gcc"
-          label={<FormattedMessage id="Yes/No" />}
+          label={'Yes/No'}
           value={formik.values.country_gcc}
         />
       </Grid>
+      */}
       <Grid item xs={12} className="flex justify-end">
         <Button
           type="submit"
@@ -115,10 +108,10 @@ const AddCountryWmsForm = ({
           disabled={formik.isSubmitting}
           startIcon={formik.isSubmitting ? <LoadingOutlined /> : <SaveOutlined />}
         >
-          <FormattedMessage id="Submit" />
+          Submit
         </Button>
       </Grid>
     </Grid>
   );
 };
-export default AddCountryWmsForm;
+export default AddHarmonizeWmsForm;

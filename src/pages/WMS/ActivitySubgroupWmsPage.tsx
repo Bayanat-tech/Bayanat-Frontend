@@ -12,15 +12,14 @@ import WmsSerivceInstance from 'service/service.wms';
 import { useSelector } from 'store';
 import { TUniversalDialogProps } from 'types/types.UniversalDialog';
 import { getPathNameList } from 'utils/functions';
-import { TCountry } from './types/country-wms.types';
+import { TActivitysubgroup } from './types/activitysubgroup-wms';
 
-import AddCountryWmsForm from 'components/forms/AddCountryWmsForm';
+import AddActivitySubgroupWmsForm from 'components/forms/AddActivitySubgroupWmsForm';
 import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
 import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
 import GmServiceInstance from 'service/wms/services.gm_wms';
-import { FormattedMessage } from 'react-intl';
 
-const CountryWmsPage = () => {
+const ActivitySubgroupWmsPage = () => {
   //--------------constants----------
   const { permissions, user_permission } = useAuth();
   const location = useLocation();
@@ -37,10 +36,10 @@ const CountryWmsPage = () => {
       fullWidth: true,
       maxWidth: 'sm'
     },
-    title: <FormattedMessage id="Add Country" />,
+    title: 'Add Activity Subgroup',
     data: { existingData: {}, isEditMode: false }
   });
-  const columns = useMemo<ColumnDef<TCountry>[]>(
+  const columns = useMemo<ColumnDef<TActivitysubgroup>[]>(
     () => [
       {
         id: 'select-col',
@@ -56,39 +55,38 @@ const CountryWmsPage = () => {
         )
       },
       {
-        accessorFn: (row) => row.country_code,
-        id: 'country_code',
-        header: () => <FormattedMessage id="Country Code" />
+        accessorFn: (row) => row.activity_subgroup_code,
+        id: 'activity_subgroup_code',
+        header: () => <span>Activity Subgroup Code</span>
       },
       {
-        accessorFn: (row) => row.country_name,
-        id: 'country_name',
-        header: () => <FormattedMessage id="Country Name" />
+        accessorFn: (row) => row.act_subgroup_name,
+        id: 'act_subgroup_name',
+        header: () => <span>Subgroup Name</span>
       },
       {
-        accessorFn: (row) => row.country_gcc,
-        id: 'country_gcc',
-        header: () => <FormattedMessage id="Country GCC" />
+        accessorFn: (row) => row.mandatory_flag,
+        id: 'mandatory_flag',
+        header: () => <span>Mandatory Flag</span>
       },
       {
         accessorFn: (row) => row.company_code,
         id: 'company_code',
-        header: () => <FormattedMessage id="Company Code" />
+        header: () => <span>Company Code</span>
       },
       {
-        accessorFn: (row) => row.short_desc,
-        id: 'short_desc',
-        header: () => <FormattedMessage id="Short Description" />
+        accessorFn: (row) => row.act_group_code,
+        id: 'act_group_code',
+        header: () => <span>Act Group Code</span>
       },
       {
-        accessorFn: (row) => row.nationality,
-        id: 'nationality',
-        header: () => <FormattedMessage id="Nationality" />
+        accessorFn: (row) => row.validate_flag,
+        id: 'validate_flag',
+        header: () => <span>Validate Flag</span>
       },
       {
         id: 'actions',
-        header: () => <FormattedMessage id="Actions" />,
-
+        header: () => <span>Actions</span>,
         cell: ({ row }) => {
           const actionButtons: TAvailableActionButtons[] = ['edit'];
 
@@ -115,12 +113,11 @@ const CountryWmsPage = () => {
     setPaginationData({ page, rowsPerPage });
   };
 
-  const handleEditCountry = (existingData: TCountry) => {
+  const handleEditCountry = (existingData: TActivitysubgroup) => {
     setCountryFormPopup((prev) => {
       return {
         action: { ...prev.action, open: !prev.action.open },
-        title: <FormattedMessage id="Edit Country" />,
-
+        title: 'Edit Activity Subgroup',
         data: { existingData, isEditMode: true }
       };
     });
@@ -135,7 +132,7 @@ const CountryWmsPage = () => {
     });
   };
 
-  const handleActions = (actionType: string, rowOriginal: TCountry) => {
+  const handleActions = (actionType: string, rowOriginal: TActivitysubgroup) => {
     actionType === 'edit' && handleEditCountry(rowOriginal);
   };
   const handleDeleteCountry = async () => {
@@ -159,17 +156,17 @@ const CountryWmsPage = () => {
             hidden={!Object.keys(rowSelection).length}
             startIcon={<DeleteOutlined />}
           >
-            <FormattedMessage id="Delete" />
+            Delete
           </Button>
         }
         <Button startIcon={<PlusOutlined />} variant="shadow" onClick={() => toggleCountryPopup()}>
-          <FormattedMessage id="Country" />
+          Activity Subgroup
         </Button>
       </div>
       <CustomDataTable
         rowSelection={rowSelection}
         setRowSelection={setRowSelection}
-        row_id="country_code"
+        row_id="activity_subgroup_code"
         data={countryData?.tableData || []}
         columns={columns}
         count={countryData?.count}
@@ -185,7 +182,7 @@ const CountryWmsPage = () => {
           title={countryFormPopup.title}
           hasPrimaryButton={false}
         >
-          <AddCountryWmsForm
+          <AddActivitySubgroupWmsForm
             onClose={toggleCountryPopup}
             isEditMode={countryFormPopup?.data?.isEditMode}
             existingData={countryFormPopup.data.existingData}
@@ -196,4 +193,4 @@ const CountryWmsPage = () => {
   );
 };
 
-export default CountryWmsPage;
+export default ActivitySubgroupWmsPage;
