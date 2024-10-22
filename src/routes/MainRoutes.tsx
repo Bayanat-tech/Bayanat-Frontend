@@ -10,6 +10,7 @@ import WareHouseManagmentSystemPage from 'pages/WMS/WareHouseManagmentSystemPage
 import AuthGuard from 'utils/route-guard/AuthGuard';
 import PickWaveWmsPage from 'pages/WMS/PickWaveWmsPage';
 import SalesmanWmsPage from 'pages/WMS/SalesmanWmsPage';
+//import GroupWmsPage from 'pages/WMS/GroupWmsPage';
 
 // pages routing
 const MaintenanceError = Loadable(lazy(() => import('pages/maintenance/404')));
@@ -18,8 +19,12 @@ const MaintenanceUnderConstruction = Loadable(lazy(() => import('pages/maintenan
 const MaintenanceComingSoon = Loadable(lazy(() => import('pages/maintenance/coming-soon')));
 const CountryWmsPage = Loadable(lazy(() => import('pages/WMS/CountryWmsPage')));
 const DepartmentWmsPage = Loadable(lazy(() => import('pages/WMS/DepartmentWmsPage')));
+const BrandWmsPage = Loadable(lazy(() => import('pages/WMS/BrandWmsPage')));
+const SupplierWmsPage = Loadable(lazy(() => import('pages/WMS/SupplierWmsPage')));
 const LocationWmsPage = Loadable(lazy(() => import('pages/WMS/LocationWmsPage')));
 const CurrencyWmsPage = Loadable(lazy(() => import('pages/WMS/CurrencyWmsPage')));
+const GroupWmsPage = Loadable(lazy(() => import('pages/WMS/GroupWmsPage')));
+const ManufactureWmsPage = Loadable(lazy(() => import('pages/WMS/ManufactureWmsPage')));
 
 // render - sample page
 // const AppSelectionPage = Loadable(lazy(() => import('pages/AppSelection/AppSelectionPage')));
@@ -55,8 +60,12 @@ const MainRoutes = {
                     { path: 'department', element: <DepartmentWmsPage /> },
                     { path: 'location', element: <LocationWmsPage /> },
                     { path: 'currency', element: <CurrencyWmsPage /> },
+                    { path: 'supplier', element: <SupplierWmsPage /> },
                     { path: 'pickwave', element: <PickWaveWmsPage /> },
                     { path: 'salesman', element: <SalesmanWmsPage /> },
+                    { path: 'brand', element: <BrandWmsPage /> },
+                    { path: 'group', element: <GroupWmsPage /> },
+                    { path: 'manufacturer', element: <ManufactureWmsPage /> },
                     { path: '*', element: <MaintenanceError /> }
                   ]
                 },
