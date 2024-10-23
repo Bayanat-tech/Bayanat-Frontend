@@ -6,7 +6,6 @@ import { TGroup } from 'pages/WMS/types/group-wms.types';
 import { THarmonize } from 'pages/WMS/types/harmonize-wms.types';
 import { TLine } from 'pages/WMS/types/Line-wms.types';
 import { TLocation } from 'pages/WMS/types/location-wms.types';
-import { TManufacture } from 'pages/WMS/types/manufacture-wms.types';
 import { TMoc } from 'pages/WMS/types/moc-wms.types';
 import { Tmoc2 } from 'pages/WMS/types/moc2-wms.types';
 import { TPickWave } from 'pages/WMS/types/PickWave-wms.types';
@@ -21,107 +20,6 @@ import axiosServices from 'utils/axios';
 //import { TSubgroup } from 'pages/WMS/types/activitysubgroup-wms';
 
 class GM {
-  //--------------Manufacture--------------
-  addManufacture = async (values: TManufacture) => {
-    try {
-      const response: IApiResponse<null> = await axiosServices.post('api/wms/gm/manufacture', values);
-      if (response.data.success) {
-        dispatch(
-          openSnackbar({
-            open: true,
-            message: response.data.message,
-            variant: 'alert',
-            alert: {
-              color: 'success'
-            },
-            close: true
-          })
-        );
-        return response.data.success;
-      }
-    } catch (error: unknown) {
-      const knownError = error as { message: string };
-      dispatch(
-        openSnackbar({
-          open: true,
-          message: knownError.message,
-          variant: 'alert',
-          alert: {
-            color: 'error'
-          },
-          severity: 'error',
-          close: true
-        })
-      );
-    }
-  };
-  editManufacture = async (values: TManufacture) => {
-    try {
-      const response: IApiResponse<null> = await axiosServices.put('api/wms/gm/manufacture', values);
-      if (response.data.success) {
-        dispatch(
-          openSnackbar({
-            open: true,
-            message: response.data.message,
-            variant: 'alert',
-            alert: {
-              color: 'success'
-            },
-            close: true
-          })
-        );
-        return response.data.success;
-      }
-    } catch (error: unknown) {
-      const knownError = error as { message: string };
-      dispatch(
-        openSnackbar({
-          open: true,
-          message: knownError.message,
-          variant: 'alert',
-          alert: {
-            color: 'error'
-          },
-          severity: 'error',
-          close: true
-        })
-      );
-    }
-  };
-  deleteManufacture = async (manufactureCodes: string[]) => {
-    try {
-      const response: IApiResponse<null> = await axiosServices.post('api/wms/gm/manufacture/delete', manufactureCodes);
-      if (response.data.success) {
-        dispatch(
-          openSnackbar({
-            open: true,
-            message: response.data.message,
-            variant: 'alert',
-            alert: {
-              color: 'success'
-            },
-            close: true
-          })
-        );
-        return response.data.success;
-      }
-    } catch (error: unknown) {
-      const knownError = error as { message: string };
-      dispatch(
-        openSnackbar({
-          open: true,
-          message: knownError.message,
-          variant: 'alert',
-          alert: {
-            color: 'error'
-          },
-          severity: 'error',
-          close: true
-        })
-      );
-    }
-  };
-
   //--------------Group--------------
   addGroup = async (values: TGroup) => {
     try {

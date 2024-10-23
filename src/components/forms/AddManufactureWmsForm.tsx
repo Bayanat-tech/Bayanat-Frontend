@@ -5,7 +5,7 @@ import { getIn, useFormik } from 'formik';
 import useAuth from 'hooks/useAuth';
 import { TManufacture } from 'pages/WMS/types/manufacture-wms.types';
 import { useEffect } from 'react';
-import GmServiceInstance from 'service/wms/services.gm_wms';
+import manufactureServiceInstance from 'service/GM/service.manufacture_wms';
 import * as yup from 'yup';
 
 const AddManufactureWmsForm = ({
@@ -30,9 +30,9 @@ const AddManufactureWmsForm = ({
       setSubmitting(true);
       let response;
       if (isEditMode) {
-        response = await GmServiceInstance.editManufacture(values);
+        response = await manufactureServiceInstance.editManufacture(values);
       } else {
-        response = await GmServiceInstance.addManufacture(values);
+        response = await manufactureServiceInstance.addManufacture(values);
       }
       if (response) {
         onClose(true);
