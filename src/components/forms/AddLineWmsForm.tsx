@@ -5,7 +5,7 @@ import { getIn, useFormik } from 'formik';
 import useAuth from 'hooks/useAuth';
 import { TLine } from 'pages/WMS/types/Line-wms.types';
 import { useEffect } from 'react';
-import GmServiceInstance from 'service/wms/services.gm_wms';
+import lineServiceInstance from 'service/GM/service.line_wms';
 import * as yup from 'yup';
 
 const AddLineWmsForm = ({
@@ -31,9 +31,9 @@ const AddLineWmsForm = ({
       setSubmitting(true);
       let response;
       if (isEditMode) {
-        response = await GmServiceInstance.editLine(values);
+        response = await lineServiceInstance.editLine(values);
       } else {
-        response = await GmServiceInstance.addLine(values);
+        response = await lineServiceInstance.addLine(values);
       }
       if (response) {
         onClose(true);

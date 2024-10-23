@@ -22,7 +22,7 @@ import { TLine } from './types/Line-wms.types';
 import AddLineWmsForm from 'components/forms/AddLineWmsForm';
 
 //import GM
-import GmServiceInstance from 'service/wms/services.gm_wms';
+import lineServiceInstance from 'service/GM/service.line_wms';
 
 const LineWmsPage = () => {
   //--------------constants----------
@@ -132,7 +132,7 @@ const LineWmsPage = () => {
     actionType === 'edit' && handleEditLine(rowOriginal);
   };
   const handleDeleteLine = async () => {
-    await GmServiceInstance.deleteLine(Object.keys(rowSelection));
+    await lineServiceInstance.deleteLine(Object.keys(rowSelection));
     setRowSelection({});
     refetchLineData();
   };

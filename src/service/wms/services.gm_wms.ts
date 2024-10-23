@@ -4,11 +4,9 @@ import { TCurrency } from 'pages/WMS/types/currency-wms.types';
 import { TDepartment } from 'pages/WMS/types/department-wms.types';
 import { TGroup } from 'pages/WMS/types/group-wms.types';
 import { THarmonize } from 'pages/WMS/types/harmonize-wms.types';
-import { TLine } from 'pages/WMS/types/Line-wms.types';
 import { TLocation } from 'pages/WMS/types/location-wms.types';
 import { TMoc } from 'pages/WMS/types/moc-wms.types';
 import { Tmoc2 } from 'pages/WMS/types/moc2-wms.types';
-import { TPickWave } from 'pages/WMS/types/PickWave-wms.types';
 import { Tsalesman } from 'pages/WMS/types/salesman-wms.types';
 import { TSupplier } from 'pages/WMS/types/supplier-wms.types';
 import { TUoc } from 'pages/WMS/types/uoc-wms.types';
@@ -321,106 +319,7 @@ class GM {
       );
     }
   };
-  //--------------PickWave--------------
-  addPickWave = async (values: TPickWave) => {
-    try {
-      const response: IApiResponse<null> = await axiosServices.post('api/wms/gm/PickWave', values);
-      if (response.data.success) {
-        dispatch(
-          openSnackbar({
-            open: true,
-            message: response.data.message,
-            variant: 'alert',
-            alert: {
-              color: 'success'
-            },
-            close: true
-          })
-        );
-        return response.data.success;
-      }
-    } catch (error: unknown) {
-      const knownError = error as { message: string };
-      dispatch(
-        openSnackbar({
-          open: true,
-          message: knownError.message,
-          variant: 'alert',
-          alert: {
-            color: 'error'
-          },
-          severity: 'error',
-          close: true
-        })
-      );
-    }
-  };
-  editPickWave = async (values: TPickWave) => {
-    try {
-      const response: IApiResponse<null> = await axiosServices.put('api/wms/gm/PickWave', values);
-      if (response.data.success) {
-        dispatch(
-          openSnackbar({
-            open: true,
-            message: response.data.message,
-            variant: 'alert',
-            alert: {
-              color: 'success'
-            },
-            close: true
-          })
-        );
-        return response.data.success;
-      }
-    } catch (error: unknown) {
-      const knownError = error as { message: string };
-      dispatch(
-        openSnackbar({
-          open: true,
-          message: knownError.message,
-          variant: 'alert',
-          alert: {
-            color: 'error'
-          },
-          severity: 'error',
-          close: true
-        })
-      );
-    }
-  };
-  deletePickWave = async (PickWaveCodes: string[]) => {
-    try {
-      const response: IApiResponse<null> = await axiosServices.post('api/wms/gm/PickWave/delete', PickWaveCodes);
-      if (response.data.success) {
-        dispatch(
-          openSnackbar({
-            open: true,
-            message: response.data.message,
-            variant: 'alert',
-            alert: {
-              color: 'success'
-            },
-            close: true
-          })
-        );
-        return response.data.success;
-      }
-    } catch (error: unknown) {
-      const knownError = error as { message: string };
-      dispatch(
-        openSnackbar({
-          open: true,
-          message: knownError.message,
-          variant: 'alert',
-          alert: {
-            color: 'error'
-          },
-          severity: 'error',
-          close: true
-        })
-      );
-    }
-  };
+
   //--------------Location--------------
   addLocation = async (values: TLocation) => {
     try {
@@ -792,107 +691,6 @@ class GM {
   deleteSupplier = async (supplierCodes: string[]) => {
     try {
       const response: IApiResponse<null> = await axiosServices.post('api/wms/gm/supplier/delete', supplierCodes);
-      if (response.data.success) {
-        dispatch(
-          openSnackbar({
-            open: true,
-            message: response.data.message,
-            variant: 'alert',
-            alert: {
-              color: 'success'
-            },
-            close: true
-          })
-        );
-        return response.data.success;
-      }
-    } catch (error: unknown) {
-      const knownError = error as { message: string };
-      dispatch(
-        openSnackbar({
-          open: true,
-          message: knownError.message,
-          variant: 'alert',
-          alert: {
-            color: 'error'
-          },
-          severity: 'error',
-          close: true
-        })
-      );
-    }
-  };
-
-  //--------------------Line----------------------
-  addLine = async (values: TLine) => {
-    try {
-      const response: IApiResponse<null> = await axiosServices.post('api/wms/gm/line', values);
-      if (response.data.success) {
-        dispatch(
-          openSnackbar({
-            open: true,
-            message: response.data.message,
-            variant: 'alert',
-            alert: {
-              color: 'success'
-            },
-            close: true
-          })
-        );
-        return response.data.success;
-      }
-    } catch (error: unknown) {
-      const knownError = error as { message: string };
-      dispatch(
-        openSnackbar({
-          open: true,
-          message: knownError.message,
-          variant: 'alert',
-          alert: {
-            color: 'error'
-          },
-          severity: 'error',
-          close: true
-        })
-      );
-    }
-  };
-  editLine = async (values: TLine) => {
-    try {
-      const response: IApiResponse<null> = await axiosServices.put('api/wms/gm/line', values);
-      if (response.data.success) {
-        dispatch(
-          openSnackbar({
-            open: true,
-            message: response.data.message,
-            variant: 'alert',
-            alert: {
-              color: 'success'
-            },
-            close: true
-          })
-        );
-        return response.data.success;
-      }
-    } catch (error: unknown) {
-      const knownError = error as { message: string };
-      dispatch(
-        openSnackbar({
-          open: true,
-          message: knownError.message,
-          variant: 'alert',
-          alert: {
-            color: 'error'
-          },
-          severity: 'error',
-          close: true
-        })
-      );
-    }
-  };
-  deleteLine = async (lineCodes: string[]) => {
-    try {
-      const response: IApiResponse<null> = await axiosServices.post('api/wms/gm/line/delete', lineCodes);
       if (response.data.success) {
         dispatch(
           openSnackbar({

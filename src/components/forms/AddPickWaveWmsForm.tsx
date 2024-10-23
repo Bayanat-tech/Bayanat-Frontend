@@ -5,7 +5,7 @@ import { getIn, useFormik } from 'formik';
 import useAuth from 'hooks/useAuth';
 import { TPickWave } from 'pages/WMS/types/PickWave-wms.types';
 import { useEffect } from 'react';
-import GmServiceInstance from 'service/wms/services.gm_wms';
+import pickwaveServiceInstance from 'service/GM/service.pickwave_wms';
 import * as yup from 'yup';
 
 const AddPickWaveWmsForm = ({
@@ -31,9 +31,9 @@ const AddPickWaveWmsForm = ({
       setSubmitting(true);
       let response;
       if (isEditMode) {
-        response = await GmServiceInstance.editPickWave(values);
+        response = await pickwaveServiceInstance.editPickWave(values);
       } else {
-        response = await GmServiceInstance.addPickWave(values);
+        response = await pickwaveServiceInstance.addPickWave(values);
       }
       if (response) {
         onClose(true);
