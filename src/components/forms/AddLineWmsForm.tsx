@@ -62,7 +62,7 @@ const AddLineWmsForm = ({
         <InputLabel>Line Code*</InputLabel>
         <TextField
           value={formik.values.line_code}
-          name="line Code"
+          name="line_code"
           onChange={formik.handleChange}
           className="w-28"
           error={Boolean(getIn(formik.touched, 'line_code') && getIn(formik.errors, 'line_code'))}

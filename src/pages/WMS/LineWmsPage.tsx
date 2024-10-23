@@ -15,10 +15,10 @@ import { getPathNameList } from 'utils/functions';
 import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
 import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
 
-// import Pick Wave Table
+// import Line Table
 import { TLine } from './types/Line-wms.types';
 
-//import pickwave Form
+//import Line Form
 import AddLineWmsForm from 'components/forms/AddLineWmsForm';
 
 //import GM
@@ -161,7 +161,7 @@ const LineWmsPage = () => {
         }
 
         <Button startIcon={<PlusOutlined />} variant="shadow" onClick={() => toggleLinePopup()}>
-          Pick Wave
+          Line
         </Button>
       </div>
 
