@@ -3,36 +3,51 @@ import { Button, FormHelperText, Grid, InputLabel } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import { getIn, useFormik } from 'formik';
 import useAuth from 'hooks/useAuth';
-import { TDepartment } from 'pages/WMS/types/department-wms.types';
+import { TBrand } from 'pages/WMS/types/brand-wms.types';
 import { useEffect } from 'react';
 import GmServiceInstance from 'service/wms/services.gm_wms';
 import * as yup from 'yup';
 
-const AddDepartmentWmsForm = ({
+const AddBrandWmsForm = ({
   onClose,
   isEditMode,
   existingData
 }: {
   onClose: (refetchData?: boolean) => void;
   isEditMode: Boolean;
-  existingData: TDepartment;
+  existingData: TBrand;
 }) => {
   //-------------------constants-------------------
   const { user } = useAuth();
   //------------------formik-----------------
-  const formik = useFormik<TDepartment>({
-    initialValues: { dept_name: '', dept_code: '', company_code: user?.company_code, div_code: '', jobno_seq: '' },
+  const formik = useFormik<TBrand>({
+    initialValues: {
+      brand_code: '',
+      prin_code: '101',
+      group_code: '',
+      brand_name: '',
+      pref_site: '',
+      pref_loc_from: '',
+      pref_loc_to: '',
+      pref_aisle_from: '',
+      pref_aisle_to: '',
+      pref_col_from: 0,
+      pref_col_to: 0,
+      pref_ht_from: 0,
+      pref_ht_to: 0,
+      company_code: user?.company_code
+    },
     validationSchema: yup.object().shape({
-      dept_code: yup.string().required('This field is required'),
-      dept_name: yup.string().required('This field is required')
+      brand_code: yup.string().required('This field is required'),
+      brand_name: yup.string().required('This field is required')
     }),
     onSubmit: async (values, { setSubmitting }) => {
       setSubmitting(true);
       let response;
       if (isEditMode) {
-        response = await GmServiceInstance.editDepartment(values);
+        response = await GmServiceInstance.editBrand(values);
       } else {
-        response = await GmServiceInstance.addDepartment(values);
+        response = await GmServiceInstance.addBrand(values);
       }
       if (response) {
         onClose(true);
@@ -49,10 +64,10 @@ const AddDepartmentWmsForm = ({
   //   };
   useEffect(() => {
     if (isEditMode) {
-      const { updated_at, updated_by, created_at, created_by, ...departmentData } = existingData;
+      const { updated_at, updated_by, created_at, created_by, ...brandData } = existingData;
       console.log(updated_at, updated_by, created_at, created_by);
 
-      formik.setValues(departmentData);
+      formik.setValues(brandData);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isEditMode]);
@@ -60,31 +75,31 @@ const AddDepartmentWmsForm = ({
   return (
     <Grid container spacing={2} component={'form'} onSubmit={formik.handleSubmit}>
       <Grid item xs={12} sm={3}>
-        <InputLabel>Department Code*</InputLabel>
+        <InputLabel>Brand Code*</InputLabel>
         <TextField
-          value={formik.values.dept_code}
-          name="dept_code"
+          value={formik.values.brand_code}
+          name="brand_code"
           onChange={formik.handleChange}
-          error={Boolean(getIn(formik.touched, 'dept_code') && getIn(formik.errors, 'dept_code'))}
+          error={Boolean(getIn(formik.touched, 'brand_code') && getIn(formik.errors, 'brand_code'))}
         />
-        {getIn(formik.touched, 'dept_code') && getIn(formik.errors, 'dept_code') && (
+        {getIn(formik.touched, 'brand_code') && getIn(formik.errors, 'brand_code') && (
           <FormHelperText error id="helper-text-first_name">
-            {getIn(formik.errors, 'dept_code')}
+            {getIn(formik.errors, 'brand_code')}
           </FormHelperText>
         )}
       </Grid>
       <Grid item xs={12} sm={9}>
-        <InputLabel>Department Name*</InputLabel>
+        <InputLabel>Brand Name*</InputLabel>
         <TextField
-          value={formik.values.dept_name}
-          name="dept_name"
+          value={formik.values.brand_name}
+          name="brand_name"
           fullWidth
           onChange={formik.handleChange}
-          error={Boolean(getIn(formik.touched, 'dept_name') && getIn(formik.errors, 'dept_name'))}
+          error={Boolean(getIn(formik.touched, 'brand_name') && getIn(formik.errors, 'brand_name'))}
         />
-        {getIn(formik.touched, 'dept_name') && getIn(formik.errors, 'dept_name') && (
+        {getIn(formik.touched, 'brand_name') && getIn(formik.errors, 'brand_name') && (
           <FormHelperText error id="helper-text-first_name">
-            {getIn(formik.errors, 'dept_name')}
+            {getIn(formik.errors, 'brand_name')}
           </FormHelperText>
         )}
       </Grid>
@@ -100,21 +115,21 @@ const AddDepartmentWmsForm = ({
       </Grid> */}
 
       <Grid item xs={12} sm={3}>
-        <InputLabel>Division Code*</InputLabel>
+        <InputLabel>Group Code*</InputLabel>
         <TextField
-          value={formik.values.div_code}
-          name="div_code"
+          value={formik.values.group_code}
+          name="group_code"
           onChange={formik.handleChange}
-          error={Boolean(getIn(formik.touched, 'div_code') && getIn(formik.errors, 'div_code'))}
+          error={Boolean(getIn(formik.touched, 'group_code') && getIn(formik.errors, 'group_code'))}
         />
-        {getIn(formik.touched, 'div_code') && getIn(formik.errors, 'div_code') && (
+        {getIn(formik.touched, 'group_code') && getIn(formik.errors, 'group_code') && (
           <FormHelperText error id="helper-text-first_name">
-            {getIn(formik.errors, 'div_code')}
+            {getIn(formik.errors, 'group_code')}
           </FormHelperText>
         )}
       </Grid>
 
-      <Grid item xs={12} sm={3}>
+      {/* <Grid item xs={12} sm={3}>
         <InputLabel>Job No Sequence*</InputLabel>
         <TextField
           value={formik.values.jobno_seq}
@@ -127,7 +142,7 @@ const AddDepartmentWmsForm = ({
             {getIn(formik.errors, 'jobno_seq')}
           </FormHelperText>
         )}
-      </Grid>
+      </Grid> */}
 
       <Grid item xs={12} className="flex justify-end">
         <Button
@@ -142,4 +157,4 @@ const AddDepartmentWmsForm = ({
     </Grid>
   );
 };
-export default AddDepartmentWmsForm;
+export default AddBrandWmsForm;

@@ -1,5 +1,4 @@
 import { lazy } from 'react';
-
 // project import
 import Loadable from 'components/Loadable';
 import CommonLayout from 'layout/CommonLayout';
@@ -22,9 +21,15 @@ const MaintenanceError500 = Loadable(lazy(() => import('pages/maintenance/500'))
 const MaintenanceUnderConstruction = Loadable(lazy(() => import('pages/maintenance/under-construction')));
 const MaintenanceComingSoon = Loadable(lazy(() => import('pages/maintenance/coming-soon')));
 const CountryWmsPage = Loadable(lazy(() => import('pages/WMS/CountryWmsPage')));
-// const DepartmentWmsPage = Loadable(lazy(() => import('pages/WMS/DepartmentWmsPage')));
+const DepartmentWmsPage = Loadable(lazy(() => import('pages/WMS/DepartmentWmsPage')));
+const BrandWmsPage = Loadable(lazy(() => import('pages/WMS/BrandWmsPage')));
+const SupplierWmsPage = Loadable(lazy(() => import('pages/WMS/SupplierWmsPage')));
 const LocationWmsPage = Loadable(lazy(() => import('pages/WMS/LocationWmsPage')));
 const CurrencyWmsPage = Loadable(lazy(() => import('pages/WMS/CurrencyWmsPage')));
+const GroupWmsPage = Loadable(lazy(() => import('pages/WMS/GroupWmsPage')));
+const ManufactureWmsPage = Loadable(lazy(() => import('pages/WMS/ManufactureWmsPage')));
+// const DepartmentWmsPage = Loadable(lazy(() => import('pages/WMS/DepartmentWmsPage')));
+
 const UomWmsPage = Loadable(lazy(() => import('pages/WMS/UomWmsPage')));
 const MocWmsPage = Loadable(lazy(() => import('pages/WMS/MocWmsPage')));
 const Moc2WmsPage = Loadable(lazy(() => import('pages/WMS/MocWmsPage')));
@@ -68,11 +73,15 @@ const MainRoutes = {
                     { path: 'city', element: <CountryWmsPage /> },
                     { path: 'country', element: <CountryWmsPage /> },
                     { path: 'principal', element: <PrincipalWmsPage /> },
-                    // { path: 'department', element: <DepartmentWmsPage /> },
+                    { path: 'department', element: <DepartmentWmsPage /> },
                     { path: 'location', element: <LocationWmsPage /> },
                     { path: 'currency', element: <CurrencyWmsPage /> },
+                    { path: 'supplier', element: <SupplierWmsPage /> },
                     { path: 'pickwave', element: <PickWaveWmsPage /> },
                     { path: 'salesman', element: <SalesmanWmsPage /> },
+                    { path: 'brand', element: <BrandWmsPage /> },
+                    { path: 'group', element: <GroupWmsPage /> },
+                    { path: 'manufacturer', element: <ManufactureWmsPage /> },
                     { path: 'uom', element: <UomWmsPage /> },
                     { path: 'moc', element: <MocWmsPage /> },
                     { path: 'moc2', element: <Moc2WmsPage /> },

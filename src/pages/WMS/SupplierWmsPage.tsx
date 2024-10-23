@@ -12,14 +12,17 @@ import WmsSerivceInstance from 'service/service.wms';
 import { useSelector } from 'store';
 import { TUniversalDialogProps } from 'types/types.UniversalDialog';
 import { getPathNameList } from 'utils/functions';
-import { THarmonize } from './types/harmonize-wms.types';
 
-import AddHarmonizeWmsForm from 'components/forms/AddHarmonizeWmsForm';
+//import AddCountryWmsForm from 'components/forms/AddCountryWmsForm';
+import AddSupplierWmsForm from 'components/forms/AddSupplierWmsForm';
+
 import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
 import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
 import GmServiceInstance from 'service/wms/services.gm_wms';
+//import { TCountry } from './types/country-wms.types';
+import { TSupplier } from './types/supplier-wms.types';
 
-const HarmonizeWmsPage = () => {
+const SupplierWmsPage = () => {
   //--------------constants----------
   const { permissions, user_permission } = useAuth();
   const location = useLocation();
@@ -30,16 +33,16 @@ const HarmonizeWmsPage = () => {
   const [toggleFilter, setToggleFilter] = useState<boolean | null>(null);
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
-  const [countryFormPopup, setHarmonizeFormPopup] = useState<TUniversalDialogProps>({
+  const [supplierFormPopup, setSupplierFormPopup] = useState<TUniversalDialogProps>({
     action: {
       open: false,
       fullWidth: true,
       maxWidth: 'sm'
     },
-    title: 'Add Harmonize',
+    title: 'Add Supplier',
     data: { existingData: {}, isEditMode: false }
   });
-  const columns = useMemo<ColumnDef<THarmonize>[]>(
+  const columns = useMemo<ColumnDef<TSupplier>[]>(
     () => [
       {
         id: 'select-col',
@@ -55,36 +58,42 @@ const HarmonizeWmsPage = () => {
         )
       },
       {
-        accessorFn: (row) => row.harm_code,
-        id: 'harm_code',
-        header: () => <span>Harmonize Code</span>
+        accessorFn: (row) => row.supp_code,
+        id: 'supp_code',
+        header: () => <span>Supplier Code</span>
       },
       {
-        accessorFn: (row) => row.harm_desc,
-        id: 'harm_dec',
-        header: () => <span>Harmonize Name</span>
+        accessorFn: (row) => row.supp_name,
+        id: 'supp_name',
+        header: () => <span>Supplier Name</span>
+      },
+      //   {
+      //     accessorFn: (row) => row.country_gcc,
+      //     id: 'country_gcc',
+      //     header: () => <span>Country GCC</span>
+      //   },
+      // {
+      //   accessorFn: (row) => row.company_code,
+      //   id: 'company_code',
+      //   header: () => <span>Company Code</span>
+      // },
+      {
+        accessorFn: (row) => row.supp_addr1,
+        id: 'supp_addr1',
+        header: () => <span>Address</span>
       },
       {
-        accessorFn: (row) => row.uom,
-        id: 'uom',
-        header: () => <span>Uom</span>
-      },
-      {
-        accessorFn: (row) => row.company_code,
-        id: 'company_code',
-        header: () => <span>Company Code</span>
-      },
-      {
-        accessorFn: (row) => row.permit_reqd,
-        id: 'permit_reqd',
-        header: () => <span>Permit Reqd</span>
+        accessorFn: (row) => row.supp_city,
+        id: 'supp_city',
+        header: () => <span>City</span>
       },
 
       {
-        accessorFn: (row) => row.short_desc,
-        id: 'short_desc',
-        header: () => <span>Short Description</span>
+        accessorFn: (row) => row.country_code,
+        id: 'country_code',
+        header: () => <span>Country</span>
       },
+
       {
         id: 'actions',
         header: () => <span>Actions</span>,
@@ -101,11 +110,11 @@ const HarmonizeWmsPage = () => {
 
   //----------- useQuery--------------
   const {
-    data: countryData,
-    isFetching: isHarmonizeFetchLoading,
-    refetch: refetchHarmonizeData
+    data: supplierData,
+    isFetching: isSupplierFetchLoading,
+    refetch: refetchSupplierData
   } = useQuery({
-    queryKey: ['country_data', searchData, paginationData],
+    queryKey: ['supplier_data', searchData, paginationData],
     queryFn: () => WmsSerivceInstance.getMasters(app, pathNameList[pathNameList.length - 1], paginationData, searchData),
     enabled: user_permission?.includes(permissions?.[app.toUpperCase()]?.children[pathNameList[3]?.toUpperCase()]?.serial_number)
   });
@@ -114,32 +123,32 @@ const HarmonizeWmsPage = () => {
     setPaginationData({ page, rowsPerPage });
   };
 
-  const handleEditHarmonize = (existingData: THarmonize) => {
-    setHarmonizeFormPopup((prev) => {
+  const handleEditSupplier = (existingData: TSupplier) => {
+    setSupplierFormPopup((prev) => {
       return {
         action: { ...prev.action, open: !prev.action.open },
-        title: 'Edit Harmonize',
+        title: 'Edit Supplier',
         data: { existingData, isEditMode: true }
       };
     });
   };
 
-  const toggleHarmonizePopup = (refetchData?: boolean) => {
-    if (countryFormPopup.action.open === true && refetchData) {
-      refetchHarmonizeData();
+  const toggleSupplierPopup = (refetchData?: boolean) => {
+    if (supplierFormPopup.action.open === true && refetchData) {
+      refetchSupplierData();
     }
-    setHarmonizeFormPopup((prev) => {
-      return { ...prev, data: { isEditMode: false, existingData: {} }, action: { ...prev.action, open: !prev.action.open } };
+    setSupplierFormPopup((prev) => {
+      return { ...prev, action: { ...prev.action, open: !prev.action.open } };
     });
   };
 
-  const handleActions = (actionType: string, rowOriginal: THarmonize) => {
-    actionType === 'edit' && handleEditHarmonize(rowOriginal);
+  const handleActions = (actionType: string, rowOriginal: TSupplier) => {
+    actionType === 'edit' && handleEditSupplier(rowOriginal);
   };
-  const handleDeleteHarmonize = async () => {
-    await GmServiceInstance.deleteHarmonize(Object.keys(rowSelection));
+  const handleDeleteSupplier = async () => {
+    await GmServiceInstance.deleteSupplier(Object.keys(rowSelection));
     setRowSelection({});
-    refetchHarmonizeData();
+    refetchSupplierData();
   };
   //------------------useEffect----------------
   useEffect(() => {
@@ -152,7 +161,7 @@ const HarmonizeWmsPage = () => {
         {
           <Button
             variant="outlined"
-            onClick={handleDeleteHarmonize}
+            onClick={handleDeleteSupplier}
             color="error"
             hidden={!Object.keys(rowSelection).length}
             startIcon={<DeleteOutlined />}
@@ -160,33 +169,32 @@ const HarmonizeWmsPage = () => {
             Delete
           </Button>
         }
-        <Button startIcon={<PlusOutlined />} variant="shadow" onClick={() => toggleHarmonizePopup()}>
-          Harmonize
+        <Button startIcon={<PlusOutlined />} variant="shadow" onClick={() => toggleSupplierPopup()}>
+          Supplier
         </Button>
       </div>
       <CustomDataTable
         rowSelection={rowSelection}
         setRowSelection={setRowSelection}
-        row_id="harm_code"
-        data={countryData?.tableData || []}
+        row_id="supp_code"
+        data={supplierData?.tableData || []}
         columns={columns}
-        count={countryData?.count}
+        count={supplierData?.count}
         onPaginationChange={handleChangePagination}
-        isDataLoading={isHarmonizeFetchLoading}
+        isDataLoading={isSupplierFetchLoading}
         toggleFilter={toggleFilter}
-        hasPagination={true}
       />
-      {!!countryFormPopup && countryFormPopup.action.open && (
+      {supplierFormPopup.action.open === true && (
         <UniversalDialog
-          action={{ ...countryFormPopup.action }}
-          onClose={toggleHarmonizePopup}
-          title={countryFormPopup.title}
+          action={{ ...supplierFormPopup.action }}
+          onClose={toggleSupplierPopup}
+          title={supplierFormPopup.title}
           hasPrimaryButton={false}
         >
-          <AddHarmonizeWmsForm
-            onClose={toggleHarmonizePopup}
-            isEditMode={countryFormPopup?.data?.isEditMode}
-            existingData={countryFormPopup.data.existingData}
+          <AddSupplierWmsForm
+            onClose={toggleSupplierPopup}
+            isEditMode={supplierFormPopup?.data?.isEditMode}
+            existingData={supplierFormPopup.data.existingData}
           />
         </UniversalDialog>
       )}
@@ -194,4 +202,4 @@ const HarmonizeWmsPage = () => {
   );
 };
 
-export default HarmonizeWmsPage;
+export default SupplierWmsPage;

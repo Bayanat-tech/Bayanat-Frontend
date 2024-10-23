@@ -3,36 +3,76 @@ import { Button, FormHelperText, Grid, InputLabel } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import { getIn, useFormik } from 'formik';
 import useAuth from 'hooks/useAuth';
-import { TDepartment } from 'pages/WMS/types/department-wms.types';
+import { TSupplier } from 'pages/WMS/types/supplier-wms.types';
 import { useEffect } from 'react';
 import GmServiceInstance from 'service/wms/services.gm_wms';
 import * as yup from 'yup';
 
-const AddDepartmentWmsForm = ({
+const AddSupplierWmsForm = ({
   onClose,
   isEditMode,
   existingData
 }: {
   onClose: (refetchData?: boolean) => void;
   isEditMode: Boolean;
-  existingData: TDepartment;
+  existingData: TSupplier;
 }) => {
   //-------------------constants-------------------
   const { user } = useAuth();
   //------------------formik-----------------
-  const formik = useFormik<TDepartment>({
-    initialValues: { dept_name: '', dept_code: '', company_code: user?.company_code, div_code: '', jobno_seq: '' },
+  const formik = useFormik<TSupplier>({
+    // initialValues: { dept_name: '', dept_code: '', company_code: user?.company_code, div_code: '', jobno_seq: '' },
+
+    initialValues: {
+      company_code: user?.company_code,
+      prin_code: '101',
+      supp_code: '',
+      curr_code: '101',
+      country_code: '101',
+      supp_name: '',
+      supp_addr1: '',
+      supp_addr2: '',
+      supp_addr3: '',
+      supp_addr4: '',
+      supp_city: '',
+      supp_contact1: '',
+      supp_telno1: '',
+      supp_faxno1: '',
+      supp_email1: '',
+      supp_contact2: '',
+      supp_telno2: '',
+      supp_faxno2: '',
+      supp_email2: '',
+      supp_contact3: '',
+      supp_telno3: '',
+      supp_faxno3: '',
+      supp_ref1: '',
+      supp_ref2: '',
+      supp_ref3: '',
+      service_date: null as unknown as Date,
+      supp_acref: '',
+      supp_credit: 0,
+      supp_stat: '',
+      supp_imp_code: '',
+      supp_lic_no: '',
+      supp_lic_type: '',
+      price_check: '',
+      supp_email3: '',
+      payment_terms: 0,
+      importer_code: ''
+    },
+
     validationSchema: yup.object().shape({
-      dept_code: yup.string().required('This field is required'),
-      dept_name: yup.string().required('This field is required')
+      supp_code: yup.string().required('This field is required'),
+      supp_name: yup.string().required('This field is required')
     }),
     onSubmit: async (values, { setSubmitting }) => {
       setSubmitting(true);
       let response;
       if (isEditMode) {
-        response = await GmServiceInstance.editDepartment(values);
+        response = await GmServiceInstance.editSupplier(values);
       } else {
-        response = await GmServiceInstance.addDepartment(values);
+        response = await GmServiceInstance.addSupplier(values);
       }
       if (response) {
         onClose(true);
@@ -49,10 +89,10 @@ const AddDepartmentWmsForm = ({
   //   };
   useEffect(() => {
     if (isEditMode) {
-      const { updated_at, updated_by, created_at, created_by, ...departmentData } = existingData;
+      const { updated_at, updated_by, created_at, created_by, ...supplierData } = existingData;
       console.log(updated_at, updated_by, created_at, created_by);
 
-      formik.setValues(departmentData);
+      formik.setValues(supplierData);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isEditMode]);
@@ -60,31 +100,31 @@ const AddDepartmentWmsForm = ({
   return (
     <Grid container spacing={2} component={'form'} onSubmit={formik.handleSubmit}>
       <Grid item xs={12} sm={3}>
-        <InputLabel>Department Code*</InputLabel>
+        <InputLabel>Supplier Code*</InputLabel>
         <TextField
-          value={formik.values.dept_code}
-          name="dept_code"
+          value={formik.values.supp_code}
+          name="supp_code"
           onChange={formik.handleChange}
-          error={Boolean(getIn(formik.touched, 'dept_code') && getIn(formik.errors, 'dept_code'))}
+          error={Boolean(getIn(formik.touched, 'supp_code') && getIn(formik.errors, 'supp_code'))}
         />
-        {getIn(formik.touched, 'dept_code') && getIn(formik.errors, 'dept_code') && (
+        {getIn(formik.touched, 'supp_code') && getIn(formik.errors, 'supp_code') && (
           <FormHelperText error id="helper-text-first_name">
-            {getIn(formik.errors, 'dept_code')}
+            {getIn(formik.errors, 'supp_code')}
           </FormHelperText>
         )}
       </Grid>
       <Grid item xs={12} sm={9}>
-        <InputLabel>Department Name*</InputLabel>
+        <InputLabel>Supplier Name*</InputLabel>
         <TextField
-          value={formik.values.dept_name}
-          name="dept_name"
+          value={formik.values.supp_name}
+          name="supp_name"
           fullWidth
           onChange={formik.handleChange}
-          error={Boolean(getIn(formik.touched, 'dept_name') && getIn(formik.errors, 'dept_name'))}
+          error={Boolean(getIn(formik.touched, 'supp_name') && getIn(formik.errors, 'supp_name'))}
         />
-        {getIn(formik.touched, 'dept_name') && getIn(formik.errors, 'dept_name') && (
+        {getIn(formik.touched, 'supp_name') && getIn(formik.errors, 'supp_name') && (
           <FormHelperText error id="helper-text-first_name">
-            {getIn(formik.errors, 'dept_name')}
+            {getIn(formik.errors, 'supp_name')}
           </FormHelperText>
         )}
       </Grid>
@@ -100,31 +140,31 @@ const AddDepartmentWmsForm = ({
       </Grid> */}
 
       <Grid item xs={12} sm={3}>
-        <InputLabel>Division Code*</InputLabel>
+        <InputLabel>Address*</InputLabel>
         <TextField
-          value={formik.values.div_code}
-          name="div_code"
+          value={formik.values.supp_addr1}
+          name="supp_addr1"
           onChange={formik.handleChange}
-          error={Boolean(getIn(formik.touched, 'div_code') && getIn(formik.errors, 'div_code'))}
+          error={Boolean(getIn(formik.touched, 'supp_addr1') && getIn(formik.errors, 'supp_addr1'))}
         />
-        {getIn(formik.touched, 'div_code') && getIn(formik.errors, 'div_code') && (
+        {getIn(formik.touched, 'supp_addr1') && getIn(formik.errors, 'supp_addr1') && (
           <FormHelperText error id="helper-text-first_name">
-            {getIn(formik.errors, 'div_code')}
+            {getIn(formik.errors, 'supp_addr1')}
           </FormHelperText>
         )}
       </Grid>
 
       <Grid item xs={12} sm={3}>
-        <InputLabel>Job No Sequence*</InputLabel>
+        <InputLabel>City*</InputLabel>
         <TextField
-          value={formik.values.jobno_seq}
-          name="jobno_seq"
+          value={formik.values.supp_city}
+          name="supp_city"
           onChange={formik.handleChange}
-          error={Boolean(getIn(formik.touched, 'jobno_seq') && getIn(formik.errors, 'jobno_seq'))}
+          error={Boolean(getIn(formik.touched, 'supp_city') && getIn(formik.errors, 'supp_city'))}
         />
-        {getIn(formik.touched, 'jobno_seq') && getIn(formik.errors, 'jobno_seq') && (
+        {getIn(formik.touched, 'supp_city') && getIn(formik.errors, 'supp_city') && (
           <FormHelperText error id="helper-text-first_name">
-            {getIn(formik.errors, 'jobno_seq')}
+            {getIn(formik.errors, 'supp_city')}
           </FormHelperText>
         )}
       </Grid>
@@ -142,4 +182,4 @@ const AddDepartmentWmsForm = ({
     </Grid>
   );
 };
-export default AddDepartmentWmsForm;
+export default AddSupplierWmsForm;

@@ -14,8 +14,8 @@ import { ISearch } from 'components/filters/SearchFilter';
 import WmsSerivceInstance from 'service/service.wms';
 import { useSelector } from 'store';
 import { getPathNameList } from 'utils/functions';
-import useAuth from 'hooks/useAuth';
 import { useLocation } from 'react-router';
+import useAuth from 'hooks/useAuth';
 
 const ActivityBillingPage = () => {
   const location = useLocation();
@@ -41,6 +41,7 @@ const ActivityBillingPage = () => {
       return { ...prev, data: { isEditMode: false, existingData: {} }, action: { ...prev.action, open: !prev.action.open } };
     });
   };
+
   // For Activity Billing Table
   const { permissions, user_permission } = useAuth();
   const [paginationData, setPaginationData] = useState({ page: 0, rowsPerPage: rowsPerPageOptions[0] });
@@ -52,6 +53,7 @@ const ActivityBillingPage = () => {
   const handleActions = (actionType: string, rowOriginal: TBillingActivity) => {
     actionType === 'edit' && handleEditActivityBilling(rowOriginal);
   };
+  console.log('pathnamelist', pathNameList);
   const handleEditActivityBilling = (existingData: TBillingActivity) => {
     setActivityFormPopup((prev) => {
       return {
@@ -65,6 +67,7 @@ const ActivityBillingPage = () => {
     setPaginationData({ page, rowsPerPage });
   };
 
+  // Table Column
   const columns = useMemo<ColumnDef<TBillingActivity>[]>(
     () => [
       {
@@ -81,24 +84,24 @@ const ActivityBillingPage = () => {
         )
       },
       {
-        accessorFn: (row) => row.principal_name,
+        accessorFn: (row) => row.prin_name,
         id: 'prin_name',
-        header: () => <span>Country Code</span>
+        header: () => <span>Principal Name</span>
       },
       {
-        accessorFn: (row) => row.activity_code,
+        accessorFn: (row) => row.act_code,
         id: 'act_code',
-        header: () => <span>Country Name</span>
+        header: () => <span>Activity Code</span>
       },
       {
-        accessorFn: (row) => row.activity_name,
+        accessorFn: (row) => row.activity,
         id: 'activity',
-        header: () => <span>Country GCC</span>
+        header: () => <span>Activity</span>
       },
       {
-        accessorFn: (row) => row.job_type,
+        accessorFn: (row) => row.jobtype,
         id: 'job_type',
-        header: () => <span>Company Code</span>
+        header: () => <span>Job Type</span>
       },
       {
         id: 'actions',
@@ -132,7 +135,7 @@ const ActivityBillingPage = () => {
   }, []);
   return (
     <div className="w-full">
-      {/*  */}
+      {/* Principal Dropdown */}
       <div className="w-full flex justify-between">
         <div className="ba_principal_search_div">
           <Autocomplete
@@ -142,6 +145,7 @@ const ActivityBillingPage = () => {
             renderInput={(params: any) => <TextField {...params} label="Principal" />}
           />
         </div>
+        {/* add new activity */}
         <div className="ba_add_activity_and_populate_div flex">
           <div className="ba_add_activity_div mx-2">
             <Button variant="contained" onClick={handleAddActivityForm}>
@@ -156,13 +160,14 @@ const ActivityBillingPage = () => {
           </div>
         </div>
       </div>
+      {/* Table */}
       <div className="w-full">
         <CustomDataTable
           rowSelection={rowSelection}
           setRowSelection={setRowSelection}
           row_id="act_code"
-          columns={columns}
           data={activityBillingData?.tableData || []}
+          columns={columns}
           count={activityBillingData?.count}
           onPaginationChange={handleChangePagination}
           isDataLoading={isActivityFetchLoading}

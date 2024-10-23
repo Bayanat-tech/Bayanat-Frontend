@@ -12,14 +12,14 @@ import WmsSerivceInstance from 'service/service.wms';
 import { useSelector } from 'store';
 import { TUniversalDialogProps } from 'types/types.UniversalDialog';
 import { getPathNameList } from 'utils/functions';
-import { THarmonize } from './types/harmonize-wms.types';
+import { TBrand } from './types/brand-wms.types';
 
-import AddHarmonizeWmsForm from 'components/forms/AddHarmonizeWmsForm';
+import AddBrandWmsForm from 'components/forms/AddBrandWmsForm';
 import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
 import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
 import GmServiceInstance from 'service/wms/services.gm_wms';
 
-const HarmonizeWmsPage = () => {
+const BrandWmsPage = () => {
   //--------------constants----------
   const { permissions, user_permission } = useAuth();
   const location = useLocation();
@@ -30,16 +30,16 @@ const HarmonizeWmsPage = () => {
   const [toggleFilter, setToggleFilter] = useState<boolean | null>(null);
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
-  const [countryFormPopup, setHarmonizeFormPopup] = useState<TUniversalDialogProps>({
+  const [brandFormPopup, setBrandFormPopup] = useState<TUniversalDialogProps>({
     action: {
       open: false,
       fullWidth: true,
       maxWidth: 'sm'
     },
-    title: 'Add Harmonize',
+    title: 'Add Brand',
     data: { existingData: {}, isEditMode: false }
   });
-  const columns = useMemo<ColumnDef<THarmonize>[]>(
+  const columns = useMemo<ColumnDef<TBrand>[]>(
     () => [
       {
         id: 'select-col',
@@ -55,36 +55,31 @@ const HarmonizeWmsPage = () => {
         )
       },
       {
-        accessorFn: (row) => row.harm_code,
-        id: 'harm_code',
-        header: () => <span>Harmonize Code</span>
+        accessorFn: (row) => row.brand_code,
+        id: 'brand_code',
+        header: () => <span>Brand Code</span>
       },
       {
-        accessorFn: (row) => row.harm_desc,
-        id: 'harm_dec',
-        header: () => <span>Harmonize Name</span>
+        accessorFn: (row) => row.brand_name,
+        id: 'brand_name',
+        header: () => <span>Brand Name</span>
       },
-      {
-        accessorFn: (row) => row.uom,
-        id: 'uom',
-        header: () => <span>Uom</span>
-      },
+
       {
         accessorFn: (row) => row.company_code,
         id: 'company_code',
         header: () => <span>Company Code</span>
       },
-      {
-        accessorFn: (row) => row.permit_reqd,
-        id: 'permit_reqd',
-        header: () => <span>Permit Reqd</span>
-      },
-
-      {
-        accessorFn: (row) => row.short_desc,
-        id: 'short_desc',
-        header: () => <span>Short Description</span>
-      },
+      //   {
+      //     accessorFn: (row) => row.short_desc,
+      //     id: 'short_desc',
+      //     header: () => <span>Short Description</span>
+      //   },
+      //   {
+      //     accessorFn: (row) => row.nationality,
+      //     id: 'nationality',
+      //     header: () => <span>Nationality</span>
+      //   },
       {
         id: 'actions',
         header: () => <span>Actions</span>,
@@ -101,11 +96,11 @@ const HarmonizeWmsPage = () => {
 
   //----------- useQuery--------------
   const {
-    data: countryData,
-    isFetching: isHarmonizeFetchLoading,
-    refetch: refetchHarmonizeData
+    data: brandData,
+    isFetching: isBrandFetchLoading,
+    refetch: refetchBrandData
   } = useQuery({
-    queryKey: ['country_data', searchData, paginationData],
+    queryKey: ['brand_data', searchData, paginationData],
     queryFn: () => WmsSerivceInstance.getMasters(app, pathNameList[pathNameList.length - 1], paginationData, searchData),
     enabled: user_permission?.includes(permissions?.[app.toUpperCase()]?.children[pathNameList[3]?.toUpperCase()]?.serial_number)
   });
@@ -114,32 +109,32 @@ const HarmonizeWmsPage = () => {
     setPaginationData({ page, rowsPerPage });
   };
 
-  const handleEditHarmonize = (existingData: THarmonize) => {
-    setHarmonizeFormPopup((prev) => {
+  const handleEditBrand = (existingData: TBrand) => {
+    setBrandFormPopup((prev) => {
       return {
         action: { ...prev.action, open: !prev.action.open },
-        title: 'Edit Harmonize',
+        title: 'Edit Brand',
         data: { existingData, isEditMode: true }
       };
     });
   };
 
-  const toggleHarmonizePopup = (refetchData?: boolean) => {
-    if (countryFormPopup.action.open === true && refetchData) {
-      refetchHarmonizeData();
+  const toggleBrandPopup = (refetchData?: boolean) => {
+    if (brandFormPopup.action.open === true && refetchData) {
+      refetchBrandData();
     }
-    setHarmonizeFormPopup((prev) => {
+    setBrandFormPopup((prev) => {
       return { ...prev, data: { isEditMode: false, existingData: {} }, action: { ...prev.action, open: !prev.action.open } };
     });
   };
 
-  const handleActions = (actionType: string, rowOriginal: THarmonize) => {
-    actionType === 'edit' && handleEditHarmonize(rowOriginal);
+  const handleActions = (actionType: string, rowOriginal: TBrand) => {
+    actionType === 'edit' && handleEditBrand(rowOriginal);
   };
-  const handleDeleteHarmonize = async () => {
-    await GmServiceInstance.deleteHarmonize(Object.keys(rowSelection));
+  const handleDeleteBrand = async () => {
+    await GmServiceInstance.deleteBrand(Object.keys(rowSelection));
     setRowSelection({});
-    refetchHarmonizeData();
+    refetchBrandData();
   };
   //------------------useEffect----------------
   useEffect(() => {
@@ -152,7 +147,7 @@ const HarmonizeWmsPage = () => {
         {
           <Button
             variant="outlined"
-            onClick={handleDeleteHarmonize}
+            onClick={handleDeleteBrand}
             color="error"
             hidden={!Object.keys(rowSelection).length}
             startIcon={<DeleteOutlined />}
@@ -160,33 +155,33 @@ const HarmonizeWmsPage = () => {
             Delete
           </Button>
         }
-        <Button startIcon={<PlusOutlined />} variant="shadow" onClick={() => toggleHarmonizePopup()}>
-          Harmonize
+        <Button startIcon={<PlusOutlined />} variant="shadow" onClick={() => toggleBrandPopup()}>
+          Brand
         </Button>
       </div>
       <CustomDataTable
         rowSelection={rowSelection}
         setRowSelection={setRowSelection}
-        row_id="harm_code"
-        data={countryData?.tableData || []}
+        row_id="brand_code"
+        data={brandData?.tableData || []}
         columns={columns}
-        count={countryData?.count}
+        count={brandData?.count}
         onPaginationChange={handleChangePagination}
-        isDataLoading={isHarmonizeFetchLoading}
+        isDataLoading={isBrandFetchLoading}
         toggleFilter={toggleFilter}
         hasPagination={true}
       />
-      {!!countryFormPopup && countryFormPopup.action.open && (
+      {!!brandFormPopup && brandFormPopup.action.open && (
         <UniversalDialog
-          action={{ ...countryFormPopup.action }}
-          onClose={toggleHarmonizePopup}
-          title={countryFormPopup.title}
+          action={{ ...brandFormPopup.action }}
+          onClose={toggleBrandPopup}
+          title={brandFormPopup.title}
           hasPrimaryButton={false}
         >
-          <AddHarmonizeWmsForm
-            onClose={toggleHarmonizePopup}
-            isEditMode={countryFormPopup?.data?.isEditMode}
-            existingData={countryFormPopup.data.existingData}
+          <AddBrandWmsForm
+            onClose={toggleBrandPopup}
+            isEditMode={brandFormPopup?.data?.isEditMode}
+            existingData={brandFormPopup.data.existingData}
           />
         </UniversalDialog>
       )}
@@ -194,4 +189,4 @@ const HarmonizeWmsPage = () => {
   );
 };
 
-export default HarmonizeWmsPage;
+export default BrandWmsPage;

@@ -12,14 +12,14 @@ import WmsSerivceInstance from 'service/service.wms';
 import { useSelector } from 'store';
 import { TUniversalDialogProps } from 'types/types.UniversalDialog';
 import { getPathNameList } from 'utils/functions';
-import { THarmonize } from './types/harmonize-wms.types';
+import { TGroup } from './types/group-wms.types';
 
-import AddHarmonizeWmsForm from 'components/forms/AddHarmonizeWmsForm';
+import AddGroupWmsForm from 'components/forms/AddGroupWmsForm';
 import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
 import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
 import GmServiceInstance from 'service/wms/services.gm_wms';
 
-const HarmonizeWmsPage = () => {
+const GroupWmsPage = () => {
   //--------------constants----------
   const { permissions, user_permission } = useAuth();
   const location = useLocation();
@@ -30,16 +30,16 @@ const HarmonizeWmsPage = () => {
   const [toggleFilter, setToggleFilter] = useState<boolean | null>(null);
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
-  const [countryFormPopup, setHarmonizeFormPopup] = useState<TUniversalDialogProps>({
+  const [groupFormPopup, setGroupFormPopup] = useState<TUniversalDialogProps>({
     action: {
       open: false,
       fullWidth: true,
       maxWidth: 'sm'
     },
-    title: 'Add Harmonize',
+    title: 'Add Group',
     data: { existingData: {}, isEditMode: false }
   });
-  const columns = useMemo<ColumnDef<THarmonize>[]>(
+  const columns = useMemo<ColumnDef<TGroup>[]>(
     () => [
       {
         id: 'select-col',
@@ -55,36 +55,26 @@ const HarmonizeWmsPage = () => {
         )
       },
       {
-        accessorFn: (row) => row.harm_code,
-        id: 'harm_code',
-        header: () => <span>Harmonize Code</span>
+        accessorFn: (row) => row.group_code,
+        id: 'group_code',
+        header: () => <span>Group Code</span>
       },
       {
-        accessorFn: (row) => row.harm_desc,
-        id: 'harm_dec',
-        header: () => <span>Harmonize Name</span>
+        accessorFn: (row) => row.group_name,
+        id: 'group_name',
+        header: () => <span>Group Name</span>
       },
       {
-        accessorFn: (row) => row.uom,
-        id: 'uom',
-        header: () => <span>Uom</span>
+        accessorFn: (row) => row.prin_code,
+        id: 'prin_code',
+        header: () => <span>Principal Code</span>
       },
       {
         accessorFn: (row) => row.company_code,
         id: 'company_code',
         header: () => <span>Company Code</span>
       },
-      {
-        accessorFn: (row) => row.permit_reqd,
-        id: 'permit_reqd',
-        header: () => <span>Permit Reqd</span>
-      },
 
-      {
-        accessorFn: (row) => row.short_desc,
-        id: 'short_desc',
-        header: () => <span>Short Description</span>
-      },
       {
         id: 'actions',
         header: () => <span>Actions</span>,
@@ -101,11 +91,11 @@ const HarmonizeWmsPage = () => {
 
   //----------- useQuery--------------
   const {
-    data: countryData,
-    isFetching: isHarmonizeFetchLoading,
-    refetch: refetchHarmonizeData
+    data: groupData,
+    isFetching: isGroupFetchLoading,
+    refetch: refetchGroupData
   } = useQuery({
-    queryKey: ['country_data', searchData, paginationData],
+    queryKey: ['group_data', searchData, paginationData],
     queryFn: () => WmsSerivceInstance.getMasters(app, pathNameList[pathNameList.length - 1], paginationData, searchData),
     enabled: user_permission?.includes(permissions?.[app.toUpperCase()]?.children[pathNameList[3]?.toUpperCase()]?.serial_number)
   });
@@ -114,32 +104,32 @@ const HarmonizeWmsPage = () => {
     setPaginationData({ page, rowsPerPage });
   };
 
-  const handleEditHarmonize = (existingData: THarmonize) => {
-    setHarmonizeFormPopup((prev) => {
+  const handleEditGroup = (existingData: TGroup) => {
+    setGroupFormPopup((prev) => {
       return {
         action: { ...prev.action, open: !prev.action.open },
-        title: 'Edit Harmonize',
+        title: 'Edit Group',
         data: { existingData, isEditMode: true }
       };
     });
   };
 
-  const toggleHarmonizePopup = (refetchData?: boolean) => {
-    if (countryFormPopup.action.open === true && refetchData) {
-      refetchHarmonizeData();
+  const toggleGroupPopup = (refetchData?: boolean) => {
+    if (groupFormPopup.action.open === true && refetchData) {
+      refetchGroupData();
     }
-    setHarmonizeFormPopup((prev) => {
+    setGroupFormPopup((prev) => {
       return { ...prev, data: { isEditMode: false, existingData: {} }, action: { ...prev.action, open: !prev.action.open } };
     });
   };
 
-  const handleActions = (actionType: string, rowOriginal: THarmonize) => {
-    actionType === 'edit' && handleEditHarmonize(rowOriginal);
+  const handleActions = (actionType: string, rowOriginal: TGroup) => {
+    actionType === 'edit' && handleEditGroup(rowOriginal);
   };
-  const handleDeleteHarmonize = async () => {
-    await GmServiceInstance.deleteHarmonize(Object.keys(rowSelection));
+  const handleDeleteGroup = async () => {
+    await GmServiceInstance.deleteGroup(Object.keys(rowSelection));
     setRowSelection({});
-    refetchHarmonizeData();
+    refetchGroupData();
   };
   //------------------useEffect----------------
   useEffect(() => {
@@ -152,7 +142,7 @@ const HarmonizeWmsPage = () => {
         {
           <Button
             variant="outlined"
-            onClick={handleDeleteHarmonize}
+            onClick={handleDeleteGroup}
             color="error"
             hidden={!Object.keys(rowSelection).length}
             startIcon={<DeleteOutlined />}
@@ -160,33 +150,33 @@ const HarmonizeWmsPage = () => {
             Delete
           </Button>
         }
-        <Button startIcon={<PlusOutlined />} variant="shadow" onClick={() => toggleHarmonizePopup()}>
-          Harmonize
+        <Button startIcon={<PlusOutlined />} variant="shadow" onClick={() => toggleGroupPopup()}>
+          Group
         </Button>
       </div>
       <CustomDataTable
         rowSelection={rowSelection}
         setRowSelection={setRowSelection}
-        row_id="harm_code"
-        data={countryData?.tableData || []}
+        row_id="group_code"
+        data={groupData?.tableData || []}
         columns={columns}
-        count={countryData?.count}
+        count={groupData?.count}
         onPaginationChange={handleChangePagination}
-        isDataLoading={isHarmonizeFetchLoading}
+        isDataLoading={isGroupFetchLoading}
         toggleFilter={toggleFilter}
         hasPagination={true}
       />
-      {!!countryFormPopup && countryFormPopup.action.open && (
+      {!!groupFormPopup && groupFormPopup.action.open && (
         <UniversalDialog
-          action={{ ...countryFormPopup.action }}
-          onClose={toggleHarmonizePopup}
-          title={countryFormPopup.title}
+          action={{ ...groupFormPopup.action }}
+          onClose={toggleGroupPopup}
+          title={groupFormPopup.title}
           hasPrimaryButton={false}
         >
-          <AddHarmonizeWmsForm
-            onClose={toggleHarmonizePopup}
-            isEditMode={countryFormPopup?.data?.isEditMode}
-            existingData={countryFormPopup.data.existingData}
+          <AddGroupWmsForm
+            onClose={toggleGroupPopup}
+            isEditMode={groupFormPopup?.data?.isEditMode}
+            existingData={groupFormPopup.data.existingData}
           />
         </UniversalDialog>
       )}
@@ -194,4 +184,4 @@ const HarmonizeWmsPage = () => {
   );
 };
 
-export default HarmonizeWmsPage;
+export default GroupWmsPage;

@@ -1,7 +1,8 @@
-export type TUom = {
-  uom_code: string;
-  uom_name: string;
+export type TGroup = {
+  group_code: string;
+  group_name: string;
   company_code?: string;
+  prin_code?: string;
   updated_at?: Date;
   updated_by?: string;
   created_by?: string;

@@ -12,14 +12,14 @@ import WmsSerivceInstance from 'service/service.wms';
 import { useSelector } from 'store';
 import { TUniversalDialogProps } from 'types/types.UniversalDialog';
 import { getPathNameList } from 'utils/functions';
-import { THarmonize } from './types/harmonize-wms.types';
+import { TManufacture } from './types/manufacture-wms.types';
 
-import AddHarmonizeWmsForm from 'components/forms/AddHarmonizeWmsForm';
+import AddManufactureWmsForm from 'components/forms/AddManufactureWmsForm';
 import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
 import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
 import GmServiceInstance from 'service/wms/services.gm_wms';
 
-const HarmonizeWmsPage = () => {
+const ManufactureWmsPage = () => {
   //--------------constants----------
   const { permissions, user_permission } = useAuth();
   const location = useLocation();
@@ -30,16 +30,16 @@ const HarmonizeWmsPage = () => {
   const [toggleFilter, setToggleFilter] = useState<boolean | null>(null);
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
-  const [countryFormPopup, setHarmonizeFormPopup] = useState<TUniversalDialogProps>({
+  const [manufactureFormPopup, setManufactureFormPopup] = useState<TUniversalDialogProps>({
     action: {
       open: false,
       fullWidth: true,
       maxWidth: 'sm'
     },
-    title: 'Add Harmonize',
+    title: 'Add Manufacture',
     data: { existingData: {}, isEditMode: false }
   });
-  const columns = useMemo<ColumnDef<THarmonize>[]>(
+  const columns = useMemo<ColumnDef<TManufacture>[]>(
     () => [
       {
         id: 'select-col',
@@ -55,36 +55,27 @@ const HarmonizeWmsPage = () => {
         )
       },
       {
-        accessorFn: (row) => row.harm_code,
-        id: 'harm_code',
-        header: () => <span>Harmonize Code</span>
+        accessorFn: (row) => row.manu_code,
+        id: 'manu_code',
+        header: () => <span>manufacture Code</span>
       },
       {
-        accessorFn: (row) => row.harm_desc,
-        id: 'harm_dec',
-        header: () => <span>Harmonize Name</span>
+        accessorFn: (row) => row.manu_name,
+        id: 'manu_name',
+        header: () => <span>Manufacture Name</span>
       },
-      {
-        accessorFn: (row) => row.uom,
-        id: 'uom',
-        header: () => <span>Uom</span>
-      },
+
       {
         accessorFn: (row) => row.company_code,
         id: 'company_code',
         header: () => <span>Company Code</span>
       },
       {
-        accessorFn: (row) => row.permit_reqd,
-        id: 'permit_reqd',
-        header: () => <span>Permit Reqd</span>
+        accessorFn: (row) => row.prin_code,
+        id: 'prin_code',
+        header: () => <span>Prin code</span>
       },
 
-      {
-        accessorFn: (row) => row.short_desc,
-        id: 'short_desc',
-        header: () => <span>Short Description</span>
-      },
       {
         id: 'actions',
         header: () => <span>Actions</span>,
@@ -101,11 +92,11 @@ const HarmonizeWmsPage = () => {
 
   //----------- useQuery--------------
   const {
-    data: countryData,
-    isFetching: isHarmonizeFetchLoading,
-    refetch: refetchHarmonizeData
+    data: manufactureData,
+    isFetching: isManufactureFetchLoading,
+    refetch: refetchManufactureData
   } = useQuery({
-    queryKey: ['country_data', searchData, paginationData],
+    queryKey: ['manufacture_data', searchData, paginationData],
     queryFn: () => WmsSerivceInstance.getMasters(app, pathNameList[pathNameList.length - 1], paginationData, searchData),
     enabled: user_permission?.includes(permissions?.[app.toUpperCase()]?.children[pathNameList[3]?.toUpperCase()]?.serial_number)
   });
@@ -114,32 +105,32 @@ const HarmonizeWmsPage = () => {
     setPaginationData({ page, rowsPerPage });
   };
 
-  const handleEditHarmonize = (existingData: THarmonize) => {
-    setHarmonizeFormPopup((prev) => {
+  const handleEditManufacture = (existingData: TManufacture) => {
+    setManufactureFormPopup((prev) => {
       return {
         action: { ...prev.action, open: !prev.action.open },
-        title: 'Edit Harmonize',
+        title: 'Edit Manufacture',
         data: { existingData, isEditMode: true }
       };
     });
   };
 
-  const toggleHarmonizePopup = (refetchData?: boolean) => {
-    if (countryFormPopup.action.open === true && refetchData) {
-      refetchHarmonizeData();
+  const toggleManufacturePopup = (refetchData?: boolean) => {
+    if (manufactureFormPopup.action.open === true && refetchData) {
+      refetchManufactureData();
     }
-    setHarmonizeFormPopup((prev) => {
+    setManufactureFormPopup((prev) => {
       return { ...prev, data: { isEditMode: false, existingData: {} }, action: { ...prev.action, open: !prev.action.open } };
     });
   };
 
-  const handleActions = (actionType: string, rowOriginal: THarmonize) => {
-    actionType === 'edit' && handleEditHarmonize(rowOriginal);
+  const handleActions = (actionType: string, rowOriginal: TManufacture) => {
+    actionType === 'edit' && handleEditManufacture(rowOriginal);
   };
-  const handleDeleteHarmonize = async () => {
-    await GmServiceInstance.deleteHarmonize(Object.keys(rowSelection));
+  const handleDeleteManufacture = async () => {
+    await GmServiceInstance.deleteManufacture(Object.keys(rowSelection));
     setRowSelection({});
-    refetchHarmonizeData();
+    refetchManufactureData();
   };
   //------------------useEffect----------------
   useEffect(() => {
@@ -152,7 +143,7 @@ const HarmonizeWmsPage = () => {
         {
           <Button
             variant="outlined"
-            onClick={handleDeleteHarmonize}
+            onClick={handleDeleteManufacture}
             color="error"
             hidden={!Object.keys(rowSelection).length}
             startIcon={<DeleteOutlined />}
@@ -160,33 +151,33 @@ const HarmonizeWmsPage = () => {
             Delete
           </Button>
         }
-        <Button startIcon={<PlusOutlined />} variant="shadow" onClick={() => toggleHarmonizePopup()}>
-          Harmonize
+        <Button startIcon={<PlusOutlined />} variant="shadow" onClick={() => toggleManufacturePopup()}>
+          Manufacture
         </Button>
       </div>
       <CustomDataTable
         rowSelection={rowSelection}
         setRowSelection={setRowSelection}
-        row_id="harm_code"
-        data={countryData?.tableData || []}
+        row_id="manu_code"
+        data={manufactureData?.tableData || []}
         columns={columns}
-        count={countryData?.count}
+        count={manufactureData?.count}
         onPaginationChange={handleChangePagination}
-        isDataLoading={isHarmonizeFetchLoading}
+        isDataLoading={isManufactureFetchLoading}
         toggleFilter={toggleFilter}
         hasPagination={true}
       />
-      {!!countryFormPopup && countryFormPopup.action.open && (
+      {!!manufactureFormPopup && manufactureFormPopup.action.open && (
         <UniversalDialog
-          action={{ ...countryFormPopup.action }}
-          onClose={toggleHarmonizePopup}
-          title={countryFormPopup.title}
+          action={{ ...manufactureFormPopup.action }}
+          onClose={toggleManufacturePopup}
+          title={manufactureFormPopup.title}
           hasPrimaryButton={false}
         >
-          <AddHarmonizeWmsForm
-            onClose={toggleHarmonizePopup}
-            isEditMode={countryFormPopup?.data?.isEditMode}
-            existingData={countryFormPopup.data.existingData}
+          <AddManufactureWmsForm
+            onClose={toggleManufacturePopup}
+            isEditMode={manufactureFormPopup?.data?.isEditMode}
+            existingData={manufactureFormPopup.data.existingData}
           />
         </UniversalDialog>
       )}
@@ -194,4 +185,4 @@ const HarmonizeWmsPage = () => {
   );
 };
 
-export default HarmonizeWmsPage;
+export default ManufactureWmsPage;
