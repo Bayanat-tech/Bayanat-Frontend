@@ -17,7 +17,6 @@ import { TManufacture } from './types/manufacture-wms.types';
 import AddManufactureWmsForm from 'components/forms/AddManufactureWmsForm';
 import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
 import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
-//import GmServiceInstance from 'service/wms/services.gm_wms';
 import manufactureServiceInstance from 'service/GM/service.manufacture_wms';
 
 const ManufactureWmsPage = () => {
