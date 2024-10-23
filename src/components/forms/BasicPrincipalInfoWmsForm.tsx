@@ -18,7 +18,7 @@ import { TDepartment } from 'pages/WMS/types/department-wms.types';
 import { TBasicPrincipalWms } from 'pages/WMS/types/principal-wms.types';
 import { TTerritory } from 'pages/WMS/types/territory-wms.types';
 import { useEffect } from 'react';
-import WmsSerivceInstance from 'service/service.wms';
+import WmsSerivceInstance from 'service/wms/service.wms';
 import { useSelector } from 'store';
 import * as yup from 'yup';
 

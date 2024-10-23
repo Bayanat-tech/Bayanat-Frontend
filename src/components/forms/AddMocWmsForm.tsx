@@ -109,19 +109,19 @@ const AddMocWmsForm = ({
         <InputLabel>Charge Type*</InputLabel>
         <TextField
           value={formik.values.charge_type}
-          name = "charge_type"
+          name="charge_type"
           onChange={formik.handleChange}
           fullWidth
           error={Boolean(getIn(formik.touched, 'charge_type') && getIn(formik.errors, 'charge_type'))}
         />
         {getIn(formik.touched, 'charge_type') && getIn(formik.errors, 'charge_type') && (
-          <FormHelperText error id = "helper_text_first_name">
-           {getIn(formik.errors, 'charge_type')}
+          <FormHelperText error id="helper_text_first_name">
+            {getIn(formik.errors, 'charge_type')}
           </FormHelperText>
         )}
       </Grid>
 
-{/* 
+      {/* 
       <Grid item xs={12} sm={6} md={3}>
         <InputLabel>Is gcc?</InputLabel>
         <FormControlLabel

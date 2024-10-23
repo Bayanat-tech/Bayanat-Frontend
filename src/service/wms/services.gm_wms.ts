@@ -1,129 +1,26 @@
-import { TCountry } from 'pages/WMS/types/country-wms.types';
-import { TDepartment } from 'pages/WMS/types/department-wms.types';
-import { TLocation } from 'pages/WMS/types/location-wms.types';
-import { TCurrency } from 'pages/WMS/types/currency-wms.types';
-import { TSupplier } from 'pages/WMS/types/supplier-wms.types';
-import { TPickWave } from 'pages/WMS/types/PickWave-wms.types';
-import { TPrincipalWms } from 'pages/WMS/types/principal-wms.types';
-import { Tsalesman } from 'pages/WMS/types/salesman-wms.types';
-import { TLine } from 'pages/WMS/types/Line-wms.types';
+import { TActivitysubgroup } from 'pages/WMS/types/activitysubgroup-wms';
 import { TBrand } from 'pages/WMS/types/brand-wms.types';
+import { TCurrency } from 'pages/WMS/types/currency-wms.types';
+import { TDepartment } from 'pages/WMS/types/department-wms.types';
 import { TGroup } from 'pages/WMS/types/group-wms.types';
+import { THarmonize } from 'pages/WMS/types/harmonize-wms.types';
+import { TLine } from 'pages/WMS/types/Line-wms.types';
+import { TLocation } from 'pages/WMS/types/location-wms.types';
 import { TManufacture } from 'pages/WMS/types/manufacture-wms.types';
+import { TMoc } from 'pages/WMS/types/moc-wms.types';
+import { Tmoc2 } from 'pages/WMS/types/moc2-wms.types';
+import { TPickWave } from 'pages/WMS/types/PickWave-wms.types';
+import { Tsalesman } from 'pages/WMS/types/salesman-wms.types';
+import { TSupplier } from 'pages/WMS/types/supplier-wms.types';
+import { TUoc } from 'pages/WMS/types/uoc-wms.types';
+import { TUom } from 'pages/WMS/types/uom-wms.type';
 import { dispatch } from 'store';
 import { openSnackbar } from 'store/reducers/snackbar';
 import { IApiResponse } from 'types/types.services';
 import axiosServices from 'utils/axios';
-import { TUom } from 'pages/WMS/types/uom-wms.type';
-import { TMoc } from 'pages/WMS/types/moc-wms.types';
-import { THarmonize } from 'pages/WMS/types/harmonize-wms.types';
-import { Tmoc2 } from 'pages/WMS/types/moc2-wms.types';
-import { TUoc } from 'pages/WMS/types/uoc-wms.types';
-import { TActivitysubgroup } from 'pages/WMS/types/activitysubgroup-wms';
 //import { TSubgroup } from 'pages/WMS/types/activitysubgroup-wms';
 
 class GM {
-  //--------------Country--------------
-  addCountry = async (values: TCountry) => {
-    try {
-      const response: IApiResponse<null> = await axiosServices.post('api/wms/gm/country', values);
-      if (response.data.success) {
-        dispatch(
-          openSnackbar({
-            open: true,
-            message: response.data.message,
-            variant: 'alert',
-            alert: {
-              color: 'success'
-            },
-            close: true
-          })
-        );
-        return response.data.success;
-      }
-    } catch (error: unknown) {
-      const knownError = error as { message: string };
-      dispatch(
-        openSnackbar({
-          open: true,
-          message: knownError.message,
-          variant: 'alert',
-          alert: {
-            color: 'error'
-          },
-          severity: 'error',
-          close: true
-        })
-      );
-    }
-  };
-  editCountry = async (values: TCountry) => {
-    try {
-      const response: IApiResponse<null> = await axiosServices.put('api/wms/gm/country', values);
-      if (response.data.success) {
-        dispatch(
-          openSnackbar({
-            open: true,
-            message: response.data.message,
-            variant: 'alert',
-            alert: {
-              color: 'success'
-            },
-            close: true
-          })
-        );
-        return response.data.success;
-      }
-    } catch (error: unknown) {
-      const knownError = error as { message: string };
-      dispatch(
-        openSnackbar({
-          open: true,
-          message: knownError.message,
-          variant: 'alert',
-          alert: {
-            color: 'error'
-          },
-          severity: 'error',
-          close: true
-        })
-      );
-    }
-  };
-  deleteCountry = async (countryCodes: string[]) => {
-    try {
-      const response: IApiResponse<null> = await axiosServices.post('api/wms/gm/country/delete', countryCodes);
-      if (response.data.success) {
-        dispatch(
-          openSnackbar({
-            open: true,
-            message: response.data.message,
-            variant: 'alert',
-            alert: {
-              color: 'success'
-            },
-            close: true
-          })
-        );
-        return response.data.success;
-      }
-    } catch (error: unknown) {
-      const knownError = error as { message: string };
-      dispatch(
-        openSnackbar({
-          open: true,
-          message: knownError.message,
-          variant: 'alert',
-          alert: {
-            color: 'error'
-          },
-          severity: 'error',
-          close: true
-        })
-      );
-    }
-  };
-
   //--------------Manufacture--------------
   addManufacture = async (values: TManufacture) => {
     try {
@@ -1027,99 +924,8 @@ class GM {
       );
     }
   };
-  //--------------Principal--------------
 
-  getPrincipal = async (prin_code: string) => {
-    try {
-      const response: IApiResponse<TPrincipalWms> = await axiosServices.get(`api/wms/gm/principal/${prin_code}`);
-
-      if (response.data.success === true && response.data.data) {
-        return response.data.data;
-      }
-    } catch (error: unknown) {
-      const knownError = error as { message: string };
-      dispatch(
-        openSnackbar({
-          open: true,
-          message: knownError.message,
-          variant: 'alert',
-          alert: {
-            color: 'error'
-          },
-          severity: 'error',
-          close: true
-        })
-      );
-    }
-  };
-
-  addPrincipal = async (values: TPrincipalWms) => {
-    try {
-      const response: IApiResponse<null> = await axiosServices.post('api/wms/gm/principal', values);
-      if (response.data.success) {
-        dispatch(
-          openSnackbar({
-            open: true,
-            message: response.data.message,
-            variant: 'alert',
-            alert: {
-              color: 'success'
-            },
-            close: true
-          })
-        );
-        return response.data.success;
-      }
-    } catch (error: unknown) {
-      const knownError = error as { message: string };
-      dispatch(
-        openSnackbar({
-          open: true,
-          message: knownError.message,
-          variant: 'alert',
-          alert: {
-            color: 'error'
-          },
-          severity: 'error',
-          close: true
-        })
-      );
-    }
-  };
-  editPrincipal = async (values: TPrincipalWms, prin_code: string) => {
-    try {
-      const response: IApiResponse<null> = await axiosServices.put(`api/wms/gm/principal/${prin_code}`, values);
-      if (response.data.success) {
-        dispatch(
-          openSnackbar({
-            open: true,
-            message: response.data.message,
-            variant: 'alert',
-            alert: {
-              color: 'success'
-            },
-            close: true
-          })
-        );
-        return response.data.success;
-      }
-    } catch (error: unknown) {
-      const knownError = error as { message: string };
-      dispatch(
-        openSnackbar({
-          open: true,
-          message: knownError.message,
-          variant: 'alert',
-          alert: {
-            color: 'error'
-          },
-          severity: 'error',
-          close: true
-        })
-      );
-    }
-  };
-  // //--------------------Line----------------------
+  //--------------------Line----------------------
   addLine = async (values: TLine) => {
     try {
       const response: IApiResponse<null> = await axiosServices.post('api/wms/gm/line', values);

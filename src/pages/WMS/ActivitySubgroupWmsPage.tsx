@@ -1,4 +1,5 @@
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
+
 import { Button, Checkbox } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { ColumnDef, RowSelectionState } from '@tanstack/react-table';
@@ -8,16 +9,16 @@ import CustomDataTable, { rowsPerPageOptions } from 'components/tables/CustomDat
 import useAuth from 'hooks/useAuth';
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router';
-import WmsSerivceInstance from 'service/service.wms';
+import WmsSerivceInstance from 'service/wms/service.wms';
 import { useSelector } from 'store';
 import { TUniversalDialogProps } from 'types/types.UniversalDialog';
 import { getPathNameList } from 'utils/functions';
 import { TActivitysubgroup } from './types/activitysubgroup-wms';
 
-import AddActivitySubgroupWmsForm from 'components/forms/AddActivitySubgroupWmsForm';
-import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
 import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
-import GmServiceInstance from 'service/wms/services.gm_wms';
+import AddActivitySubgroupWmsForm from 'components/forms/AddActivitySubgroupWmsForm';
+import countryServiceInstance from 'service/GM/service.country_wms';
+import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
 
 const ActivitySubgroupWmsPage = () => {
   //--------------constants----------
@@ -136,7 +137,7 @@ const ActivitySubgroupWmsPage = () => {
     actionType === 'edit' && handleEditCountry(rowOriginal);
   };
   const handleDeleteCountry = async () => {
-    await GmServiceInstance.deleteCountry(Object.keys(rowSelection));
+    await countryServiceInstance.deleteCountry(Object.keys(rowSelection));
     setRowSelection({});
     refetchCountryData();
   };

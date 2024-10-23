@@ -11,7 +11,7 @@ import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
 import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
 import { useQuery } from '@tanstack/react-query';
 import { ISearch } from 'components/filters/SearchFilter';
-import WmsSerivceInstance from 'service/service.wms';
+import WmsSerivceInstance from 'service/wms/service.wms';
 import { useSelector } from 'store';
 import { getPathNameList } from 'utils/functions';
 import { useLocation } from 'react-router';

@@ -6,7 +6,7 @@ import useAuth from 'hooks/useAuth';
 import { TCountry } from 'pages/WMS/types/country-wms.types';
 import { useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
-import GmServiceInstance from 'service/wms/services.gm_wms';
+import countryServiceInstance from 'service/GM/service.country_wms';
 import * as yup from 'yup';
 
 const AddCountryWmsForm = ({
@@ -31,9 +31,9 @@ const AddCountryWmsForm = ({
       setSubmitting(true);
       let response;
       if (isEditMode) {
-        response = await GmServiceInstance.editCountry(values);
+        response = await countryServiceInstance.editCountry(values);
       } else {
-        response = await GmServiceInstance.addCountry(values);
+        response = await countryServiceInstance.addCountry(values);
       }
       if (response) {
         onClose(true);

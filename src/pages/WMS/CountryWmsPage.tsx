@@ -8,17 +8,17 @@ import CustomDataTable, { rowsPerPageOptions } from 'components/tables/CustomDat
 import useAuth from 'hooks/useAuth';
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router';
-import WmsSerivceInstance from 'service/service.wms';
+import WmsSerivceInstance from 'service/wms/service.wms';
 import { useSelector } from 'store';
 import { TUniversalDialogProps } from 'types/types.UniversalDialog';
 import { getPathNameList } from 'utils/functions';
 import { TCountry } from './types/country-wms.types';
 
-import AddCountryWmsForm from 'components/forms/AddCountryWmsForm';
-import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
 import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
-import GmServiceInstance from 'service/wms/services.gm_wms';
+import AddCountryWmsForm from 'components/forms/AddCountryWmsForm';
 import { FormattedMessage } from 'react-intl';
+import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
+import countryServiceInstance from 'service/GM/service.country_wms';
 
 const CountryWmsPage = () => {
   //--------------constants----------
@@ -139,7 +139,7 @@ const CountryWmsPage = () => {
     actionType === 'edit' && handleEditCountry(rowOriginal);
   };
   const handleDeleteCountry = async () => {
-    await GmServiceInstance.deleteCountry(Object.keys(rowSelection));
+    await countryServiceInstance.deleteCountry(Object.keys(rowSelection));
     setRowSelection({});
     refetchCountryData();
   };

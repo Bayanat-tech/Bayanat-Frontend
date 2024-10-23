@@ -23,7 +23,7 @@ import { TCurrency } from 'pages/WMS/types/currency-wms.types';
 import { TAccountPrincipalWms } from 'pages/WMS/types/principal-wms.types';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
-import WmsSerivceInstance from 'service/service.wms';
+import WmsSerivceInstance from 'service/wms/service.wms';
 import FileUploadServiceInstance from 'service/services.files';
 import { useSelector } from 'store';
 import { TFile } from 'types/types.file';

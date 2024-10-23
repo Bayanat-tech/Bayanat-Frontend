@@ -4,7 +4,7 @@ import { useFormik } from 'formik';
 import { TBillingActivity } from 'pages/WMS/types/billingActivity-wms.types';
 import { TActivityWms } from 'pages/WMS/types/activity-wms.types';
 import { TUocWms } from 'pages/WMS/types/TUoc-wms.types';
-import WmsSerivceInstance from 'service/service.wms';
+import WmsSerivceInstance from 'service/wms/service.wms';
 import { useSelector } from 'store';
 import { useQuery } from '@tanstack/react-query';
 // import ActivityServiceInstance from 'service/wms/services.activity_wms';

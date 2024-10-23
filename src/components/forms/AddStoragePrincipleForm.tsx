@@ -9,7 +9,7 @@ import { TStorageDetailsPrincipalWms } from 'pages/WMS/types/principal-wms.types
 import { TSite } from 'pages/WMS/types/site-wms.types';
 import { TStorageWms } from 'pages/WMS/types/storage-wms.types';
 import { useEffect } from 'react';
-import WmsSerivceInstance from 'service/service.wms';
+import WmsSerivceInstance from 'service/wms/service.wms';
 import { useSelector } from 'store';
 
 type TItem = { label: string; value: string };
