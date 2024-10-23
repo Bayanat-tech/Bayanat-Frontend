@@ -119,7 +119,7 @@ const SecmasterWmsPage = () => {
 
   const toggleCountryPopup = (refetchData?: boolean) => {
     if (secroleFormPopup.action.open === true && refetchData) {
-        refetchSalesmanData();
+      refetchSalesmanData();
     }
     setCountryFormPopup((prev) => {
       return { ...prev, data: { isEditMode: false, existingData: {} }, action: { ...prev.action, open: !prev.action.open } };
@@ -145,7 +145,7 @@ const SecmasterWmsPage = () => {
         {
           <Button
             variant="outlined"
-            onClick={()=>handleDeleteSecrollmaster}
+            onClick={() => handleDeleteSecrollmaster}
             color="error"
             hidden={!Object.keys(rowSelection).length}
             startIcon={<DeleteOutlined />}

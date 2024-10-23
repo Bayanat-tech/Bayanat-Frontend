@@ -134,6 +134,8 @@ const PrincipalWmsPage = () => {
     actionType === 'edit' && handleTogglePopup(rowOriginal);
   };
   const handleDeletePrincipal = async () => {
+    console.log(rowSelection);
+
     await WmsSerivceInstance.deleteMasters('wms', 'principal', Object.keys(rowSelection));
     setRowSelection({});
     refetchPrincipalData();
