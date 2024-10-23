@@ -9,7 +9,7 @@ import { useEffect } from 'react';
 import GmServiceInstance from 'service/wms/services.gm_wms';
 import * as yup from 'yup';
 
-const AddMocWmsForm = ({
+const AddMoc2WmsForm = ({
   onClose,
   isEditMode,
   existingData
@@ -25,7 +25,8 @@ const AddMocWmsForm = ({
     initialValues: { description: '', charge_code: '',charge_type: '', activity_group_code: '', company_code: user?.company_code },
     validationSchema: yup.object().shape({
       charge_code: yup.string().required('This field is required'),
-      description: yup.string().required('This field is required')
+      description: yup.string().required('This field is required'),
+      charge_type: yup.string().required('This field is required')
     }),
     onSubmit: async (values, { setSubmitting }) => {
       setSubmitting(true);
@@ -105,6 +106,21 @@ const AddMocWmsForm = ({
           </FormHelperText>
         )}
       </Grid>
+      <Grid item xs={12} sm={5}>
+        <InputLabel>Charge Type*</InputLabel>
+        <TextField
+          value={formik.values.charge_type}
+          name = "Charge Type"
+          onChange={formik.handleChange}
+          fullWidth
+          error={Boolean(getIn(formik.touched, 'charge type') && getIn(formik.errors, 'charge type'))}
+        />
+        {getIn(formik.touched, 'charge type') && getIn(formik.errors, 'charge type') && (
+          <FormHelperText error id = "helper_text_first_name">
+           {getIn(formik.errors, 'charge type')}
+          </FormHelperText>
+        )}
+      </Grid>
 {/* 
       <Grid item xs={12} sm={6} md={3}>
         <InputLabel>Is gcc?</InputLabel>
@@ -130,4 +146,4 @@ const AddMocWmsForm = ({
     </Grid>
   );
 };
-export default AddMocWmsForm;
+export default AddMoc2WmsForm;
