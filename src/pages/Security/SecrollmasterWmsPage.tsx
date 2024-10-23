@@ -15,7 +15,9 @@ import { getPathNameList } from 'utils/functions';
 import { Tsecrollmaster } from './type/flowmaster-sec-types';
 import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
 import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
-import GmServiceInstance from 'service/wms/services.gm_wms';
+//import GmServiceInstance from 'service/wms/services.gm_wms';
+
+import salesmanServiceInstance from 'service/GM/service.salesman_wms';
 import AddSecRoleWmsForm from 'components/forms/Security/AddSecRoleSecForm';
 
 const SecrollmasterWmsPage = () => {
@@ -125,7 +127,7 @@ const SecrollmasterWmsPage = () => {
     actionType === 'edit' && handleEditsecrollmaster(rowOriginal);
   };
   const handleDeleteSecrollmaster = async () => {
-    await GmServiceInstance.deletesalesman(Object.keys(rowSelection));
+    await salesmanServiceInstance.deletesalesman(Object.keys(rowSelection));
     setRowSelection({});
     refetchSalesmanData();
   };

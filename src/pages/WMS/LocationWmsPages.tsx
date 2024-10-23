@@ -19,7 +19,8 @@ import { TLocation } from './types/location-wms.types';
 import AddLocationWmsForm from 'components/forms/AddLocationWmsForm';
 import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
 import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
-import GmServiceInstance from 'service/wms/services.gm_wms';
+//import GmServiceInstance from 'service/wms/services.gm_wms';
+import locationServiceInstance from 'service/GM/service.location_wms';
 
 const LocationWmsPage = () => {
   //--------------constants----------
@@ -123,7 +124,7 @@ const LocationWmsPage = () => {
     actionType === 'edit' && handleEditLocation(rowOriginal);
   };
   const handleDeleteLocation = async () => {
-    await GmServiceInstance.deleteLocation(Object.keys(rowSelection));
+    await locationServiceInstance.deleteLocation(Object.keys(rowSelection));
     setRowSelection({});
     refetchLocationData();
   };

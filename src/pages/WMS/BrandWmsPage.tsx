@@ -13,11 +13,12 @@ import { useSelector } from 'store';
 import { TUniversalDialogProps } from 'types/types.UniversalDialog';
 import { getPathNameList } from 'utils/functions';
 import { TBrand } from './types/brand-wms.types';
+import brandServiceInstance from 'service/GM/service.brand_wms';
 
 import AddBrandWmsForm from 'components/forms/AddBrandWmsForm';
 import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
 import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
-import GmServiceInstance from 'service/wms/services.gm_wms';
+//import GmServiceInstance from 'service/wms/services.gm_wms';
 
 const BrandWmsPage = () => {
   //--------------constants----------
@@ -132,7 +133,7 @@ const BrandWmsPage = () => {
     actionType === 'edit' && handleEditBrand(rowOriginal);
   };
   const handleDeleteBrand = async () => {
-    await GmServiceInstance.deleteBrand(Object.keys(rowSelection));
+    await brandServiceInstance.deleteBrand(Object.keys(rowSelection));
     setRowSelection({});
     refetchBrandData();
   };

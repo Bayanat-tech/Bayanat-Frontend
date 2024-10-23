@@ -5,7 +5,8 @@ import { getIn, useFormik } from 'formik';
 import useAuth from 'hooks/useAuth';
 import { Tsalesman } from 'pages/WMS/types/salesman-wms.types';
 import { useEffect } from 'react';
-import GmServiceInstance from 'service/wms/services.gm_wms';
+//import GmServiceInstance from 'service/wms/services.gm_wms';
+import salesmanServiceInstance from 'service/GM/service.salesman_wms';
 import * as yup from 'yup';
 
 const AddSalesmanWmsForm = ({
@@ -32,9 +33,9 @@ const AddSalesmanWmsForm = ({
       setSubmitting(true);
       let response;
       if (isEditMode) {
-        response = await GmServiceInstance.editsalesman(values);
+        response = await salesmanServiceInstance.editsalesman(values);
       } else {
-        response = await GmServiceInstance.addSalesman(values);
+        response = await salesmanServiceInstance.addSalesman(values);
       }
       if (response) {
         onClose(true);
