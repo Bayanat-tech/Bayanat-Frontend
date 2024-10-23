@@ -703,6 +703,7 @@ class GM {
       );
     }
   };
+
 }
 const GmServiceInstance = new GM();
 
