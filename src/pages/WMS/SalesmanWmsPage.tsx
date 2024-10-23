@@ -136,11 +136,7 @@ const SalesmanWmsPage = () => {
         {
           <Button
             variant="outlined"
-<<<<<<< HEAD
-            onClick={() => handleDeleteSalesman}
-=======
             onClick={handleDeleteSalesman}
->>>>>>> qa
             color="error"
             hidden={!Object.keys(rowSelection).length}
             startIcon={<DeleteOutlined />}

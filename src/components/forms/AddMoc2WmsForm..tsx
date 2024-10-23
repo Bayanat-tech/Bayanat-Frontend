@@ -22,7 +22,7 @@ const AddMocWmsForm = ({
   const { user } = useAuth();
   //------------------formik-----------------
   const formik = useFormik<Tmoc2>({
-    initialValues: { description: '', charge_code: '',charge_type: '', activity_group_code: '', company_code: user?.company_code },
+    initialValues: { description: '', charge_code: '', charge_type: '', activity_group_code: '', company_code: user?.company_code },
     validationSchema: yup.object().shape({
       charge_code: yup.string().required('This field is required'),
       description: yup.string().required('This field is required')
@@ -44,10 +44,10 @@ const AddMocWmsForm = ({
   useEffect(() => {
     console.log(formik.errors);
   }, [formik.errors]);
-//   //------------------Handlers------------
-//   const handleCountryGccChange = (event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
-//     formik.setFieldValue('country_gcc', checked ? 'Y' : 'N');
-//   };
+  //   //------------------Handlers------------
+  //   const handleCountryGccChange = (event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
+  //     formik.setFieldValue('country_gcc', checked ? 'Y' : 'N');
+  //   };
   useEffect(() => {
     if (isEditMode) {
       const { updated_at, updated_by, created_at, created_by, ...countryData } = existingData;
@@ -105,7 +105,7 @@ const AddMocWmsForm = ({
           </FormHelperText>
         )}
       </Grid>
-{/* 
+      {/* 
       <Grid item xs={12} sm={6} md={3}>
         <InputLabel>Is gcc?</InputLabel>
         <FormControlLabel

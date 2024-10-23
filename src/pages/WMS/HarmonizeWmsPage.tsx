@@ -79,12 +79,12 @@ const HarmonizeWmsPage = () => {
         id: 'permit_reqd',
         header: () => <span>Permit Reqd</span>
       },
-      
+
       {
         accessorFn: (row) => row.short_desc,
         id: 'short_desc',
         header: () => <span>Short Description</span>
-      }, 
+      },
       {
         id: 'actions',
         header: () => <span>Actions</span>,

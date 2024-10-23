@@ -21,7 +21,7 @@ const AddHarmonizeWmsForm = ({
   const { user } = useAuth();
   //------------------formik-----------------
   const formik = useFormik<THarmonize>({
-    initialValues: { harm_desc: '', harm_code: '', short_desc: '',uom: '',permit_reqd: '', unit: '',company_code: user?.company_code },
+    initialValues: { harm_desc: '', harm_code: '', short_desc: '', uom: '', permit_reqd: '', unit: '', company_code: user?.company_code },
     validationSchema: yup.object().shape({
       harm_code: yup.string().required('This field is required'),
       harm_desc: yup.string().required('This field is required')

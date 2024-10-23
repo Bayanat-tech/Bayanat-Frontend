@@ -41,10 +41,7 @@ const ActivityBillingPage = () => {
       return { ...prev, data: { isEditMode: false, existingData: {} }, action: { ...prev.action, open: !prev.action.open } };
     });
   };
-<<<<<<< HEAD
 
-=======
->>>>>>> qa
   // For Activity Billing Table
   const { permissions, user_permission } = useAuth();
   const [paginationData, setPaginationData] = useState({ page: 0, rowsPerPage: rowsPerPageOptions[0] });
