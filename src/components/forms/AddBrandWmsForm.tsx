@@ -5,7 +5,8 @@ import { getIn, useFormik } from 'formik';
 import useAuth from 'hooks/useAuth';
 import { TBrand } from 'pages/WMS/types/brand-wms.types';
 import { useEffect } from 'react';
-import GmServiceInstance from 'service/wms/services.gm_wms';
+//import GmServiceInstance from 'service/wms/services.gm_wms';
+import brandServiceInstance from 'service/GM/service.brand_wms';
 import * as yup from 'yup';
 
 const AddBrandWmsForm = ({
@@ -45,9 +46,9 @@ const AddBrandWmsForm = ({
       setSubmitting(true);
       let response;
       if (isEditMode) {
-        response = await GmServiceInstance.editBrand(values);
+        response = await brandServiceInstance.editBrand(values);
       } else {
-        response = await GmServiceInstance.addBrand(values);
+        response = await brandServiceInstance.addBrand(values);
       }
       if (response) {
         onClose(true);

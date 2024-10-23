@@ -17,7 +17,8 @@ import { TManufacture } from './types/manufacture-wms.types';
 import AddManufactureWmsForm from 'components/forms/AddManufactureWmsForm';
 import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
 import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
-import GmServiceInstance from 'service/wms/services.gm_wms';
+//import GmServiceInstance from 'service/wms/services.gm_wms';
+import manufactureServiceInstance from 'service/GM/service.manufacture_wms';
 
 const ManufactureWmsPage = () => {
   //--------------constants----------
@@ -128,7 +129,7 @@ const ManufactureWmsPage = () => {
     actionType === 'edit' && handleEditManufacture(rowOriginal);
   };
   const handleDeleteManufacture = async () => {
-    await GmServiceInstance.deleteManufacture(Object.keys(rowSelection));
+    await manufactureServiceInstance.deleteManufacture(Object.keys(rowSelection));
     setRowSelection({});
     refetchManufactureData();
   };

@@ -5,7 +5,8 @@ import { getIn, useFormik } from 'formik';
 import useAuth from 'hooks/useAuth';
 import { TGroup } from 'pages/WMS/types/group-wms.types';
 import { useEffect } from 'react';
-import GmServiceInstance from 'service/wms/services.gm_wms';
+//import GmServiceInstance from 'service/wms/services.gm_wms';
+import prodgroupServiceInstance from 'service/GM/service.prodgroup_wms';
 import * as yup from 'yup';
 
 const AddGroupWmsForm = ({
@@ -30,9 +31,9 @@ const AddGroupWmsForm = ({
       setSubmitting(true);
       let response;
       if (isEditMode) {
-        response = await GmServiceInstance.editGroup(values);
+        response = await prodgroupServiceInstance.editGroup(values);
       } else {
-        response = await GmServiceInstance.addGroup(values);
+        response = await prodgroupServiceInstance.addGroup(values);
       }
       if (response) {
         onClose(true);

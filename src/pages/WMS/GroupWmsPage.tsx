@@ -17,7 +17,8 @@ import { TGroup } from './types/group-wms.types';
 import AddGroupWmsForm from 'components/forms/AddGroupWmsForm';
 import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
 import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
-import GmServiceInstance from 'service/wms/services.gm_wms';
+//import GmServiceInstance from 'service/wms/services.gm_wms';
+import prodgroupServiceInstance from 'service/GM/service.prodgroup_wms';
 
 const GroupWmsPage = () => {
   //--------------constants----------
@@ -127,7 +128,7 @@ const GroupWmsPage = () => {
     actionType === 'edit' && handleEditGroup(rowOriginal);
   };
   const handleDeleteGroup = async () => {
-    await GmServiceInstance.deleteGroup(Object.keys(rowSelection));
+    await prodgroupServiceInstance.deleteGroup(Object.keys(rowSelection));
     setRowSelection({});
     refetchGroupData();
   };

@@ -12,13 +12,11 @@ import WmsSerivceInstance from 'service/wms/service.wms';
 import { useSelector } from 'store';
 import { TUniversalDialogProps } from 'types/types.UniversalDialog';
 import { getPathNameList } from 'utils/functions';
-
 //import AddCountryWmsForm from 'components/forms/AddCountryWmsForm';
 import AddSupplierWmsForm from 'components/forms/AddSupplierWmsForm';
-
 import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
 import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
-import GmServiceInstance from 'service/wms/services.gm_wms';
+import supplierServiceInstance from 'service/GM/service.supplier_wms';
 //import { TCountry } from './types/country-wms.types';
 import { TSupplier } from './types/supplier-wms.types';
 
@@ -146,7 +144,7 @@ const SupplierWmsPage = () => {
     actionType === 'edit' && handleEditSupplier(rowOriginal);
   };
   const handleDeleteSupplier = async () => {
-    await GmServiceInstance.deleteSupplier(Object.keys(rowSelection));
+    await supplierServiceInstance.deleteSupplier(Object.keys(rowSelection));
     setRowSelection({});
     refetchSupplierData();
   };
