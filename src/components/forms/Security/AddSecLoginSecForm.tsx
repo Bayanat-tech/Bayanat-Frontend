@@ -8,7 +8,7 @@ import { useEffect } from 'react';
 import GmSecServiceInstance from 'service/security/services.gm_security';
 import * as yup from 'yup';
 
-const  AddSecLoginSecForm = ({
+const AddSecLoginSecForm = ({
   onClose,
   isEditMode,
   existingData
@@ -18,15 +18,15 @@ const  AddSecLoginSecForm = ({
   existingData: TSecmaster;
 }) => {
   //-------------------constants-------------------
-  const { user } = useAuth();  
+  const { user } = useAuth();
   //------------------formik-----------------
   const formik = useFormik<TSecmaster>({
-        initialValues: { id:'' ,username: '', userpass :'' , contact_no :'',email_id:'',company_code: user?.company_code},
+    initialValues: { id: '', username: '', userpass: '', contact_no: '', email_id: '', company_code: user?.company_code },
     validationSchema: yup.object().shape({
       // country_code: yup.string().required('This field is required')
     }),
     onSubmit: async (values, { setSubmitting }) => {
-      console.log('mode',isEditMode);
+      console.log('mode', isEditMode);
       setSubmitting(true);
       let response;
       if (isEditMode) {
@@ -64,7 +64,7 @@ const  AddSecLoginSecForm = ({
         <TextField
           value={formik.values.id}
           name="id"
-          disabled={isEditMode===true}
+          disabled={isEditMode === true}
           onChange={formik.handleChange}
           className="w-28"
           error={Boolean(getIn(formik.touched, 'id"') && getIn(formik.errors, 'id"'))}

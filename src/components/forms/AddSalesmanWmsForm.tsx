@@ -66,6 +66,7 @@ const AddSalesmanWmsForm = ({
         <TextField
           value={formik.values.salesman_code}
           name="salesman_code"
+          disabled={isEditMode === true}
           onChange={formik.handleChange}
           className="w-28"
           error={Boolean(getIn(formik.touched, 'salesman_code"') && getIn(formik.errors, 'salesman_code"'))}

@@ -13,6 +13,10 @@ import SalesmanWmsPage from 'pages/WMS/SalesmanWmsPage';
 import SecrollmasterWmsPage from 'pages/Security/SecrollmasterWmsPage';
 import SecmasterWmsPage from 'pages/Security/secmasterWmsPage';
 import ItemmasterPfPage from 'pages/Purchasefolder/ItemmasterPfpage';
+<<<<<<< HEAD
+=======
+import SecmodulemasterWmsPage from 'pages/Security/secmodulemasterWmsPage';
+>>>>>>> qa
 
 // pages routing
 const MaintenanceError = Loadable(lazy(() => import('pages/maintenance/404')));
@@ -25,10 +29,13 @@ const BrandWmsPage = Loadable(lazy(() => import('pages/WMS/BrandWmsPage')));
 const SupplierWmsPage = Loadable(lazy(() => import('pages/WMS/SupplierWmsPage')));
 const LocationWmsPage = Loadable(lazy(() => import('pages/WMS/LocationWmsPage')));
 const CurrencyWmsPage = Loadable(lazy(() => import('pages/WMS/CurrencyWmsPage')));
+<<<<<<< HEAD
 const GroupWmsPage = Loadable(lazy(() => import('pages/WMS/GroupWmsPage')));
 const ManufactureWmsPage = Loadable(lazy(() => import('pages/WMS/ManufactureWmsPage')));
 // const DepartmentWmsPage = Loadable(lazy(() => import('pages/WMS/DepartmentWmsPage')));
 
+=======
+>>>>>>> qa
 const UomWmsPage = Loadable(lazy(() => import('pages/WMS/UomWmsPage')));
 const MocWmsPage = Loadable(lazy(() => import('pages/WMS/MocWmsPage')));
 const Moc2WmsPage = Loadable(lazy(() => import('pages/WMS/MocWmsPage')));
@@ -78,9 +85,12 @@ const MainRoutes = {
                     { path: 'supplier', element: <SupplierWmsPage /> },
                     { path: 'pickwave', element: <PickWaveWmsPage /> },
                     { path: 'salesman', element: <SalesmanWmsPage /> },
+<<<<<<< HEAD
                     { path: 'brand', element: <BrandWmsPage /> },
                     { path: 'group', element: <GroupWmsPage /> },
                     { path: 'manufacturer', element: <ManufactureWmsPage /> },
+=======
+>>>>>>> qa
                     { path: 'uom', element: <UomWmsPage /> },
                     { path: 'moc', element: <MocWmsPage /> },
                     { path: 'moc2', element: <Moc2WmsPage /> },
@@ -115,6 +125,7 @@ const MainRoutes = {
                     { path: 'flowmaster', element: <FlowmasterSecPage /> },
                     { path: 'rolemaster', element: <SecrollmasterWmsPage /> },
                     { path: 'seclogin', element: <SecmasterWmsPage /> },
+                    { path: 'secmoduledata', element: <SecmodulemasterWmsPage /> },
                     { path: '*', element: <MaintenanceError /> }
                   ]
                 },

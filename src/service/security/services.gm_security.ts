@@ -5,6 +5,7 @@ import { IApiResponse } from 'types/types.services';
 import axiosServices from 'utils/axios';
 import { Tsecrollmaster } from 'pages/Security/type/flowmaster-sec-types';
 import { TSecmaster } from 'pages/Security/type/flowmaster-sec-types';
+import { TSecmodulemaster } from 'pages/Security/type/flowmaster-sec-types';
 class GMsec {
   //--------------Flowmaster--------------
   addFlowmaster = async (values: TFlowmaster) => {
@@ -279,6 +280,106 @@ class GMsec {
   deletesecemaster = async (secrolemaster: string[]) => {
     try {
       const response: IApiResponse<null> = await axiosServices.post('api/security/gm/secmaster', secrolemaster);
+      if (response.data.success) {
+        dispatch(
+          openSnackbar({
+            open: true,
+            message: response.data.message,
+            variant: 'alert',
+            alert: {
+              color: 'success'
+            },
+            close: true
+          })
+        );
+        return response.data.success;
+      }
+    } catch (error: unknown) {
+      const knownError = error as { message: string };
+      dispatch(
+        openSnackbar({
+          open: true,
+          message: knownError.message,
+          variant: 'alert',
+          alert: {
+            color: 'error'
+          },
+          severity: 'error',
+          close: true
+        })
+      );
+    }
+  };
+  //-----------------------------secModule-----------------
+  addsecmoduleemaster = async (values: TSecmodulemaster) => {
+    try {
+      const response: IApiResponse<null> = await axiosServices.post('api/security/gm/secmoduledata', values);
+      if (response.data.success) {
+        dispatch(
+          openSnackbar({
+            open: true,
+            message: response.data.message,
+            variant: 'alert',
+            alert: {
+              color: 'success'
+            },
+            close: true
+          })
+        );
+        return response.data.success;
+      }
+    } catch (error: unknown) {
+      const knownError = error as { message: string };
+      dispatch(
+        openSnackbar({
+          open: true,
+          message: knownError.message,
+          variant: 'alert',
+          alert: {
+            color: 'error'
+          },
+          severity: 'error',
+          close: true
+        })
+      );
+    }
+  };
+  editsecmodulemaster = async (values: TSecmodulemaster) => {
+    try {
+      const response: IApiResponse<null> = await axiosServices.put('api/security/gm/secmoduledata', values);
+      if (response.data.success) {
+        dispatch(
+          openSnackbar({
+            open: true,
+            message: response.data.message,
+            variant: 'alert',
+            alert: {
+              color: 'success'
+            },
+            close: true
+          })
+        );
+        return response.data.success;
+      }
+    } catch (error: unknown) {
+      const knownError = error as { message: string };
+      dispatch(
+        openSnackbar({
+          open: true,
+          message: knownError.message,
+          variant: 'alert',
+          alert: {
+            color: 'error'
+          },
+          severity: 'error',
+          close: true
+        })
+      );
+    }
+  };
+  deletesecmoduleemaster = async (secrolemaster: string[]) => {
+    try {
+      const response: IApiResponse<null> = await axiosServices.post('api/security/gm/secmoduledata', secrolemaster);
       if (response.data.success) {
         dispatch(
           openSnackbar({
