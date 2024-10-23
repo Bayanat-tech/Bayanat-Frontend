@@ -61,7 +61,7 @@ const AddUomWmsForm = ({
   return (
     <Grid container spacing={2} component={'form'} onSubmit={formik.handleSubmit}>
       <Grid item xs={12}>
-        <InputLabel>Country Code*</InputLabel>
+        <InputLabel>Uom Code*</InputLabel>
         <TextField
           value={formik.values.uom_code}
           name="uom_code"
@@ -76,7 +76,7 @@ const AddUomWmsForm = ({
         )}
       </Grid>
       <Grid item xs={12} sm={5}>
-        <InputLabel>Country Name*</InputLabel>
+        <InputLabel>Description*</InputLabel>
         <TextField
           value={formik.values.uom_name}
           name="uom_name"
