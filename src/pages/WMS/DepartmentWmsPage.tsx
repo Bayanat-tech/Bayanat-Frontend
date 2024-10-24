@@ -18,7 +18,8 @@ import AddDepartmentWmsForm from 'components/forms/AddDepartmentWmsForm';
 
 import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
 import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
-import GmServiceInstance from 'service/wms/services.gm_wms';
+//import GmServiceInstance from 'service/wms/services.gm_wms';
+import departmentServiceInstance from 'service/GM/service.department_wms';
 //import { TCountry } from './types/country-wms.types';
 import { TDepartment } from './types/department-wms.types';
 
@@ -140,7 +141,7 @@ const DepartmentWmsPage = () => {
     actionType === 'edit' && handleEditDepartment(rowOriginal);
   };
   const handleDeleteDepartment = async () => {
-    await GmServiceInstance.deleteDepartment(Object.keys(rowSelection));
+    await departmentServiceInstance.deleteDepartment(Object.keys(rowSelection));
     setRowSelection({});
     refetchDepartmentData();
   };

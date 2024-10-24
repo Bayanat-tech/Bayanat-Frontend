@@ -17,7 +17,8 @@ import { getPathNameList } from 'utils/functions';
 import AddCurrencyWmsForm from 'components/forms/AddCurrencyWmsForm';
 import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
 import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
-import GmServiceInstance from 'service/wms/services.gm_wms';
+//import GmServiceInstance from 'service/wms/services.gm_wms';
+import currencyServiceInstance from 'service/GM/service.currency_wms';
 //import { TCountry } from './types/country-wms.types';
 import { TCurrency } from './types/currency-wms.types';
 
@@ -149,7 +150,7 @@ const CurrencyWmsPage = () => {
     actionType === 'edit' && handleEditCurrency(rowOriginal);
   };
   const handleDeleteCurrency = async () => {
-    await GmServiceInstance.deleteCurrency(Object.keys(rowSelection));
+    await currencyServiceInstance.deleteCurrency(Object.keys(rowSelection));
     setRowSelection({});
     refetchCurrencyData();
   };

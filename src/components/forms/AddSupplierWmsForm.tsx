@@ -5,7 +5,8 @@ import { getIn, useFormik } from 'formik';
 import useAuth from 'hooks/useAuth';
 import { TSupplier } from 'pages/WMS/types/supplier-wms.types';
 import { useEffect } from 'react';
-import GmServiceInstance from 'service/wms/services.gm_wms';
+//import GmServiceInstance from 'service/wms/services.gm_wms';
+import supplierServiceInstance from 'service/GM/service.supplier_wms';
 import * as yup from 'yup';
 
 const AddSupplierWmsForm = ({
@@ -70,9 +71,9 @@ const AddSupplierWmsForm = ({
       setSubmitting(true);
       let response;
       if (isEditMode) {
-        response = await GmServiceInstance.editSupplier(values);
+        response = await supplierServiceInstance.editSupplier(values);
       } else {
-        response = await GmServiceInstance.addSupplier(values);
+        response = await supplierServiceInstance.addSupplier(values);
       }
       if (response) {
         onClose(true);
