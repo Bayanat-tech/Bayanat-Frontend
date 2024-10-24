@@ -29,6 +29,7 @@ const CurrencyWmsPage = Loadable(lazy(() => import('pages/WMS/CurrencyWmsPage'))
 const LineWmsPage = Loadable(lazy(() => import('pages/WMS/LineWmsPage')));
 const GroupWmsPage = Loadable(lazy(() => import('pages/WMS/GroupWmsPage')));
 const ManufactureWmsPage = Loadable(lazy(() => import('pages/WMS/ManufactureWmsPage')));
+const AccountsetupWmsPage = Loadable(lazy(() => import('pages/WMS/AccountsetupWmsPage')));
 // const DepartmentWmsPage = Loadable(lazy(() => import('pages/WMS/DepartmentWmsPage')));
 
 const UomWmsPage = Loadable(lazy(() => import('pages/WMS/UomWmsPage')));
@@ -83,6 +84,7 @@ const MainRoutes = {
                     { path: 'brand', element: <BrandWmsPage /> },
                     { path: 'group', element: <GroupWmsPage /> },
                     { path: 'manufacturer', element: <ManufactureWmsPage /> },
+                    { path: 'accountsetup', element: <AccountsetupWmsPage /> },
                     { path: 'uom', element: <UomWmsPage /> },
                     { path: 'moc', element: <MocWmsPage /> },
                     { path: 'moc2', element: <Moc2WmsPage /> },
