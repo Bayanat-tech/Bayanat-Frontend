@@ -18,7 +18,7 @@ import AddProjectmasterPfForm from 'components/forms/Purchaseflow/AddProjectmast
 import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
 import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
 import GmPfServiceInstance from 'service/Purchaseflow/services.purchaseflow';
-import { TProjectmaster } from './type/projectmaster-pf-types';
+import { TVProjectmaster } from './type/projectmaster-pf-types';
 
 const ProjectmasterPfPage = () => {
   //--------------constants----------
@@ -40,7 +40,7 @@ const ProjectmasterPfPage = () => {
     title: 'Add Projectmaster',
     data: { existingData: {}, isEditMode: false }
   });
-  const columns = useMemo<ColumnDef<TProjectmaster>[]>(
+  const columns = useMemo<ColumnDef<TVProjectmaster>[]>(
     () => [
       {
         id: 'select-col',
@@ -64,6 +64,16 @@ const ProjectmasterPfPage = () => {
         accessorFn: (row) => row.project_name,
         id: 'project_name',
         header: () => <span>Project Name</span>
+      },
+      {
+        accessorFn: (row) => row.div_name,
+        id: 'div_name',
+        header: () => <span>Company Name</span>
+      },
+      {
+        accessorFn: (row) => row.total_project_cost,
+        id: 'total_project_cost',
+        header: () => <span>Total Project Cost</span>
       },
 
       {
@@ -94,14 +104,15 @@ const ProjectmasterPfPage = () => {
   } = useQuery({
     queryKey: ['Projectmaster_data', searchData, paginationData],
     queryFn: () => PfSerivceInstance.getMasters(app, pathNameList[pathNameList.length - 1], paginationData, searchData),
-    enabled: user_permission?.includes(permissions?.[app.toUpperCase()]?.children[pathNameList[3]?.toUpperCase()]?.serial_number)
+    enabled: user_permission?.includes(permissions?.[app.toUpperCase()]?.children[pathNameList[3]?.toUpperCase()]?.serial_number),
+    staleTime: 10000
   });
   //-------------handlers---------------
   const handleChangePagination = (page: number, rowsPerPage: number) => {
     setPaginationData({ page, rowsPerPage });
   };
 
-  const handleEditProjectmaster = (existingData: TProjectmaster) => {
+  const handleEditProjectmaster = (existingData: TVProjectmaster) => {
     setProjectmasterFormPopup((prev) => {
       return {
         action: { ...prev.action, open: !prev.action.open },
@@ -120,7 +131,7 @@ const ProjectmasterPfPage = () => {
     });
   };
 
-  const handleActions = (actionType: string, rowOriginal: TProjectmaster) => {
+  const handleActions = (actionType: string, rowOriginal: TVProjectmaster) => {
     actionType === 'edit' && handleEditProjectmaster(rowOriginal);
   };
   const handleDeleteProjectmaster = async () => {

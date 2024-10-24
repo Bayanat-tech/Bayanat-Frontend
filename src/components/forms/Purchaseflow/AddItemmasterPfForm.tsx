@@ -4,7 +4,6 @@ import TextField from '@mui/material/TextField';
 import { getIn, useFormik } from 'formik';
 import useAuth from 'hooks/useAuth';
 import { TItemmaster } from 'pages/Purchasefolder/type/itemmaster-pf-types';
-import { useEffect } from 'react';
 import GmPfServiceInstance from 'service/Purchaseflow/services.purchaseflow';
 import * as yup from 'yup';
 
@@ -40,16 +39,6 @@ const AddItemmasterPfForm = ({
       }
     }
   });
-  useEffect(() => {
-    if (isEditMode) {
-      const { updated_at, updated_by, created_at, created_by, ...costmasterData } = existingData;
-      
-
-      formik.setValues(costmasterData);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isEditMode]);
-
   return (
     <Grid container spacing={2} component={'form'} onSubmit={formik.handleSubmit}>
       <Grid item xs={12}>
@@ -57,7 +46,7 @@ const AddItemmasterPfForm = ({
         <TextField
           value={formik.values.item_code}
           name="item_code"
-          disabled={isEditMode===true}
+          disabled={isEditMode === true}
           onChange={formik.handleChange}
           className="w-28"
           error={Boolean(getIn(formik.touched, 'item_code') && getIn(formik.errors, 'item_code'))}

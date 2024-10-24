@@ -1,10 +1,14 @@
 import { TCostmaster } from 'pages/Purchasefolder/type/costmaster-pf-types';
+
 import { TProjectmaster } from 'pages/Purchasefolder/type/projectmaster-pf-types';
+
 import { TItemmaster } from 'pages/Purchasefolder/type/itemmaster-pf-types';
+
 import { dispatch } from 'store';
 import { openSnackbar } from 'store/reducers/snackbar';
 import { IApiResponse } from 'types/types.services';
 import axiosServices from 'utils/axios';
+//import { ThemeContext } from '@emotion/react';
 
 class GMpf {
   //-------------- Costmaster--------------
@@ -215,107 +219,108 @@ class GMpf {
     }
   };
 
-//----------Item Master
-additemmaster = async (values: TItemmaster) => {
-  try {
-    const response: IApiResponse<null> = await axiosServices.post('api/pf/gm/itemmaster', values);
-    if (response.data.success) {
+  //----------Item Master
+  //const type = 'TItemmaster'
+  additemmaster = async (values: TItemmaster) => {
+    try {
+      const response: IApiResponse<null> = await axiosServices.post('api/pf/gm/itemmaster', values);
+      if (response.data.success) {
+        dispatch(
+          openSnackbar({
+            open: true,
+            message: response.data.message,
+            variant: 'alert',
+            alert: {
+              color: 'success'
+            },
+            close: true
+          })
+        );
+        return response.data.success;
+      }
+    } catch (error: unknown) {
+      const knownError = error as { message: string };
       dispatch(
         openSnackbar({
           open: true,
-          message: response.data.message,
+          message: knownError.message,
           variant: 'alert',
           alert: {
-            color: 'success'
+            color: 'error'
           },
+          severity: 'error',
           close: true
         })
       );
-      return response.data.success;
     }
-  } catch (error: unknown) {
-    const knownError = error as { message: string };
-    dispatch(
-      openSnackbar({
-        open: true,
-        message: knownError.message,
-        variant: 'alert',
-        alert: {
-          color: 'error'
-        },
-        severity: 'error',
-        close: true
-      })
-    );
-  }
-};
+  };
 
-edititemmaster = async (values: TItemmaster) => {
-  try {
-    const response: IApiResponse<null> = await axiosServices.put('api/pf/gm/itemmaster', values);
-    if (response.data.success) {
+  edititemmaster = async (values: TItemmaster) => {
+    try {
+      const response: IApiResponse<null> = await axiosServices.put('api/pf/gm/itemmaster', values);
+      if (response.data.success) {
+        dispatch(
+          openSnackbar({
+            open: true,
+            message: response.data.message,
+            variant: 'alert',
+            alert: {
+              color: 'success'
+            },
+            close: true
+          })
+        );
+        return response.data.success;
+      }
+    } catch (error: unknown) {
+      const knownError = error as { message: string };
       dispatch(
         openSnackbar({
           open: true,
-          message: response.data.message,
+          message: knownError.message,
           variant: 'alert',
           alert: {
-            color: 'success'
+            color: 'error'
           },
+          severity: 'error',
           close: true
         })
       );
-      return response.data.success;
     }
-  } catch (error: unknown) {
-    const knownError = error as { message: string };
-    dispatch(
-      openSnackbar({
-        open: true,
-        message: knownError.message,
-        variant: 'alert',
-        alert: {
-          color: 'error'
-        },
-        severity: 'error',
-        close: true
-      })
-    );
-  }
-};
-deleteitemmaster = async (item_code: string[]) => {
-  try {
-    const response: IApiResponse<null> = await axiosServices.post('api/pf/gm/itemmaster', item_code);
-    if (response.data.success) {
+  };
+  deleteitemmaster = async (item_code: string[]) => {
+    try {
+      const response: IApiResponse<null> = await axiosServices.post('api/pf/gm/itemmaster', item_code);
+      if (response.data.success) {
+        dispatch(
+          openSnackbar({
+            open: true,
+            message: response.data.message,
+            variant: 'alert',
+            alert: {
+              color: 'success'
+            },
+            close: true
+          })
+        );
+        return response.data.success;
+      }
+    } catch (error: unknown) {
+      const knownError = error as { message: string };
       dispatch(
         openSnackbar({
           open: true,
-          message: response.data.message,
+          message: knownError.message,
           variant: 'alert',
           alert: {
-            color: 'success'
+            color: 'error'
           },
+          severity: 'error',
           close: true
         })
       );
-      return response.data.success;
     }
-  } catch (error: unknown) {
-    const knownError = error as { message: string };
-    dispatch(
-      openSnackbar({
-        open: true,
-        message: knownError.message,
-        variant: 'alert',
-        alert: {
-          color: 'error'
-        },
-        severity: 'error',
-        close: true
-      })
-    );
-  }
-};  
+  };
 }
 
 const GmPfServiceInstance = new GMpf();
