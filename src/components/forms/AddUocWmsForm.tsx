@@ -94,14 +94,29 @@ const AddUocWmsForm = ({
         <InputLabel>Activity Group*</InputLabel>
         <TextField
           value={formik.values.activity_group_code}
-          name="Activity Group"
+          name="activity_group_code"
           onChange={formik.handleChange}
           fullWidth
-          error={Boolean(getIn(formik.touched, 'activity group code') && getIn(formik.errors, 'activity group code'))}
+          error={Boolean(getIn(formik.touched, 'activity_group_code') && getIn(formik.errors, 'activity_group_code'))}
         />
-        {getIn(formik.touched, 'activity group code') && getIn(formik.errors, 'activity group code') && (
+        {getIn(formik.touched, 'activity_group_code') && getIn(formik.errors, 'activity_group_code') && (
           <FormHelperText error id="helper-text-first_name">
-            {getIn(formik.errors, 'activity group code')}
+            {getIn(formik.errors, 'activity_group_code')}
+          </FormHelperText>
+        )}
+      </Grid>
+      <Grid item xs={12} sm={5}>
+        <InputLabel>Charge Type*</InputLabel>
+        <TextField
+          value={formik.values.charge_type}
+          name="charge_type"
+          onChange={formik.handleChange}
+          fullWidth
+          error={Boolean(getIn(formik.touched, 'charge_type') && getIn(formik.errors, 'charge_type'))}
+        />
+        {getIn(formik.touched, 'charge_type') && getIn(formik.errors, 'charge_type') && (
+          <FormHelperText error id="helper-text-first_name">
+            {getIn(formik.errors, 'charge_type')}
           </FormHelperText>
         )}
       </Grid>

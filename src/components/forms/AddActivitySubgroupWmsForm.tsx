@@ -86,6 +86,21 @@ const AddActivitySubgroupWmsForm = ({
           </FormHelperText>
         )}
       </Grid>
+      <Grid item xs={12} sm={5}>
+        <InputLabel>Act Group Code*</InputLabel>
+        <TextField
+          value={formik.values.act_group_code}
+          name="act_group_code"
+          onChange={formik.handleChange}
+          fullWidth
+          error={Boolean(getIn(formik.touched, 'act_group_code') && getIn(formik.errors, 'act_group_code'))}
+        />
+        {getIn(formik.touched, 'act_group_code') && getIn(formik.errors, 'act_group_code') && (
+          <FormHelperText error id="helper-text-first_name">
+            {getIn(formik.errors, 'act_group_code')}
+          </FormHelperText>
+        )}
+      </Grid>
       <Grid item xs={12} className="flex justify-end">
         <Button
           type="submit"

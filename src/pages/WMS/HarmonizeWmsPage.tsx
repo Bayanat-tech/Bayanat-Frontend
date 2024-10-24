@@ -64,27 +64,27 @@ const HarmonizeWmsPage = () => {
         id: 'harm_dec',
         header: () => <span>Harmonize Name</span>
       },
-      {
-        accessorFn: (row) => row.uom,
-        id: 'uom',
-        header: () => <span>Uom</span>
-      },
+      // {
+      //   accessorFn: (row) => row.uom,
+      //   id: 'uom',
+      //   header: () => <span>Uom</span>
+      // },
       {
         accessorFn: (row) => row.company_code,
         id: 'company_code',
         header: () => <span>Company Code</span>
       },
-      {
-        accessorFn: (row) => row.permit_reqd,
-        id: 'permit_reqd',
-        header: () => <span>Permit Reqd</span>
-      },
+      // {
+      //   accessorFn: (row) => row.permit_reqd,
+      //   id: 'permit_reqd',
+      //   header: () => <span>Permit Reqd</span>
+      // },
 
-      {
-        accessorFn: (row) => row.short_desc,
-        id: 'short_desc',
-        header: () => <span>Short Description</span>
-      },
+      // {
+      //   accessorFn: (row) => row.short_desc,
+      //   id: 'short_desc',
+      //   header: () => <span>Short Description</span>
+      // },
       {
         id: 'actions',
         header: () => <span>Actions</span>,

@@ -65,11 +65,11 @@ const ActivitySubgroupWmsPage = () => {
         id: 'act_subgroup_name',
         header: () => <span>Subgroup Name</span>
       },
-      {
-        accessorFn: (row) => row.mandatory_flag,
-        id: 'mandatory_flag',
-        header: () => <span>Mandatory Flag</span>
-      },
+      // {
+      //   accessorFn: (row) => row.mandatory_flag,
+      //   id: 'mandatory_flag',
+      //   header: () => <span>Mandatory Flag</span>
+      // },
       {
         accessorFn: (row) => row.company_code,
         id: 'company_code',
@@ -80,11 +80,11 @@ const ActivitySubgroupWmsPage = () => {
         id: 'act_group_code',
         header: () => <span>Act Group Code</span>
       },
-      {
-        accessorFn: (row) => row.validate_flag,
-        id: 'validate_flag',
-        header: () => <span>Validate Flag</span>
-      },
+      // {
+      //   accessorFn: (row) => row.validate_flag,
+      //   id: 'validate_flag',
+      //   header: () => <span>Validate Flag</span>
+      // },
       {
         id: 'actions',
         header: () => <span>Actions</span>,
