@@ -5,7 +5,8 @@ import { getIn, useFormik } from 'formik';
 import useAuth from 'hooks/useAuth';
 import { TCurrency } from 'pages/WMS/types/currency-wms.types';
 import { useEffect } from 'react';
-import GmServiceInstance from 'service/wms/services.gm_wms';
+//import GmServiceInstance from 'service/wms/services.gm_wms';
+import currencyServiceInstance from 'service/GM/service.currency_wms';
 import * as yup from 'yup';
 
 const AddCurrencyWmsForm = ({
@@ -38,9 +39,9 @@ const AddCurrencyWmsForm = ({
       setSubmitting(true);
       let response;
       if (isEditMode) {
-        response = await GmServiceInstance.editCurrency(values);
+        response = await currencyServiceInstance.editCurrency(values);
       } else {
-        response = await GmServiceInstance.addCurrency(values);
+        response = await currencyServiceInstance.addCurrency(values);
       }
       if (response) {
         onClose(true);

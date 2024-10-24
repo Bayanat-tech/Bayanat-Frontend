@@ -5,7 +5,7 @@ import { getIn, useFormik } from 'formik';
 import useAuth from 'hooks/useAuth';
 import { TDepartment } from 'pages/WMS/types/department-wms.types';
 import { useEffect } from 'react';
-import GmServiceInstance from 'service/wms/services.gm_wms';
+import departmentServiceInstance from 'service/GM/service.department_wms';
 import * as yup from 'yup';
 
 const AddDepartmentWmsForm = ({
@@ -21,7 +21,7 @@ const AddDepartmentWmsForm = ({
   const { user } = useAuth();
   //------------------formik-----------------
   const formik = useFormik<TDepartment>({
-    initialValues: { dept_name: '', dept_code: '', company_code: user?.company_code },
+    initialValues: { dept_name: '', dept_code: '', company_code: user?.company_code, div_code: '', jobno_seq: '' },
     validationSchema: yup.object().shape({
       dept_code: yup.string().required('This field is required'),
       dept_name: yup.string().required('This field is required')
@@ -30,9 +30,9 @@ const AddDepartmentWmsForm = ({
       setSubmitting(true);
       let response;
       if (isEditMode) {
-        response = await GmServiceInstance.editDepartment(values);
+        response = await departmentServiceInstance.editDepartment(values);
       } else {
-        response = await GmServiceInstance.addDepartment(values);
+        response = await departmentServiceInstance.addDepartment(values);
       }
       if (response) {
         onClose(true);
@@ -40,13 +40,7 @@ const AddDepartmentWmsForm = ({
       }
     }
   });
-  //   useEffect(() => {
-  //     console.log(formik.errors);
-  //   }, [formik.errors]);
-  //   //------------------Handlers------------
-  //   const handleCountryGccChange = (event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
-  //     formik.setFieldValue('country_gcc', checked ? 'Y' : 'N');
-  //   };
+
   useEffect(() => {
     if (isEditMode) {
       const { updated_at, updated_by, created_at, created_by, ...departmentData } = existingData;
@@ -88,16 +82,6 @@ const AddDepartmentWmsForm = ({
           </FormHelperText>
         )}
       </Grid>
-      {/* <Grid item xs={12} sm={6} md={3}>
-        <InputLabel>Is gcc?</InputLabel>
-        <FormControlLabel
-          control={<Checkbox onChange={handleCountryGccChange} />}
-          checked={formik.values.country_gcc === 'Y'}
-          name="country_gcc"
-          label={'Yes/No'}
-          value={formik.values.country_gcc}
-        />
-      </Grid> */}
 
       <Grid item xs={12} sm={3}>
         <InputLabel>Division Code*</InputLabel>

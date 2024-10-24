@@ -2,21 +2,20 @@ import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Checkbox } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { ColumnDef, RowSelectionState } from '@tanstack/react-table';
+import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
 import { ISearch } from 'components/filters/SearchFilter';
+import AddSalesmanWmsForm from 'components/forms/AddSalesmanWmsForm';
 import UniversalDialog from 'components/popup/UniversalDialog';
 import CustomDataTable, { rowsPerPageOptions } from 'components/tables/CustomDataTables';
 import useAuth from 'hooks/useAuth';
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router';
-import WmsSerivceInstance from 'service/service.wms';
+import WmsSerivceInstance from 'service/wms/service.wms';
 import { useSelector } from 'store';
+import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
 import { TUniversalDialogProps } from 'types/types.UniversalDialog';
 import { getPathNameList } from 'utils/functions';
 import { Tsalesman } from './types/salesman-wms.types';
-import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
-import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
-import GmServiceInstance from 'service/wms/services.gm_wms';
-import AddSalesmanWmsForm from 'components/forms/AddSalesmanWmsForm';
 
 const SalesmanWmsPage = () => {
   //--------------constants----------
@@ -109,7 +108,7 @@ const SalesmanWmsPage = () => {
 
   const toggleCountryPopup = (refetchData?: boolean) => {
     if (salesmanFormPopup.action.open === true && refetchData) {
-        refetchSalesmanData();
+      refetchSalesmanData();
     }
     setCountryFormPopup((prev) => {
       return { ...prev, data: { isEditMode: false, existingData: {} }, action: { ...prev.action, open: !prev.action.open } };
@@ -120,7 +119,9 @@ const SalesmanWmsPage = () => {
     actionType === 'edit' && handleEditCountry(rowOriginal);
   };
   const handleDeleteSalesman = async () => {
-    await GmServiceInstance.deletesalesman(Object.keys(rowSelection));
+    console.log('called', rowSelection);
+
+    await WmsSerivceInstance.deleteMasters('wms', 'salesman', Object.keys(rowSelection));
     setRowSelection({});
     refetchSalesmanData();
   };
@@ -135,7 +136,7 @@ const SalesmanWmsPage = () => {
         {
           <Button
             variant="outlined"
-            onClick={()=>handleDeleteSalesman}
+            onClick={handleDeleteSalesman}
             color="error"
             hidden={!Object.keys(rowSelection).length}
             startIcon={<DeleteOutlined />}

@@ -8,14 +8,15 @@ import CustomDataTable, { rowsPerPageOptions } from 'components/tables/CustomDat
 import useAuth from 'hooks/useAuth';
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router';
-import WmsSerivceInstance from 'service/service.wms';
+import WmsSerivceInstance from 'service/wms/service.wms';
 import { useSelector } from 'store';
 import { TUniversalDialogProps } from 'types/types.UniversalDialog';
 import { getPathNameList } from 'utils/functions';
 import { TSecmaster } from './type/flowmaster-sec-types';
 import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
 import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
-import GmServiceInstance from 'service/wms/services.gm_wms';
+//import GmServiceInstance from 'service/wms/services.gm_wms';
+import salesmanServiceInstance from 'service/GM/service.salesman_wms';
 import AddSecLoginSecForm from 'components/forms/Security/AddSecLoginSecForm';
 
 const SecmasterWmsPage = () => {
@@ -119,7 +120,7 @@ const SecmasterWmsPage = () => {
 
   const toggleCountryPopup = (refetchData?: boolean) => {
     if (secroleFormPopup.action.open === true && refetchData) {
-        refetchSalesmanData();
+      refetchSalesmanData();
     }
     setCountryFormPopup((prev) => {
       return { ...prev, data: { isEditMode: false, existingData: {} }, action: { ...prev.action, open: !prev.action.open } };
@@ -130,7 +131,7 @@ const SecmasterWmsPage = () => {
     actionType === 'edit' && handleEditsecrollmaster(rowOriginal);
   };
   const handleDeleteSecrollmaster = async () => {
-    await GmServiceInstance.deletesalesman(Object.keys(rowSelection));
+    await salesmanServiceInstance.deletesalesman(Object.keys(rowSelection));
     setRowSelection({});
     refetchSalesmanData();
   };
@@ -145,7 +146,7 @@ const SecmasterWmsPage = () => {
         {
           <Button
             variant="outlined"
-            onClick={()=>handleDeleteSecrollmaster}
+            onClick={() => handleDeleteSecrollmaster}
             color="error"
             hidden={!Object.keys(rowSelection).length}
             startIcon={<DeleteOutlined />}

@@ -1,4 +1,6 @@
 import { CardContent, Step, StepButton, Stepper } from '@mui/material';
+import { useQuery } from '@tanstack/react-query';
+import useAuth from 'hooks/useAuth';
 import {
   TAccountPrincipalWms,
   TBasicPrincipalWms,
@@ -9,15 +11,13 @@ import {
   TStorageDetailsPrincipalWms
 } from 'pages/WMS/types/principal-wms.types';
 import { useEffect, useState } from 'react';
+import principalServiceInstance from 'service/GM/service.principal_wms';
 import AccountPrincipalInfoWms from './AccountPrincipalInfoWms';
 import AddContactInfoWmsForm from './AddContactInfoWmsForm';
 import AddPickRulesInfoWms from './AddPickRulesInfoWms';
 import AddSettingsPrincipalWmsForm from './AddSettingsPrincipalWmsForm';
-import BasicPrincipalInfoWmsForm from './BasicPrincipalInfoWmsForm';
 import AddStoragePrincipleForm from './AddStoragePrincipleForm';
-import GmServiceInstance from 'service/wms/services.gm_wms';
-import useAuth from 'hooks/useAuth';
-import { useQuery } from '@tanstack/react-query';
+import BasicPrincipalInfoWmsForm from './BasicPrincipalInfoWmsForm';
 
 const AddPrincipalWmsForm = ({
   onClose,
@@ -138,7 +138,7 @@ const AddPrincipalWmsForm = ({
 
   const { data: principalData, isFetched: isPrincipalDataFetched } = useQuery<TPrincipalWms | undefined>({
     queryKey: ['principal_data'],
-    queryFn: () => GmServiceInstance.getPrincipal(prin_code),
+    queryFn: () => principalServiceInstance.getPrincipal(prin_code),
     enabled: isEditMode === true
   });
   //-----------------------------handlers----------------------
@@ -159,9 +159,9 @@ const AddPrincipalWmsForm = ({
       prinCode = finalPayload.prin_code;
     delete finalPayload.prin_code;
     if (isEditMode) {
-      response = await GmServiceInstance.editPrincipal(finalPayload, prinCode ?? '');
+      response = await principalServiceInstance.editPrincipal(finalPayload, prinCode ?? '');
     } else {
-      response = await GmServiceInstance.addPrincipal(finalPayload);
+      response = await principalServiceInstance.addPrincipal(finalPayload);
     }
     setSubmitting(false);
     if (response) {

@@ -8,16 +8,14 @@ import CustomDataTable, { rowsPerPageOptions } from 'components/tables/CustomDat
 import useAuth from 'hooks/useAuth';
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router';
-import WmsSerivceInstance from 'service/service.wms';
+import WmsSerivceInstance from 'service/wms/service.wms';
+import locationServiceInstance from 'service/GM/service.location_wms';
 import { useSelector } from 'store';
 import { TUniversalDialogProps } from 'types/types.UniversalDialog';
 import { getPathNameList } from 'utils/functions';
-
 import AddLocationWmsForm from 'components/forms/AddLocationWmsForm';
-
 import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
 import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
-import GmServiceInstance from 'service/wms/services.gm_wms';
 import { TLocation } from './types/location-wms.types';
 
 const LocationWmsPage = () => {
@@ -30,7 +28,6 @@ const LocationWmsPage = () => {
   const [searchData, setSearchData] = useState<ISearch>();
   const [toggleFilter, setToggleFilter] = useState<boolean | null>(null);
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
-
   const [locationFormPopup, setLocationFormPopup] = useState<TUniversalDialogProps>({
     action: {
       open: false,
@@ -153,7 +150,7 @@ const LocationWmsPage = () => {
     actionType === 'edit' && handleEditLocation(rowOriginal);
   };
   const handleDeleteLocation = async () => {
-    await GmServiceInstance.deleteLocation(Object.keys(rowSelection));
+    await locationServiceInstance.deleteLocation(Object.keys(rowSelection));
     setRowSelection({});
     refetchLocationData();
   };

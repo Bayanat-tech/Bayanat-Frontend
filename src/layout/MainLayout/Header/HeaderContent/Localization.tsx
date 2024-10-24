@@ -103,37 +103,14 @@ const Localization = () => {
                       }
                     />
                   </ListItemButton>
-                  <ListItemButton selected={i18n === 'fr'} onClick={() => handleListItemClick('fr')}>
+
+                  <ListItemButton selected={i18n === 'ar'} onClick={() => handleListItemClick('ar')}>
                     <ListItemText
                       primary={
                         <Grid container>
-                          <Typography color="textPrimary">français</Typography>
+                          <Typography color="textPrimary">الشعب العربي</Typography>
                           <Typography variant="caption" color="textSecondary" sx={{ ml: '8px' }}>
-                            (French)
-                          </Typography>
-                        </Grid>
-                      }
-                    />
-                  </ListItemButton>
-                  <ListItemButton selected={i18n === 'ro'} onClick={() => handleListItemClick('ro')}>
-                    <ListItemText
-                      primary={
-                        <Grid container>
-                          <Typography color="textPrimary">Română</Typography>
-                          <Typography variant="caption" color="textSecondary" sx={{ ml: '8px' }}>
-                            (Romanian)
-                          </Typography>
-                        </Grid>
-                      }
-                    />
-                  </ListItemButton>
-                  <ListItemButton selected={i18n === 'zh'} onClick={() => handleListItemClick('zh')}>
-                    <ListItemText
-                      primary={
-                        <Grid container>
-                          <Typography color="textPrimary">中国人</Typography>
-                          <Typography variant="caption" color="textSecondary" sx={{ ml: '8px' }}>
-                            (Chinese)
+                            (Arabic)
                           </Typography>
                         </Grid>
                       }

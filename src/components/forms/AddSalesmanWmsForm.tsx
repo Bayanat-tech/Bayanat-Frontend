@@ -3,12 +3,13 @@ import { Button, FormHelperText, Grid, InputLabel } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import { getIn, useFormik } from 'formik';
 import useAuth from 'hooks/useAuth';
-import { Tsalesman } from 'pages/WMS/types/salesman-wms.types'; 
+import { Tsalesman } from 'pages/WMS/types/salesman-wms.types';
 import { useEffect } from 'react';
-import GmServiceInstance from 'service/wms/services.gm_wms';
+//import GmServiceInstance from 'service/wms/services.gm_wms';
+import salesmanServiceInstance from 'service/GM/service.salesman_wms';
 import * as yup from 'yup';
 
-const  AddSalesmanWmsForm = ({
+const AddSalesmanWmsForm = ({
   onClose,
   isEditMode,
   existingData
@@ -18,23 +19,23 @@ const  AddSalesmanWmsForm = ({
   existingData: Tsalesman;
 }) => {
   //-------------------constants-------------------
-  const { user } = useAuth();  
+  const { user } = useAuth();
   //------------------formik-----------------
   const formik = useFormik<Tsalesman>({
-        initialValues: {company_code: user?.company_code, salesman_code : '', salesman_name: '' },
+    initialValues: { company_code: user?.company_code, salesman_code: '', salesman_name: '' },
     validationSchema: yup.object().shape({
       // country_code: yup.string().required('This field is required'),
       salesman_name: yup.string().required('This field is required')
     }),
     onSubmit: async (values, { setSubmitting }) => {
-      console.log('values',values);
-      
+      console.log('values', values);
+
       setSubmitting(true);
       let response;
       if (isEditMode) {
-        response = await GmServiceInstance.editsalesman(values);
+        response = await salesmanServiceInstance.editsalesman(values);
       } else {
-        response = await GmServiceInstance.addSalesman(values);
+        response = await salesmanServiceInstance.addSalesman(values);
       }
       if (response) {
         onClose(true);
@@ -66,6 +67,7 @@ const  AddSalesmanWmsForm = ({
         <TextField
           value={formik.values.salesman_code}
           name="salesman_code"
+          disabled={isEditMode === true}
           onChange={formik.handleChange}
           className="w-28"
           error={Boolean(getIn(formik.touched, 'salesman_code"') && getIn(formik.errors, 'salesman_code"'))}

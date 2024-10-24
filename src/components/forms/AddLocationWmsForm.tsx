@@ -6,7 +6,7 @@ import useAuth from 'hooks/useAuth';
 
 import { TLocation } from 'pages/WMS/types/location-wms.types';
 import { useEffect } from 'react';
-import GmServiceInstance from 'service/wms/services.gm_wms';
+import locationServiceInstance from 'service/GM/service.location_wms';
 import * as yup from 'yup';
 
 const AddLocationWmsForm = ({
@@ -65,15 +65,17 @@ const AddLocationWmsForm = ({
     },
     validationSchema: yup.object().shape({
       site_code: yup.string().required('This field is required'),
-      location_code: yup.string().required('This field is required')
+      aisle: yup.string().required('This field is required'),
+      column_no: yup.string().required('This field is required'),
+      height: yup.string().required('This field is required')
     }),
     onSubmit: async (values, { setSubmitting }) => {
       setSubmitting(true);
       let response;
       if (isEditMode) {
-        response = await GmServiceInstance.editLocation(values);
+        response = await locationServiceInstance.editLocation(values);
       } else {
-        response = await GmServiceInstance.addLocation(values);
+        response = await locationServiceInstance.addLocation(values);
       }
       if (response) {
         onClose(true);
@@ -100,13 +102,12 @@ const AddLocationWmsForm = ({
 
   return (
     <Grid container spacing={2} component={'form'} onSubmit={formik.handleSubmit}>
-      <Grid item xs={12}>
+      <Grid item xs={12} sm={3}>
         <InputLabel>Site Code*</InputLabel>
         <TextField
           value={formik.values.site_code}
           name="site_code"
           onChange={formik.handleChange}
-          className="w-28"
           error={Boolean(getIn(formik.touched, 'site_code') && getIn(formik.errors, 'site_code'))}
         />
         {getIn(formik.touched, 'site_code') && getIn(formik.errors, 'site_code') && (
@@ -116,18 +117,47 @@ const AddLocationWmsForm = ({
         )}
       </Grid>
 
-      <Grid item xs={12}>
+      <Grid item xs={12} sm={3}>
+        <InputLabel>Aisle*</InputLabel>
+        <TextField
+          value={formik.values.aisle}
+          name="aisle"
+          onChange={formik.handleChange}
+          error={Boolean(getIn(formik.touched, 'aisle') && getIn(formik.errors, 'aisle'))}
+        />
+        {getIn(formik.touched, 'aisle') && getIn(formik.errors, 'aisle') && (
+          <FormHelperText error id="helper-text-first_name">
+            {getIn(formik.errors, 'aisle')}
+          </FormHelperText>
+        )}
+      </Grid>
+
+      <Grid item xs={12} sm={3}>
         <InputLabel>Location Code*</InputLabel>
         <TextField
-          value={formik.values.site_code}
-          name="location_code"
+          value={formik.values.column_no}
+          name="column_no"
           onChange={formik.handleChange}
-          className="w-28"
-          error={Boolean(getIn(formik.touched, 'location_code') && getIn(formik.errors, 'location_code'))}
+          error={Boolean(getIn(formik.touched, 'column_no') && getIn(formik.errors, 'column_no'))}
         />
-        {getIn(formik.touched, 'location_code') && getIn(formik.errors, 'location_code') && (
+        {getIn(formik.touched, 'column_no') && getIn(formik.errors, 'column_no') && (
           <FormHelperText error id="helper-text-first_name">
-            {getIn(formik.errors, 'location_code')}
+            {getIn(formik.errors, 'column_no')}
+          </FormHelperText>
+        )}
+      </Grid>
+
+      <Grid item xs={12} sm={3}>
+        <InputLabel>Height*</InputLabel>
+        <TextField
+          value={formik.values.height}
+          name="height"
+          onChange={formik.handleChange}
+          error={Boolean(getIn(formik.touched, 'height') && getIn(formik.errors, 'height'))}
+        />
+        {getIn(formik.touched, 'height') && getIn(formik.errors, 'height') && (
+          <FormHelperText error id="helper-text-first_name">
+            {getIn(formik.errors, 'height')}
           </FormHelperText>
         )}
       </Grid>

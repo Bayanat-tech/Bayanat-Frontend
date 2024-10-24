@@ -5,7 +5,8 @@ import { getIn, useFormik } from 'formik';
 import useAuth from 'hooks/useAuth';
 import { TCountry } from 'pages/WMS/types/country-wms.types';
 import { useEffect } from 'react';
-import GmServiceInstance from 'service/wms/services.gm_wms';
+import { FormattedMessage } from 'react-intl';
+import countryServiceInstance from 'service/GM/service.country_wms';
 import * as yup from 'yup';
 
 const AddCountryWmsForm = ({
@@ -30,9 +31,9 @@ const AddCountryWmsForm = ({
       setSubmitting(true);
       let response;
       if (isEditMode) {
-        response = await GmServiceInstance.editCountry(values);
+        response = await countryServiceInstance.editCountry(values);
       } else {
-        response = await GmServiceInstance.addCountry(values);
+        response = await countryServiceInstance.addCountry(values);
       }
       if (response) {
         onClose(true);
@@ -60,7 +61,9 @@ const AddCountryWmsForm = ({
   return (
     <Grid container spacing={2} component={'form'} onSubmit={formik.handleSubmit}>
       <Grid item xs={12}>
-        <InputLabel>Country Code*</InputLabel>
+        <InputLabel>
+          <FormattedMessage id="Country Code" />*
+        </InputLabel>
         <TextField
           size="small"
           value={formik.values.country_code}
@@ -76,7 +79,9 @@ const AddCountryWmsForm = ({
         )}
       </Grid>
       <Grid item xs={12} sm={5}>
-        <InputLabel>Country Name*</InputLabel>
+        <InputLabel>
+          <FormattedMessage id="Country Name" />*
+        </InputLabel>
         <TextField
           size="small"
           value={formik.values.country_name}
@@ -92,12 +97,14 @@ const AddCountryWmsForm = ({
         )}
       </Grid>
       <Grid item xs={12} sm={6} md={3}>
-        <InputLabel>Is gcc?</InputLabel>
+        <InputLabel>
+          <FormattedMessage id="Is gcc?" />
+        </InputLabel>
         <FormControlLabel
           control={<Checkbox onChange={handleCountryGccChange} />}
           checked={formik.values.country_gcc === 'Y'}
           name="country_gcc"
-          label={'Yes/No'}
+          label={<FormattedMessage id="Yes/No" />}
           value={formik.values.country_gcc}
         />
       </Grid>
@@ -108,7 +115,7 @@ const AddCountryWmsForm = ({
           disabled={formik.isSubmitting}
           startIcon={formik.isSubmitting ? <LoadingOutlined /> : <SaveOutlined />}
         >
-          Submit
+          <FormattedMessage id="Submit" />
         </Button>
       </Grid>
     </Grid>

@@ -2,18 +2,18 @@ import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Checkbox } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { ColumnDef, RowSelectionState } from '@tanstack/react-table';
+import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
 import { ISearch } from 'components/filters/SearchFilter';
 import UniversalDialog from 'components/popup/UniversalDialog';
 import CustomDataTable, { rowsPerPageOptions } from 'components/tables/CustomDataTables';
 import useAuth from 'hooks/useAuth';
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router';
-import WmsSerivceInstance from 'service/service.wms';
+import WmsSerivceInstance from 'service/wms/service.wms';
 import { useSelector } from 'store';
+import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
 import { TUniversalDialogProps } from 'types/types.UniversalDialog';
 import { getPathNameList } from 'utils/functions';
-import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
-import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
 
 // import Pick Wave Table
 import { TPickWave } from './types/PickWave-wms.types';
@@ -22,7 +22,6 @@ import { TPickWave } from './types/PickWave-wms.types';
 import AddPickWaveWmsForm from 'components/forms/AddPickWaveWmsForm';
 
 //import GM
-import GmServiceInstance from 'service/wms/services.gm_wms';
 
 const PickWaveWmsPage = () => {
   //--------------constants----------
@@ -138,7 +137,7 @@ const PickWaveWmsPage = () => {
     actionType === 'edit' && handleEditPickWave(rowOriginal);
   };
   const handleDeletePickWave = async () => {
-    await GmServiceInstance.deleteCountry(Object.keys(rowSelection));
+    // await GmServiceInstance.deleteCountry(Object.keys(rowSelection));
     setRowSelection({});
     refetchPickWaveData();
   };

@@ -8,7 +8,7 @@ import CustomDataTable, { rowsPerPageOptions } from 'components/tables/CustomDat
 import useAuth from 'hooks/useAuth';
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router';
-import WmsSerivceInstance from 'service/service.wms';
+import WmsSerivceInstance from 'service/wms/service.wms';
 import { useSelector } from 'store';
 import { TUniversalDialogProps } from 'types/types.UniversalDialog';
 import { getPathNameList } from 'utils/functions';
@@ -19,7 +19,8 @@ import { TLocation } from './types/location-wms.types';
 import AddLocationWmsForm from 'components/forms/AddLocationWmsForm';
 import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
 import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
-import GmServiceInstance from 'service/wms/services.gm_wms';
+//import GmServiceInstance from 'service/wms/services.gm_wms';
+import locationServiceInstance from 'service/GM/service.location_wms';
 
 const LocationWmsPage = () => {
   //--------------constants----------
@@ -123,7 +124,7 @@ const LocationWmsPage = () => {
     actionType === 'edit' && handleEditLocation(rowOriginal);
   };
   const handleDeleteLocation = async () => {
-    await GmServiceInstance.deleteLocation(Object.keys(rowSelection));
+    await locationServiceInstance.deleteLocation(Object.keys(rowSelection));
     setRowSelection({});
     refetchLocationData();
   };
