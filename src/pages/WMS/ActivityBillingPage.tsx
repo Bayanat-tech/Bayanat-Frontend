@@ -166,6 +166,7 @@ const ActivityBillingPage = () => {
       {/* Table */}
       <div className="w-full">
         <CustomDataTable
+          tableActions={['export', 'import']}
           rowSelection={rowSelection}
           setRowSelection={setRowSelection}
           row_id="act_code"

@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 
 // material-ui
-import { Box, Card, CardContent, Container, Toolbar, useMediaQuery } from '@mui/material';
+import { Box, Container, Toolbar, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
 // project import
@@ -14,10 +14,10 @@ import Header from './Header';
 
 import useConfig from 'hooks/useConfig';
 import navigation from 'menu-items';
+import AppSelectionPage from 'pages/AppSelection/AppSelectionPage';
 import { dispatch } from 'store';
 import { openDrawer } from 'store/reducers/menu';
 import { MenuOrientation } from 'types/config';
-import AppSelectionPage from 'pages/AppSelection/AppSelectionPage';
 // const AppSelectionPage = Loadable(lazy(() => import('pages/AppSelection/AppSelectionPage')));
 
 // types
@@ -65,9 +65,8 @@ const MainLayout = () => {
               }}
             >
               <Breadcrumbs navigation={navigation} title titleBottom card={false} divider={false} />
-              <Card component={CardContent}>
-                <Outlet />
-              </Card>
+              {/*---------main contrnt here------ */}
+              <Outlet />
               <Footer />
             </Container>
           </Box>

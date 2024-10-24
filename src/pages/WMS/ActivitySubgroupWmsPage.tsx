@@ -165,6 +165,7 @@ const ActivitySubgroupWmsPage = () => {
         </Button>
       </div>
       <CustomDataTable
+        tableActions={['export', 'import']}
         rowSelection={rowSelection}
         setRowSelection={setRowSelection}
         row_id="activity_subgroup_code"

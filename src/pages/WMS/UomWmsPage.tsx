@@ -148,6 +148,7 @@ const UomWmsPage = () => {
         </Button>
       </div>
       <CustomDataTable
+        tableActions={['export', 'import']}
         rowSelection={rowSelection}
         setRowSelection={setRowSelection}
         row_id="uom_code"

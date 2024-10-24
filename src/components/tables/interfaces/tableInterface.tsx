@@ -1,7 +1,9 @@
 import { ColumnDef, OnChangeFn, RowSelectionState } from '@tanstack/react-table';
 
 export interface IReactTable {
+  tableActions?: string[];
   count?: number;
+  componentRef?: any;
   columns: ColumnDef<any>[];
   data: Array<any>;
   toggleFilter?: boolean | null;

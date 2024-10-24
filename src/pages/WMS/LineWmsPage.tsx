@@ -166,6 +166,7 @@ const LineWmsPage = () => {
       </div>
 
       <CustomDataTable
+        tableActions={['export', 'import']}
         rowSelection={rowSelection}
         setRowSelection={setRowSelection}
         row_id="line_code"

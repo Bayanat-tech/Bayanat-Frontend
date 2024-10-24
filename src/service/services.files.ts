@@ -79,6 +79,29 @@ class FileUploadService {
       );
     }
   };
+  exportFile = (master: string) => {
+    return new Promise((resolve, reject) => {
+      axiosServices
+        .get(`/api/files/export?master=${master}`)
+        .then((response) => {
+          if (response.data) {
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `${master}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            resolve(true);
+          } else {
+            reject(response);
+          }
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  };
 }
 
 const FileUploadServiceInstance = new FileUploadService();

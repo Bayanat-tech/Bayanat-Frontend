@@ -2,7 +2,9 @@ import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Checkbox } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { ColumnDef, RowSelectionState } from '@tanstack/react-table';
+import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
 import { ISearch } from 'components/filters/SearchFilter';
+import AddPrincipalWmsForm from 'components/forms/AddPrincipalWmsForm';
 import UniversalDialog from 'components/popup/UniversalDialog';
 import CustomDataTable, { rowsPerPageOptions } from 'components/tables/CustomDataTables';
 import useAuth from 'hooks/useAuth';
@@ -10,17 +12,16 @@ import { useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router';
 import WmsSerivceInstance from 'service/wms/service.wms';
 import { useSelector } from 'store';
+import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
 import { TUniversalDialogProps } from 'types/types.UniversalDialog';
 import { getPathNameList } from 'utils/functions';
-import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
-import AddPrincipalWmsForm from 'components/forms/AddPrincipalWmsForm';
-import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
 import { TPrincipalWms } from './types/principal-wms.types';
 
 const PrincipalWmsPage = () => {
   //--------------constants----------
   const { permissions, user_permission } = useAuth();
   const location = useLocation();
+
   const pathNameList = getPathNameList(location.pathname);
   const { app } = useSelector((state: any) => state.menuSelectionSlice);
   const [paginationData, setPaginationData] = useState({ page: 0, rowsPerPage: rowsPerPageOptions[0] });
@@ -96,24 +97,6 @@ const PrincipalWmsPage = () => {
     setPaginationData({ page, rowsPerPage });
   };
 
-  // const handleEditPrincipal = (existingData: TPrincipalWms) => {
-  //   setPrincipalFormPopup((prev) => {
-  //     return {
-  //       action: { ...prev.action, open: !prev.action.open },
-  //       title: 'Edit Principal',
-  //       data: { prin_code: existingData.prin_code, isEditMode: true }
-  //     };
-  //   });
-  // };
-
-  // const togglePrincipalPopup = (refetchData?: boolean) => {
-  //   if (principalFormPopup.action.open === true && refetchData) {
-  //     refetchPrincipalData();
-  //   }
-  //   setPrincipalFormPopup((prev) => {
-  //     return { ...prev, data: { isEditMode: false, prin_code: '' }, action: { ...prev.action, open: !prev.action.open } };
-  //   });
-  // };
   const handleTogglePopup = (existingData?: TPrincipalWms, refetchData?: boolean) => {
     if (principalFormPopup.action.open && refetchData) {
       refetchPrincipalData();
@@ -133,13 +116,14 @@ const PrincipalWmsPage = () => {
   const handleActions = (actionType: string, rowOriginal: TPrincipalWms) => {
     actionType === 'edit' && handleTogglePopup(rowOriginal);
   };
+
   const handleDeletePrincipal = async () => {
     console.log(rowSelection);
-
     await WmsSerivceInstance.deleteMasters('wms', 'principal', Object.keys(rowSelection));
     setRowSelection({});
     refetchPrincipalData();
   };
+
   //------------------useEffect----------------
   useEffect(() => {
     setSearchData(null as any);
@@ -149,22 +133,21 @@ const PrincipalWmsPage = () => {
   return (
     <div className="flex flex-col space-y-2">
       <div className="flex justify-end space-x-2">
-        {
-          <Button
-            variant="outlined"
-            onClick={handleDeletePrincipal}
-            color="error"
-            hidden={!Object.keys(rowSelection).length}
-            startIcon={<DeleteOutlined />}
-          >
-            Delete
-          </Button>
-        }
-        <Button startIcon={<PlusOutlined />} variant="shadow" onClick={() => handleTogglePopup()}>
+        <Button
+          variant="outlined"
+          onClick={handleDeletePrincipal}
+          color="error"
+          hidden={!Object.keys(rowSelection).length}
+          startIcon={<DeleteOutlined />}
+        >
+          Delete
+        </Button>
+        <Button startIcon={<PlusOutlined />} variant="contained" onClick={() => handleTogglePopup()}>
           Principal
         </Button>
       </div>
       <CustomDataTable
+        tableActions={['export', 'import']}
         rowSelection={rowSelection}
         setRowSelection={setRowSelection}
         row_id="prin_code"

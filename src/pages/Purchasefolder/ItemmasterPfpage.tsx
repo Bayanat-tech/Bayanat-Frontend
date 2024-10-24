@@ -16,7 +16,7 @@ import { getPathNameList } from 'utils/functions';
 import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
 import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
 import GmPfServiceInstance from 'service/Purchaseflow/services.purchaseflow';
-import { TItemmaster } from './type/itemmaster-pf-types'; 
+import { TItemmaster } from './type/itemmaster-pf-types';
 import AddItemmasterPfForm from 'components/forms/Purchaseflow/AddItemmasterPfForm';
 
 const ItemmasterPfPage = () => {
@@ -151,6 +151,7 @@ const ItemmasterPfPage = () => {
         </Button>
       </div>
       <CustomDataTable
+        tableActions={['export', 'import']}
         rowSelection={rowSelection}
         setRowSelection={setRowSelection}
         row_id="item_code"
