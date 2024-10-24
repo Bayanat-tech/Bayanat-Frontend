@@ -63,6 +63,7 @@ const UniversalDialog = (props: TUniversalDialogPropsWActions) => {
               size="large"
               className="py-2 px-7"
               disabled={disablePrimaryButton}
+              type="button"
             >
               {props?.primaryButonTitle || 'Save'}
             </Button>

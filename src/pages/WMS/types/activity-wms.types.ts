@@ -1,4 +1,5 @@
 export type TActivityWms = {
+  [x: string]: any;
   uoc: string;
   activity_code: string;
   activity: string;

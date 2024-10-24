@@ -1,24 +1,26 @@
-import { useMemo, useState, useEffect } from 'react';
-import { TUniversalDialogProps } from 'types/types.UniversalDialog';
-import UniversalDialog from 'components/popup/UniversalDialog';
-import { Button, Checkbox } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import { Checkbox } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
+import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import { ColumnDef, RowSelectionState } from '@tanstack/react-table';
-import CustomDataTable, { rowsPerPageOptions } from 'components/tables/CustomDataTables';
-import { TBillingActivity } from './types/billingActivity-wms.types';
-import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
-import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
 import { useQuery } from '@tanstack/react-query';
+import { ColumnDef, RowSelectionState } from '@tanstack/react-table';
+import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
 import { ISearch } from 'components/filters/SearchFilter';
+import AddBillingActivityWmsForm from 'components/forms/AddBillingActivityWms';
+import PopulateBillingActivityForm from 'components/forms/PopulateBillingActivityForm';
+import UniversalDialog from 'components/popup/UniversalDialog';
+import CustomDataTable, { rowsPerPageOptions } from 'components/tables/CustomDataTables';
+import useAuth from 'hooks/useAuth';
+import { useEffect, useMemo, useState } from 'react';
+import { useLocation } from 'react-router';
 import WmsSerivceInstance from 'service/wms/service.wms';
 import { useSelector } from 'store';
+import { TAvailableActionButtons } from 'types/types.actionButtonsGroups';
+import { TUniversalDialogProps } from 'types/types.UniversalDialog';
 import { getPathNameList } from 'utils/functions';
-import { useLocation } from 'react-router';
-import useAuth from 'hooks/useAuth';
-import AddBillingActivityWmsForm from 'components/forms/AddBillingActivityWms';
-import AddIcon from '@mui/icons-material/Add';
-
+import { TBillingActivity } from './types/billingActivity-wms.types';
+import { TPrincipalWms } from './types/principal-wms.types';
 const ActivityBillingPage = () => {
   const location = useLocation();
   const [addActivityFormPopup, setActivityFormPopup] = useState<TUniversalDialogProps>({
@@ -27,7 +29,7 @@ const ActivityBillingPage = () => {
       fullWidth: true,
       maxWidth: 'sm'
     },
-    title: 'Add ActivityBilling',
+    title: 'Add Billing Activity',
     data: { existingData: {}, isEditMode: false }
   });
   const toggleActivityPopup = (refetchData?: boolean) => {
@@ -44,6 +46,29 @@ const ActivityBillingPage = () => {
     });
   };
 
+  const [populateFormPopup, setPopulateFormPopup] = useState<TUniversalDialogProps>({
+    action: {
+      open: false,
+      fullWidth: true,
+      maxWidth: 'xs'
+    },
+    title: 'Populate Activities',
+    data: { existingData: {}, isEditMode: false }
+  });
+  const togglePopulatePopup = (refetchData?: boolean) => {
+    if (populateFormPopup.action.open === true && refetchData) {
+      refetchActivityBillingData();
+    }
+    setPopulateFormPopup((prev) => {
+      return { ...prev, data: { isEditMode: false, existingData: {} }, action: { ...prev.action, open: !prev.action.open } };
+    });
+  };
+
+  const handlePopulateForm = () => {
+    setPopulateFormPopup((prev) => {
+      return { ...prev, data: { isEditMode: false, existingData: {} }, action: { ...prev.action, open: !prev.action.open } };
+    });
+  };
   // For Activity Billing Table
   const { permissions, user_permission } = useAuth();
 
@@ -56,12 +81,14 @@ const ActivityBillingPage = () => {
   const handleActions = (actionType: string, rowOriginal: TBillingActivity) => {
     actionType === 'edit' && handleEditActivityBilling(rowOriginal);
   };
+  const [prinCode, setPrinCode] = useState<string>('');
+
   console.log('pathnamelist', pathNameList);
   const handleEditActivityBilling = (existingData: TBillingActivity) => {
     setActivityFormPopup((prev) => {
       return {
         action: { ...prev.action, open: !prev.action.open },
-        title: 'Edit Activity',
+        title: 'Edit Billing Activity',
         data: { existingData, isEditMode: true }
       };
     });
@@ -126,24 +153,51 @@ const ActivityBillingPage = () => {
     isFetching: isActivityFetchLoading,
     refetch: refetchActivityBillingData
   } = useQuery({
-    queryKey: ['activity_billing_data', searchData, paginationData],
-    queryFn: () => WmsSerivceInstance.getMasters(app, pathNameList[pathNameList.length - 1], paginationData, searchData),
+    queryKey: ['activity_billing_data', searchData, paginationData, prinCode],
+    queryFn: () => WmsSerivceInstance.getMasters(app, pathNameList[pathNameList.length - 1], paginationData, searchData, prinCode),
     enabled: user_permission?.includes(permissions?.[app.toUpperCase()]?.children[pathNameList[3]?.toUpperCase()]?.serial_number)
   });
 
+  const { data: principalList } = useQuery({
+    queryKey: ['principal_data'],
+    queryFn: async () => {
+      const response = await WmsSerivceInstance.getMasters(app, 'principal');
+      if (response) {
+        return {
+          tableData: response.tableData as TPrincipalWms[],
+          count: response.count
+        };
+      }
+      return { tableData: [], count: 0 };
+    }
+  });
   //------------------useEffect----------------
   useEffect(() => {
     setSearchData(null as any);
     setToggleFilter(null as any);
   }, []);
+  useEffect(() => {
+    console.log(prinCode);
+  }, [prinCode]);
   return (
     <div className="w-full">
-      {/* Principal Dropdown */}
+      {/*---------------Principal Dropdown-------------*/}
       <div className="w-full flex justify-between">
-        <div className="ba_principal_search_div">
+        <div>
           <Autocomplete
+            value={
+              !!prinCode
+                ? principalList?.tableData.find((eachPrincipal) => eachPrincipal.prin_code === prinCode)
+                : ({ prin_name: '' } as TPrincipalWms)
+            }
+            onChange={(event, value: TPrincipalWms | null) => {
+              if (value) {
+                setPrinCode(value?.prin_code as string);
+              }
+            }}
             disablePortal
-            options={['The Godfather', 'Pulp Fiction']}
+            getOptionLabel={(option) => option.prin_name}
+            options={principalList?.tableData ?? []}
             sx={{ width: 300 }}
             renderInput={(params: any) => <TextField {...params} label="Principal" />}
           />
@@ -151,20 +205,19 @@ const ActivityBillingPage = () => {
         {/* add new activity */}
         <div className="ba_add_activity_and_populate_div flex">
           <div className="ba_add_activity_div mx-2">
-            <Button variant="contained" onClick={handleAddActivityForm}>
-              <AddIcon /> new activity
+            <Button startIcon={<AddIcon />} variant="contained" onClick={handleAddActivityForm} disabled={prinCode === '' ? true : false}>
+              add activity
             </Button>
           </div>
           <div className="ba_populate_activity mx-2">
-            <Button variant="contained" color="warning">
-              {' '}
+            <Button variant="contained" color="warning" onClick={handlePopulateForm} disabled={prinCode === '' ? true : false}>
               populate activities
             </Button>
           </div>
         </div>
       </div>
       {/* Table */}
-      <div className="w-full">
+      <div className="w-full mt-2">
         <CustomDataTable
           rowSelection={rowSelection}
           setRowSelection={setRowSelection}
@@ -183,10 +236,31 @@ const ActivityBillingPage = () => {
         <UniversalDialog
           action={{ ...addActivityFormPopup.action }}
           onClose={toggleActivityPopup}
-          title="Billing Activity Form"
+          title={addActivityFormPopup.title}
           hasPrimaryButton={false}
         >
-          <AddBillingActivityWmsForm prin_code={'123'} password={'abc@123'} />
+          <AddBillingActivityWmsForm
+            onClose={toggleActivityPopup}
+            isEditMode={addActivityFormPopup?.data?.isEditMode}
+            existingData={addActivityFormPopup.data.existingData}
+            prin_code={prinCode}
+          />
+        </UniversalDialog>
+      )}
+      {/* Populate Activity Dialogue Box */}
+      {!!populateFormPopup && populateFormPopup.action.open && (
+        <UniversalDialog
+          action={{ ...populateFormPopup.action }}
+          onClose={togglePopulatePopup}
+          title="Populate Activities"
+          hasPrimaryButton={false}
+        >
+          <PopulateBillingActivityForm
+            onClose={togglePopulatePopup}
+            isEditMode={populateFormPopup?.data?.isEditMode}
+            existingData={populateFormPopup.data.existingData}
+            prin_code={prinCode}
+          />
         </UniversalDialog>
       )}
     </div>

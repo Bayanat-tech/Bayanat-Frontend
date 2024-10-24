@@ -9,7 +9,8 @@ class Wms {
     app_code: string,
     master: string,
     paginationData?: { page: number; rowsPerPage: number },
-    searchData?: ISearch | null
+    searchData?: ISearch | null,
+    prinCode?: string | null
   ) => {
     try {
       const page = paginationData && paginationData?.page + 1;
@@ -17,12 +18,15 @@ class Wms {
       console.log(app_code);
 
       // app_code = 'pf';
-      const response: IApiResponse<{ tableData: unknown[]; count: number }> = await axiosServices.get(`api/${app_code}/${master}`, {
-        params: {
-          ...(page && { page }),
-          ...(limit && { limit })
+      const response: IApiResponse<{ tableData: unknown[]; count: number }> = await axiosServices.get(
+        `api/${app_code}/${master}?prin_code=${prinCode}`,
+        {
+          params: {
+            ...(page && { page }),
+            ...(limit && { limit })
+          }
         }
-      });
+      );
       if (response.data.success) {
         return response.data.data;
       }

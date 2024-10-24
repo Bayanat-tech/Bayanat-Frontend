@@ -3,6 +3,9 @@ export type TBillingActivity = {
   // activity_code: string;
   // principal_name: string;
   // job_type: string;
+  from?: string;
+  to?: string;
+  activityPassword?: string;
   activity?: string;
   prin_name?: number;
   prin_code: string;
@@ -35,4 +38,10 @@ export type TBillingActivity = {
   bill_dup?: number;
   cost_dup?: number;
   edit_user?: string;
+};
+
+export type TPopulate = {
+  from: string;
+  to: string;
+  activityPassword: string;
 };
