@@ -1,6 +1,9 @@
-//import { THarmonize } from 'pages/WMS/types/harmonize-wms.types';
+import { TActivitysubgroup } from 'pages/WMS/types/activitysubgroup-wms';
+import { THarmonize } from 'pages/WMS/types/harmonize-wms.types';
+import { TLine } from 'pages/WMS/types/Line-wms.types';
 import { TMoc } from 'pages/WMS/types/moc-wms.types';
 import { Tmoc2 } from 'pages/WMS/types/moc2-wms.types';
+import { TPickWave } from 'pages/WMS/types/PickWave-wms.types';
 import { TUoc } from 'pages/WMS/types/uoc-wms.types';
 import { TUom } from 'pages/WMS/types/uom-wms.type';
 import { dispatch } from 'store';
@@ -10,6 +13,207 @@ import axiosServices from 'utils/axios';
 //import { TSubgroup } from 'pages/WMS/types/activitysubgroup-wms';
 
 class GM {
+  //--------------PickWave--------------
+  addPickWave = async (values: TPickWave) => {
+    try {
+      const response: IApiResponse<null> = await axiosServices.post('api/wms/gm/PickWave', values);
+      if (response.data.success) {
+        dispatch(
+          openSnackbar({
+            open: true,
+            message: response.data.message,
+            variant: 'alert',
+            alert: {
+              color: 'success'
+            },
+            close: true
+          })
+        );
+        return response.data.success;
+      }
+    } catch (error: unknown) {
+      const knownError = error as { message: string };
+      dispatch(
+        openSnackbar({
+          open: true,
+          message: knownError.message,
+          variant: 'alert',
+          alert: {
+            color: 'error'
+          },
+          severity: 'error',
+          close: true
+        })
+      );
+    }
+  };
+  editPickWave = async (values: TPickWave) => {
+    try {
+      const response: IApiResponse<null> = await axiosServices.put('api/wms/gm/PickWave', values);
+      if (response.data.success) {
+        dispatch(
+          openSnackbar({
+            open: true,
+            message: response.data.message,
+            variant: 'alert',
+            alert: {
+              color: 'success'
+            },
+            close: true
+          })
+        );
+        return response.data.success;
+      }
+    } catch (error: unknown) {
+      const knownError = error as { message: string };
+      dispatch(
+        openSnackbar({
+          open: true,
+          message: knownError.message,
+          variant: 'alert',
+          alert: {
+            color: 'error'
+          },
+          severity: 'error',
+          close: true
+        })
+      );
+    }
+  };
+  deletePickWave = async (PickWaveCodes: string[]) => {
+    try {
+      const response: IApiResponse<null> = await axiosServices.post('api/wms/gm/PickWave/delete', PickWaveCodes);
+      if (response.data.success) {
+        dispatch(
+          openSnackbar({
+            open: true,
+            message: response.data.message,
+            variant: 'alert',
+            alert: {
+              color: 'success'
+            },
+            close: true
+          })
+        );
+        return response.data.success;
+      }
+    } catch (error: unknown) {
+      const knownError = error as { message: string };
+      dispatch(
+        openSnackbar({
+          open: true,
+          message: knownError.message,
+          variant: 'alert',
+          alert: {
+            color: 'error'
+          },
+          severity: 'error',
+          close: true
+        })
+      );
+    }
+  };
+
+  //--------------------Line----------------------
+  addLine = async (values: TLine) => {
+    try {
+      const response: IApiResponse<null> = await axiosServices.post('api/wms/gm/line', values);
+      if (response.data.success) {
+        dispatch(
+          openSnackbar({
+            open: true,
+            message: response.data.message,
+            variant: 'alert',
+            alert: {
+              color: 'success'
+            },
+            close: true
+          })
+        );
+        return response.data.success;
+      }
+    } catch (error: unknown) {
+      const knownError = error as { message: string };
+      dispatch(
+        openSnackbar({
+          open: true,
+          message: knownError.message,
+          variant: 'alert',
+          alert: {
+            color: 'error'
+          },
+          severity: 'error',
+          close: true
+        })
+      );
+    }
+  };
+  editLine = async (values: TLine) => {
+    try {
+      const response: IApiResponse<null> = await axiosServices.put('api/wms/gm/line', values);
+      if (response.data.success) {
+        dispatch(
+          openSnackbar({
+            open: true,
+            message: response.data.message,
+            variant: 'alert',
+            alert: {
+              color: 'success'
+            },
+            close: true
+          })
+        );
+        return response.data.success;
+      }
+    } catch (error: unknown) {
+      const knownError = error as { message: string };
+      dispatch(
+        openSnackbar({
+          open: true,
+          message: knownError.message,
+          variant: 'alert',
+          alert: {
+            color: 'error'
+          },
+          severity: 'error',
+          close: true
+        })
+      );
+    }
+  };
+  deleteLine = async (lineCodes: string[]) => {
+    try {
+      const response: IApiResponse<null> = await axiosServices.post('api/wms/gm/line/delete', lineCodes);
+      if (response.data.success) {
+        dispatch(
+          openSnackbar({
+            open: true,
+            message: response.data.message,
+            variant: 'alert',
+            alert: {
+              color: 'success'
+            },
+            close: true
+          })
+        );
+        return response.data.success;
+      }
+    } catch (error: unknown) {
+      const knownError = error as { message: string };
+      dispatch(
+        openSnackbar({
+          open: true,
+          message: knownError.message,
+          variant: 'alert',
+          alert: {
+            color: 'error'
+          },
+          severity: 'error',
+          close: true
+        })
+      );
+    }
+  };
   //--------------Uom--------------
   addUom = async (values: TUom) => {
     try {
